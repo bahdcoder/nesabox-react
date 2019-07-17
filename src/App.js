@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import 'normalize.css'
+import Routes from 'components/Routes'
+import React, { useContext } from 'react'
+import { BrowserRouter } from 'react-router-dom'
+import { AuthProviderWrapper } from 'utils/context'
+import { ThemeProvider, ThemeContext } from 'evergreen-ui'
 
-function App() {
+const App = () => {
+  const theme = useContext(ThemeContext)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <AuthProviderWrapper>
+      <ThemeProvider value={{
+        ...theme,
+        colors: {
+          ...theme.colors,
+          background: {
+            ...theme.colors.background,
+            white: '#fff'
+          }
+        },
+        getFontFamily: () => 'Nunito Sans'
+      }}>
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
+      </ThemeProvider>
+    </AuthProviderWrapper>
+  )
 }
 
-export default App;
+export default App
