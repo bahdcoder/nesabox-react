@@ -6,27 +6,29 @@ import { AuthProviderWrapper } from 'utils/context'
 import { ThemeProvider, ThemeContext } from 'evergreen-ui'
 
 const App = () => {
-  const theme = useContext(ThemeContext)
+    const theme = useContext(ThemeContext)
 
-  return (
-    <AuthProviderWrapper>
-      <ThemeProvider value={{
-        ...theme,
-        colors: {
-          ...theme.colors,
-          background: {
-            ...theme.colors.background,
-            white: '#fff'
-          }
-        },
-        getFontFamily: () => 'Nunito Sans'
-      }}>
-        <BrowserRouter>
-          <Routes />
-        </BrowserRouter>
-      </ThemeProvider>
-    </AuthProviderWrapper>
-  )
+    return (
+        <AuthProviderWrapper>
+            <ThemeProvider
+                value={{
+                    ...theme,
+                    colors: {
+                        ...theme.colors,
+                        background: {
+                            ...theme.colors.background,
+                            white: '#fff'
+                        }
+                    },
+                    getFontFamily: () => 'Nunito Sans'
+                }}
+            >
+                <BrowserRouter>
+                    <Routes />
+                </BrowserRouter>
+            </ThemeProvider>
+        </AuthProviderWrapper>
+    )
 }
 
 export default App
