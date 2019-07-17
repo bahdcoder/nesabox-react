@@ -20,11 +20,15 @@ export const AuthProviderWrapper = ({ children }) => {
     const [auth, setAuth] = useState(defaultAuth)
 
     useEffect(() => {
-        defaultAuth && client.get('/me').then(({ data }) => {
-            setAuthAndCache(data)
-        }).catch(() => {
-            setAuthAndCache(null)
-        })
+        defaultAuth &&
+            client
+                .get('/me')
+                .then(({ data }) => {
+                    setAuthAndCache(data)
+                })
+                .catch(() => {
+                    setAuthAndCache(null)
+                })
     }, [])
 
     const setAuthAndCache = (value = null) => {
@@ -34,9 +38,10 @@ export const AuthProviderWrapper = ({ children }) => {
             localStorage.removeItem('auth')
         }
 
-
         setAuth(value)
     }
 
-    return <AuthProvider value={[auth, setAuthAndCache]}>{children}</AuthProvider>
+    return (
+        <AuthProvider value={[auth, setAuthAndCache]}>{children}</AuthProvider>
+    )
 }

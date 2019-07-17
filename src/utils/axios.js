@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { getDefaultAuth }  from './context'
+import { getDefaultAuth } from './context'
 
 const Instance = Axios.create({
     baseURL: process.env.REACT_APP_API_URL
@@ -8,7 +8,6 @@ const Instance = Axios.create({
 Instance.interceptors.request.use(defaultConfig => {
     let config
     const user = getDefaultAuth()
- 
 
     if (user) {
         config = {

@@ -15,6 +15,10 @@ export const useForm = defaultForm => {
         setErrors(formattedErrors)
     }
 
+    const resetForm = () => {
+        setForm(defaultForm)
+    }
+
     const setValue = (key, value) => {
         setForm({
             ...form,
@@ -23,7 +27,7 @@ export const useForm = defaultForm => {
     }
 
     return [
-        [form, setValue],
+        [form, setValue, resetForm],
         [submitting, setSubmitting],
         [errors, setFormattedErrors]
     ]

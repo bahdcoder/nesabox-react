@@ -5,7 +5,6 @@
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,700&display=swap" rel="stylesheet">
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -21,8 +20,27 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <style>
+        @font-face {
+            font-weight: 300;
+            font-family: 'ProximaNova';
+            src: url('https://res.cloudinary.com/bahdcoder/raw/upload/v1544181016/proxima-nova-light_fbxbok.woff')
+        }
+
+        @font-face {
+            font-weight: 500;
+            font-family: 'ProximaNova';
+            src: url('https://res.cloudinary.com/bahdcoder/raw/upload/v1544180256/Proxima_Nova_Regular_jquhfs.otf')
+        }
+
+        @font-face {
+            font-weight: 700;
+            font-family: 'ProximaNova';
+            src: url('https://res.cloudinary.com/bahdcoder/raw/upload/v1544180073/Proxima_Nova_Bold_lbsnym.otf')
+        }
+    </style>
   </head>
-  <body style="background: #F5F6F7; font-family: 'Nunito Sans', sans-serif;">
+  <body style="font-family: 'ProximaNova', sans-serif;">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--

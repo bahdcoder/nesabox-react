@@ -26,8 +26,8 @@ const LoginForm = ({
                 backgroundColor={background.white}
             >
                 <Heading
-                    marginBottom="1rem"
                     textAlign="center"
+                    marginBottom="1rem"
                     fontFamily={getFontFamily()}
                 >
                     Login to DeployJs
