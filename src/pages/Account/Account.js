@@ -3,6 +3,7 @@ import client from 'utils/axios'
 import Sshkeys from 'pages/Sshkeys'
 import { withAuth } from 'utils/hoc'
 import { useForm } from 'utils/hooks'
+import { Helmet } from 'react-helmet'
 import { toaster } from 'evergreen-ui'
 import ProfileForm from 'components/ProfileForm'
 import ChangePassword from 'pages/ChangePassword'
@@ -43,6 +44,9 @@ const Account = ({ auth }) => {
 
     return (
         <React.Fragment>
+            <Helmet>
+                <title>Account</title>
+            </Helmet>
             <ProfileForm
                 form={form}
                 user={user}

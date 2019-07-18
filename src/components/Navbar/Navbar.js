@@ -1,13 +1,11 @@
+import React from 'react'
 import { css } from 'glamor'
+import { Button } from 'evergreen-ui'
 import { Link } from 'react-router-dom'
-import React, { useContext } from 'react'
-import { ThemeContext, Button } from 'evergreen-ui'
 
 import styles from './Navbar.css'
 
 const Navbar = () => {
-    const theme = useContext(ThemeContext)
-
     return (
         <div className={css(styles.container)}>
             <span className={css(styles.logo)}>Deploy Js</span>

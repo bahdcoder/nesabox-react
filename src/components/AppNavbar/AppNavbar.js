@@ -22,7 +22,7 @@ const AppNavbar = ({ theme, auth, history: { push } }) => {
         setUser(null)
     }
 
-    return (
+    return user ? (
         <nav
             className={css({
                 ...styles.container,
@@ -83,7 +83,7 @@ const AppNavbar = ({ theme, auth, history: { push } }) => {
                 </Pane>
             </Popover>
         </nav>
-    )
+    ) : null
 }
 
 export default withRouter(withAuth(withTheme(AppNavbar)))

@@ -78,9 +78,7 @@ const SshkeysList = ({ auth, theme, openCreateKeyModal, setDeletingKeyId }) => {
                         <Table>
                             <Table.Body>
                                 {user.sshkeys.map(key => (
-                                    <Table.Row
-                                        key={key.id}
-                                    >
+                                    <Table.Row key={key.id}>
                                         <Table.TextCell
                                             paddingRight={0}
                                             flex={'1 0 87%'}
@@ -96,7 +94,9 @@ const SshkeysList = ({ auth, theme, openCreateKeyModal, setDeletingKeyId }) => {
                                             <IconButton
                                                 icon="trash"
                                                 intent="danger"
-                                                onClick={() => setDeletingKeyId(key.id)}
+                                                onClick={() =>
+                                                    setDeletingKeyId(key.id)
+                                                }
                                             />
                                         </Table.TextCell>
                                     </Table.Row>

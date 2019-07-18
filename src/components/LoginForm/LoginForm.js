@@ -1,6 +1,7 @@
 import React from 'react'
 import { css } from 'glamor'
 import styles from './LoginForm.css'
+import { useBodyBackground } from 'utils/hooks'
 import { Pane, withTheme, TextInputField, Button, Heading } from 'evergreen-ui'
 
 const LoginForm = ({
@@ -14,6 +15,9 @@ const LoginForm = ({
         getFontFamily
     }
 }) => {
+    
+    useBodyBackground(background.tint1)
+
     return (
         <div className={css(styles.container)}>
             <Pane

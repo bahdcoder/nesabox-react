@@ -9,7 +9,7 @@ import SshkeysList from 'components/SshkeysList'
 import AddSshkeyForm from 'components/AddSshkeyForm'
 
 const Sshkeys = ({ auth }) => {
-    const [user, setUser] = auth
+    const [, setUser] = auth
     const [
         [form, setValue, resetForm],
         [submitting, setSubmitting],
@@ -24,7 +24,8 @@ const Sshkeys = ({ auth }) => {
     const handleDeleteKey = () => {
         setSubmitting(true)
 
-        client.delete(`/me/sshkeys/${deletingKeyId}`)
+        client
+            .delete(`/me/sshkeys/${deletingKeyId}`)
             .then(({ data }) => {
                 setUser(data)
                 setSubmitting(false)
@@ -70,7 +71,10 @@ const Sshkeys = ({ auth }) => {
             title="SSH Keys"
             description="These keys will automatically be added to every server you create."
         >
-            <SshkeysList openCreateKeyModal={() => setCreatingKey(true)} setDeletingKeyId={setDeletingKeyId} />
+            <SshkeysList
+                openCreateKeyModal={() => setCreatingKey(true)}
+                setDeletingKeyId={setDeletingKeyId}
+            />
 
             <Dialog
                 title="New SSH Key"

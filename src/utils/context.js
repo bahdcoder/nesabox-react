@@ -32,11 +32,9 @@ export const AuthProviderWrapper = ({ children }) => {
     }, [])
 
     const setAuthAndCache = (value = null) => {
-        if (value) {
-            localStorage.setItem('auth', JSON.stringify(value))
-        } else {
-            localStorage.removeItem('auth')
-        }
+        value
+            ? localStorage.setItem('auth', JSON.stringify(value))
+            : localStorage.removeItem('auth')
 
         setAuth(value)
     }

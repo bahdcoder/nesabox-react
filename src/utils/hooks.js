@@ -1,5 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
+/**
+ * Helpers for easily setting up forms
+ * 
+ * @param {object} defaultForm 
+ */
 export const useForm = defaultForm => {
     const [errors, setErrors] = useState({})
     const [form, setForm] = useState(defaultForm)
@@ -31,4 +36,19 @@ export const useForm = defaultForm => {
         [submitting, setSubmitting],
         [errors, setFormattedErrors]
     ]
+}
+
+/**
+ * Set the background color of the page body
+ * 
+ * @param {string} backgroundColor
+ */
+export const useBodyBackground = (backgroundColor) => {
+    useEffect(() => {
+        document.body.style.backgroundColor = backgroundColor
+
+        return () => {
+            document.body.style.backgroundColor = null
+        }
+    }, [backgroundColor])
 }
