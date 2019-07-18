@@ -1,13 +1,14 @@
 import React from 'react'
 import { css } from 'glamor'
 import { withAuth } from 'utils/hoc'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link as RouterLink } from 'react-router-dom'
 import {
     withTheme,
     Popover,
     Avatar,
     Menu,
     Pane,
+    Link,
     Autocomplete,
     TextInput
 } from 'evergreen-ui'
@@ -29,7 +30,7 @@ const AppNavbar = ({ theme, auth, history: { push } }) => {
                 borderBottom: `3px solid ${theme.palette.blue.base}`
             })}
         >
-            <span>Deploy Js</span>
+            <Link is={RouterLink} textDecoration={'none'} to={'/dashboard'}>Deploy Js</Link>
 
             <div>
                 <Autocomplete

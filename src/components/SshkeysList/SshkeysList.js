@@ -78,7 +78,10 @@ const SshkeysList = ({ auth, theme, openCreateKeyModal, setDeletingKeyId }) => {
                         <Table>
                             <Table.Body>
                                 {user.sshkeys.map(key => (
-                                    <Table.Row key={key.id} borderBottom={'none'}>
+                                    <Table.Row
+                                        key={key.id}
+                                        borderBottom={'none'}
+                                    >
                                         <Table.TextCell
                                             paddingRight={0}
                                             flex={'1 0 87%'}

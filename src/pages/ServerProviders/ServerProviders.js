@@ -9,6 +9,7 @@ const ServerProviders = ({ auth }) => {
     const [user, setUser] = auth
 
     const providersList = []
+    const [deletingCredential, setDeletingCredential] = useState(null)
 
     const providers = Object.keys(user.providers).map(provider => {
         providersList.push(
@@ -56,6 +57,26 @@ const ServerProviders = ({ auth }) => {
             })
     }
 
+    const deleteCredential = () => {
+        client
+            .delete(`/settings/server-providers/${deletingCredential.id}`)
+            .then(({ data }) => {
+                setUser(data)
+
+                toaster.success(
+                    `Credential ${deletingCredential.profileName} deleted.`
+                )
+            })
+            .catch(() => {
+                toaster.danger(
+                    'Failed deleting credential. Please try again later.'
+                )
+            })
+            .finally(() => {
+                setDeletingCredential(null)
+            })
+    }
+
     return (
         <React.Fragment>
             <ServerProvidersForm
@@ -67,7 +88,10 @@ const ServerProviders = ({ auth }) => {
                 credentials={providersList}
                 addCredential={addCredential}
                 isAddingProvider={isAddingProvider}
+                deleteCredential={deleteCredential}
+                deletingCredential={deletingCredential}
                 setIsAddingProvider={setIsAddingProvider}
+                setDeletingCredential={setDeletingCredential}
             />
         </React.Fragment>
     )

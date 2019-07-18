@@ -19,14 +19,23 @@ const ServerProvidersForm = ({
     submitting,
     credentials,
     addCredential,
+    deleteCredential,
+    deletingCredential,
+    setDeletingCredential
 }) => {
     return (
         <Section
             title="Server providers"
             description="Connect cloud server providers. DeployJs will use these credentials to deploy servers for you."
         >
-            <ServerProviderCredentials credentials={credentials} setIsAddingProvider={setIsAddingProvider} />
-            
+            <ServerProviderCredentials
+                setDeletingCredential={setDeletingCredential}
+                deletingCredential={deletingCredential}
+                deleteCredential={deleteCredential}
+                credentials={credentials}
+                setIsAddingProvider={setIsAddingProvider}
+            />
+
             <SideSheet
                 isShown={isAddingProvider}
                 onCloseComplete={() => setIsAddingProvider(false)}
