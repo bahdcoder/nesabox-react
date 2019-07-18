@@ -10,9 +10,20 @@ const ProfileForm = ({ user, form, setValue, submitting, handleSubmit }) => {
                 description="Edit your profile details. Your email is required for logging in."
             >
                 <form onSubmit={handleSubmit}>
-                    <Avatar src={user.photo_url} name={user.name} size={60} marginBottom={20} display='block' />
+                    <Avatar
+                        src={user.photo_url}
+                        name={user.name}
+                        size={60}
+                        marginBottom={20}
+                        display="block"
+                    />
 
-                    <Text marginBottom={20} display='block'>Manage your avatar using <Link href='https://gravatar.com' target='_blank'>Gravatar</Link> </Text>
+                    <Text marginBottom={20} display="block">
+                        Manage your avatar using{' '}
+                        <Link href="https://gravatar.com" target="_blank">
+                            Gravatar
+                        </Link>{' '}
+                    </Text>
 
                     <TextInputField
                         name="email"

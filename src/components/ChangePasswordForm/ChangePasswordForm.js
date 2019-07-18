@@ -2,7 +2,13 @@ import React from 'react'
 import Section from 'components/Section'
 import { TextInputField, Button } from 'evergreen-ui'
 
-const ChangePasswordForm = ({ form, setValue, submitting, errors, handleSubmit }) => {
+const ChangePasswordForm = ({
+    form,
+    setValue,
+    submitting,
+    errors,
+    handleSubmit
+}) => {
     return (
         <React.Fragment>
             <Section
@@ -48,7 +54,10 @@ const ChangePasswordForm = ({ form, setValue, submitting, errors, handleSubmit }
                         value={form.new_password_confirmation}
                         placeholder="Enter the password again"
                         onChange={e =>
-                            setValue('new_password_confirmation', e.target.value)
+                            setValue(
+                                'new_password_confirmation',
+                                e.target.value
+                            )
                         }
                     />
 

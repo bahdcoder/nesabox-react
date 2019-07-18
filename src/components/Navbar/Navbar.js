@@ -7,7 +7,6 @@ import styles from './Navbar.css'
 
 const Navbar = () => {
     const theme = useContext(ThemeContext)
-    console.log(theme)
 
     return (
         <div className={css(styles.container)}>
