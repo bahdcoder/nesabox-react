@@ -1,7 +1,12 @@
 import React from 'react'
+import Helmet from 'react-helmet'
 
 const Applications = () => {
-    return <h1>THE applications PAGE</h1>
+    return (
+        <React.Fragment>
+            <Helmet>Applications</Helmet>
+        </React.Fragment>
+    )
 }
 
 export default Applications

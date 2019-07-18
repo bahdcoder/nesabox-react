@@ -15,7 +15,6 @@ const LoginForm = ({
         getFontFamily
     }
 }) => {
-    
     useBodyBackground(background.tint1)
 
     return (

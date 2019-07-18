@@ -2,6 +2,7 @@ import React from 'react'
 import client from 'utils/axios'
 import Sshkeys from 'pages/Sshkeys'
 import { withAuth } from 'utils/hoc'
+import APIToken from 'pages/APIToken'
 import { useForm } from 'utils/hooks'
 import { Helmet } from 'react-helmet'
 import { toaster } from 'evergreen-ui'
@@ -59,6 +60,8 @@ const Account = ({ auth }) => {
             <ChangePassword />
 
             <Sshkeys />
+
+            <APIToken />
         </React.Fragment>
     )
 }
