@@ -39,7 +39,10 @@ const APIToken = ({ auth }) => {
     }
 
     return (
-        <Section title="API Token">
+        <Section
+            title="API Token"
+            description="Using this token, third party clients like CI services can perform actions on your account."
+        >
             <div className={css(styles.container)}>
                 <TextInput
                     readOnly

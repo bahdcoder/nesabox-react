@@ -34,6 +34,12 @@ const AccountSettings = ({ match, location }) => {
                     path={`${match.url}/applications`}
                     component={Applications}
                 />
+
+                <Route
+                    exact
+                    component={Applications}
+                    path={`${match.url}/applications/:provider`}
+                />
             </Container>
         </React.Fragment>
     )

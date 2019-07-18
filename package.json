@@ -7,6 +7,7 @@
         "evergreen-ui": "^4.18.1",
         "glamor": "^2.20.40",
         "normalize.css": "^8.0.1",
+        "query-string": "^6.8.1",
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
         "react-helmet": "^5.2.1",
