@@ -59,14 +59,17 @@ const SourceControl = ({ auth, location, match, history }) => {
     const unlinkProvider = provider => {
         setUnlinking(provider)
 
-        client.post(`/settings/source-control/${provider}/unlink`)
+        client
+            .post(`/settings/source-control/${provider}/unlink`)
             .then(({ data }) => {
                 setUser(data)
 
                 toaster.success(`Provider ${provider} has been unlinked.`)
             })
             .catch(() => {
-                toaster.danger(`Failed to unlink ${provider}. Please try again later.`)
+                toaster.danger(
+                    `Failed to unlink ${provider}. Please try again later.`
+                )
             })
             .finally(() => {
                 setUnlinking(false)

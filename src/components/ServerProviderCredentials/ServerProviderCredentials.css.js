@@ -1,13 +1,12 @@
 export default {
-    providerContainer: {
+    header: {
         width: '70%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between'
     },
-    provider: {
-        display: 'flex',
-        alignItems: 'center'
-    },
-    buttonsContainer: {}
+    table: {
+        width: '70%',
+        marginTop: '2rem'
+    }
 }

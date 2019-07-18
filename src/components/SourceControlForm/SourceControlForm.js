@@ -76,9 +76,7 @@ const SourceControlForm = ({
 
                                     <Button
                                         marginLeft={10}
-                                        isLoading={
-                                            unlinking === provider.name
-                                        }
+                                        isLoading={unlinking === provider.name}
                                         disabled={
                                             unlinking &&
                                             unlinking !== provider.name

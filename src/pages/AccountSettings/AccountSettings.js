@@ -22,7 +22,7 @@ const AccountSettings = ({ match, location }) => {
                     },
                     {
                         label: 'Applications',
-                        active: location.pathname === '/account/applications',
+                        active: location.pathname.search(/applications/) > 0,
                         to: `${match.url}/applications`
                     }
                 ]}
