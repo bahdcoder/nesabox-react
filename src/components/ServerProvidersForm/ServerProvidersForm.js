@@ -3,6 +3,7 @@ import Section from 'components/Section'
 import {
     SideSheet,
     Pane,
+    Label,
     SegmentedControl,
     TextInputField,
     Button
@@ -41,8 +42,10 @@ const ServerProvidersForm = ({
                 onCloseComplete={() => setIsAddingProvider(false)}
             >
                 <Pane width={'100%'} padding={40}>
+                    <Label>Cloud provider *</Label>
                     <SegmentedControl
                         width={'100%'}
+                        marginTop={10}
                         marginBottom={20}
                         options={providers}
                         value={form.provider}

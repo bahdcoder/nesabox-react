@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import client from './axios'
+import Loader from 'components/Loader'
 import React, { createContext, useState, useEffect } from 'react'
 
 export const AuthContext = createContext()
@@ -18,6 +19,7 @@ export const getDefaultAuth = () => {
 export const AuthProviderWrapper = ({ children }) => {
     const defaultAuth = getDefaultAuth()
     const [auth, setAuth] = useState(defaultAuth)
+    const [checkingAuth, setCheckingAuth] = useState(defaultAuth ? true : false)
 
     useEffect(() => {
         defaultAuth &&
@@ -28,6 +30,9 @@ export const AuthProviderWrapper = ({ children }) => {
                 })
                 .catch(() => {
                     setAuthAndCache(null)
+                })
+                .finally(() => {
+                    setCheckingAuth(false)
                 })
     }, [])
 
@@ -40,6 +45,8 @@ export const AuthProviderWrapper = ({ children }) => {
     }
 
     return (
-        <AuthProvider value={[auth, setAuthAndCache]}>{children}</AuthProvider>
+        <AuthProvider value={[auth, setAuthAndCache]}>
+            {checkingAuth ? <Loader /> : children}
+        </AuthProvider>
     )
 }

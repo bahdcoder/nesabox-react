@@ -30,7 +30,9 @@ const AppNavbar = ({ theme, auth, history: { push } }) => {
                 borderBottom: `3px solid ${theme.palette.blue.base}`
             })}
         >
-            <Link is={RouterLink} textDecoration={'none'} to={'/dashboard'}>Deploy Js</Link>
+            <Link is={RouterLink} textDecoration={'none'} to={'/dashboard'}>
+                Deploy Js
+            </Link>
 
             <div>
                 <Autocomplete

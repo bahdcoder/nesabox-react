@@ -30,14 +30,14 @@ const SourceControlForm = ({
                     >
                         <div className={css(styles.provider)}>
                             <Svg
-                                name={provider.name}
-                                src={provider.src}
                                 width={40}
                                 height={40}
-                            />{' '}
+                                icon={provider.name}
+                                name={provider.name}
+                            />
                             <Text marginLeft={20} textTransform={'capitalize'}>
                                 {provider.name}
-                            </Text>{' '}
+                            </Text>
                         </div>
 
                         <div>

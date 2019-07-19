@@ -52,8 +52,6 @@ const SourceControl = ({ auth, location, match, history }) => {
 
                 toaster.danger('Something went wrong. Please try again later.')
             })
-
-        console.log(provider)
     }
 
     const unlinkProvider = provider => {
@@ -76,18 +74,8 @@ const SourceControl = ({ auth, location, match, history }) => {
             })
     }
 
-    const providerLogoSources = {
-        gitlab:
-            'https://res.cloudinary.com/bahdcoder/image/upload/v1563440836/imageedit_1_3764424804_fflt7a.png',
-        github:
-            'https://res.cloudinary.com/bahdcoder/image/upload/v1563440970/GitHub-Mark-120px-plus_ekryl4.png',
-        bitbucket:
-            'https://res.cloudinary.com/bahdcoder/image/upload/v1563440912/imageedit_3_5451227750_hd3vcz.png'
-    }
-
     const providers = Object.keys(user.source_control).map(provider => ({
         name: provider,
-        src: providerLogoSources[provider],
         connected: user.source_control[provider]
     }))
 

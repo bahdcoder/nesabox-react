@@ -19,7 +19,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Deploy Js</title>
     <style>
         @font-face {
             font-weight: 300;
@@ -42,6 +42,42 @@
         h1, h2, h3, h4 {
             font-family: 'ProximaNova' !important;
         }
+
+        .animated {
+            animation-duration: 1.5s;
+            animation-fill-mode: both;
+        }
+
+        .animated.infinite {
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                -ms-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -webkit-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+
+            to {
+                -ms-transform: rotate(360deg);
+                -moz-transform: rotate(360deg);
+                -webkit-transform: rotate(360deg);
+                -o-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+        .rotate {
+            -webkit-animation: rotate 2s linear infinite;
+            -moz-animation: rotate 2s linear infinite;
+            -ms-animation: rotate 2s linear infinite;
+            -o-animation: rotate 2s linear infinite;
+            animation: rotate 2s linear infinite;
+        }
+
     </style>
   </head>
   <body style="font-family: 'ProximaNova', sans-serif;">
