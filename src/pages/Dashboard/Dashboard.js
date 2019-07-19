@@ -2,6 +2,7 @@ import { css } from 'glamor'
 import client from 'utils/axios'
 import { Helmet } from 'react-helmet'
 import { useForm } from 'utils/hooks'
+import { withSocket } from 'utils/hoc'
 import Heading from 'components/Heading'
 import PageTitle from 'components/PageTitle'
 import ServersList from 'components/ServersList'
@@ -9,20 +10,13 @@ import React, { useEffect, useState } from 'react'
 import { Button, Small, toaster } from 'evergreen-ui'
 import CreateServerForm from 'components/CreateServerForm'
 
-const Dashboard = ({ auth }) => {
+const Dashboard = ({ auth, echo }) => {
     const [user] = auth
     const [servers, setServers] = useState(null)
     const [regions, setRegions] = useState(null)
 
-    useEffect(() => {
-        client
-            .get('/servers/regions')
-            .then(({ data }) => {
-                setRegions(data)
-            })
-            .catch(() => {
-                setRegions({})
-            })
+    const fetchServers = () => {
+        servers && setServers(null)
 
         client
             .get(`/servers`)
@@ -35,6 +29,19 @@ const Dashboard = ({ auth }) => {
                     'Failed to fetch servers. Please try again later.'
                 )
             })
+    }
+
+    useEffect(() => {
+        client
+            .get('/servers/regions')
+            .then(({ data }) => {
+                setRegions(data)
+            })
+            .catch(() => {
+                setRegions({})
+            })
+
+        fetchServers()
     }, [])
 
     const [creatingServer, setCreatingServer] = useState(false)
@@ -51,7 +58,7 @@ const Dashboard = ({ auth }) => {
         })
 
     const [
-        [form, setValue, resetForm],
+        [form, setValue, resetForm, setForm],
         [submitting, setSubmitting],
         [errors, setErrors]
     ] = useForm({
@@ -84,10 +91,15 @@ const Dashboard = ({ auth }) => {
             .then(() => {
                 resetForm()
 
-                toaster.success('')
+                setCreatingServer(false)
+
+                fetchServers()
+                toaster.success('Server has been created.')
             })
             .catch(({ response }) => {
                 response && response.data && setErrors(response.data.errors)
+
+                response && response.data && response.data.message && toaster.danger(response.data.message)
             })
             .finally(() => {
                 setSubmitting(false)
@@ -103,6 +115,7 @@ const Dashboard = ({ auth }) => {
                 form={form}
                 errors={errors}
                 regions={regions}
+                setForm={setForm}
                 setValue={setValue}
                 submitting={submitting}
                 setDatabase={setDatabase}
@@ -140,4 +153,4 @@ const Dashboard = ({ auth }) => {
     )
 }
 
-export default Dashboard
+export default withSocket(Dashboard)

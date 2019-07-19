@@ -1,6 +1,6 @@
 import React from 'react'
-import { AuthConsumer } from './context'
 import { Route, Redirect } from 'react-router-dom'
+import { AuthConsumer, WebsocketConsumer } from './context'
 
 export const withAuth = WrappedComponent => {
     const WithWrappedComponent = props => (
@@ -10,6 +10,18 @@ export const withAuth = WrappedComponent => {
     )
 
     WithWrappedComponent.displayName = `withAuth(${WrappedComponent.name})`
+
+    return WithWrappedComponent
+}
+
+export const withSocket = WrappedComponent => {
+    const WithWrappedComponent = props => (
+        <WebsocketConsumer>
+            {value => <WrappedComponent echo={value} {...props} />}
+        </WebsocketConsumer>
+    )
+
+    WithWrappedComponent.displayName = `withSocket(${WrappedComponent.name})`
 
     return WithWrappedComponent
 }

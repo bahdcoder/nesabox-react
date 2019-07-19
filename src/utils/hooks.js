@@ -32,7 +32,7 @@ export const useForm = defaultForm => {
     }
 
     return [
-        [form, setValue, resetForm],
+        [form, setValue, resetForm, setForm],
         [submitting, setSubmitting],
         [errors, setFormattedErrors]
     ]
