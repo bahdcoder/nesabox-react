@@ -16,7 +16,7 @@ const SourceControlForm = ({
         <React.Fragment>
             <Section
                 title="Source code providers"
-                description="This would enable DeployJs deploy code directly from Github, Gitlab and Bitbucket."
+                description="This would enable Nesa deploy code directly from Github, Gitlab and Bitbucket."
             >
                 {providers.map((provider, index) => (
                     <div

@@ -39,7 +39,9 @@ const Sshkeys = ({ auth }) => {
             })
     }
 
-    const handleFormSubmit = closeDialog => {
+    const handleFormSubmit = e => {
+        e.preventDefault()
+
         setSubmitting(true)
 
         client
@@ -53,9 +55,9 @@ const Sshkeys = ({ auth }) => {
 
                 resetForm()
 
-                toaster.success('SSH Key added successfully.')
+                setCreatingKey(false)
 
-                closeDialog()
+                toaster.success('SSH Key added successfully.')
             })
             .catch(({ response }) => {
                 setSubmitting(false)
@@ -72,30 +74,19 @@ const Sshkeys = ({ auth }) => {
             description="These keys will automatically be added to every server you create."
         >
             <SshkeysList
-                openCreateKeyModal={() => setCreatingKey(true)}
                 setDeletingKeyId={setDeletingKeyId}
+                openCreateKeyModal={() => setCreatingKey(true)}
             />
 
-            <Dialog
-                title="New SSH Key"
-                isShown={creatingKey}
-                confirmLabel="Add Key"
-                onConfirm={handleFormSubmit}
-                isConfirmLoading={submitting}
-                onCancel={closeDialog => {
-                    setErrors()
-                    resetForm()
-                    closeDialog()
-                }}
-                onCloseComplete={() => setCreatingKey(false)}
-            >
-                <AddSshkeyForm
-                    form={form}
-                    errors={errors}
-                    setValue={setValue}
-                    submitting={submitting}
-                />
-            </Dialog>
+            <AddSshkeyForm
+                form={form}
+                errors={errors}
+                setValue={setValue}
+                submitting={submitting}
+                creatingKey={creatingKey}
+                setCreatingKey={setCreatingKey}
+                handleFormSubmit={handleFormSubmit}
+            />
 
             <Dialog
                 intent="danger"

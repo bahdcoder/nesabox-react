@@ -8,7 +8,7 @@ import styles from './Navbar.css'
 const Navbar = () => {
     return (
         <div className={css(styles.container)}>
-            <span className={css(styles.logo)}>Deploy Js</span>
+            <span className={css(styles.logo)}>Nesabox</span>
 
             <div>
                 {/* <Link to='login' className={css(styles.authButtons.login)}>Login</Link> */}
@@ -23,6 +23,8 @@ const Navbar = () => {
                     Login
                 </Button>
                 <Button
+                    is={Link}
+                    to='/register'
                     appearance="primary"
                     intent="success"
                     marginLeft="1rem"

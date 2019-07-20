@@ -13,6 +13,11 @@ const AsyncLogin = Loadable({
     loading: Loading
 })
 
+const AsyncRegister = Loadable({
+    loader: () => import(/* webpackChunkName: "Register" */ 'pages/Register'),
+    loading: Loading
+})
+
 const AsyncDashboard = Loadable({
     loader: () => import(/* webpackChunkName: "Dashboard" */ 'pages/Dashboard'),
     loading: Loading
@@ -35,6 +40,7 @@ const Routes = ({ location, auth: [user] }) => {
                 {!['/', '/login'].includes(location.pathname) && <AppNavbar />}
                 {location.pathname === '/' && <Navbar />}
                 <NoAuthRoute page={AsyncLogin} path="/login" />
+                <NoAuthRoute page={AsyncRegister} path="/register" />
                 <AuthRoute page={AsyncDashboard} path="/dashboard" />
                 <AuthRoute page={AsyncAccountSettings} path="/account" />
                 <AuthRoute page={AsyncServerDetails} path="/servers/:server" />

@@ -27,7 +27,7 @@ const ServerProvidersForm = ({
     return (
         <Section
             title="Server providers"
-            description="Connect cloud server providers. DeployJs will use these credentials to deploy servers for you."
+            description="Connect cloud server providers. Nesa will use these credentials to deploy servers for you."
         >
             <ServerProviderCredentials
                 setDeletingCredential={setDeletingCredential}

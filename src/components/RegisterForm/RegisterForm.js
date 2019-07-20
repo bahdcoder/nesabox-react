@@ -1,10 +1,10 @@
 import React from 'react'
 import { css } from 'glamor'
-import styles from './LoginForm.css'
+import styles from './RegisterForm.css'
 import { useBodyBackground } from 'utils/hooks'
 import { Pane, withTheme, TextInputField, Button, Heading } from 'evergreen-ui'
 
-const LoginForm = ({
+const RegisterForm = ({
     form,
     setValue,
     submitting,
@@ -33,10 +33,22 @@ const LoginForm = ({
                     marginBottom="1rem"
                     fontFamily={getFontFamily()}
                 >
-                    Login to Nesabox
+                    Create a Nesabox account
                 </Heading>
 
                 <form onSubmit={handleSubmit}>
+                    <TextInputField
+                        required
+                        name="name"
+                        width="340px"
+                        inputHeight={40}
+                        label="Full Name"
+                        value={form.name}
+                        isInvalid={!!errors.name}
+                        validationMessage={errors.name}
+                        onChange={e => setValue('name', e.target.value)}
+                    />
+
                     <TextInputField
                         required
                         name="email"
@@ -72,7 +84,7 @@ const LoginForm = ({
                         justifyContent="center"
                         width="100%"
                     >
-                        Log in
+                        Create Account
                     </Button>
                 </form>
             </Pane>
@@ -80,4 +92,4 @@ const LoginForm = ({
     )
 }
 
-export default withTheme(LoginForm)
+export default withTheme(RegisterForm)

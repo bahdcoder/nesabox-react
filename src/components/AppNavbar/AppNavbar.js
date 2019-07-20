@@ -31,7 +31,7 @@ const AppNavbar = ({ theme, auth, history: { push } }) => {
             })}
         >
             <Link is={RouterLink} textDecoration={'none'} to={'/dashboard'}>
-                Deploy Js
+                Nesabox
             </Link>
 
             <div>

@@ -36,6 +36,8 @@ const Account = ({ auth }) => {
                 setSubmitting(false)
             })
             .catch(({ response }) => {
+                setSubmitting(false)
+
                 response &&
                     response.data &&
                     response.data.errors &&

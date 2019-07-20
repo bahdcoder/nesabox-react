@@ -2,7 +2,7 @@ import React from 'react'
 import Section from 'components/Section'
 import { TextInputField, Button, Avatar, Text, Link } from 'evergreen-ui'
 
-const ProfileForm = ({ user, form, setValue, submitting, handleSubmit }) => {
+const ProfileForm = ({ user, form, errors, setValue, submitting, handleSubmit }) => {
     return (
         <React.Fragment>
             <Section
@@ -32,6 +32,8 @@ const ProfileForm = ({ user, form, setValue, submitting, handleSubmit }) => {
                         inputHeight={32}
                         value={form.email}
                         label="Email Address"
+                        isInvalid={!!errors.email}
+                        validationMessage={errors.email}
                         onChange={e => setValue('email', e.target.value)}
                     />
 
@@ -41,6 +43,8 @@ const ProfileForm = ({ user, form, setValue, submitting, handleSubmit }) => {
                         inputHeight={32}
                         inputWidth="70%"
                         value={form.name}
+                        isInvalid={!!errors.name}
+                        validationMessage={errors.name}
                         onChange={e => setValue('name', e.target.value)}
                     />
 
