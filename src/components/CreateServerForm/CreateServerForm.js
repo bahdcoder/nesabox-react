@@ -31,7 +31,6 @@ const CreateServerForm = ({
     validProviders,
     setCreatingServer
 }) => {
-
     return (
         <SideSheet
             isShown={creatingServer}
@@ -46,11 +45,15 @@ const CreateServerForm = ({
                             width={'100%'}
                             marginBottom={16}
                             options={validProviders}
-                            onChange={provider => setForm({
-                                ...form,
-                                provider,
-                                credential_id: ((providers[provider] || [])[0] || {}).id || ''
-                            })}
+                            onChange={provider =>
+                                setForm({
+                                    ...form,
+                                    provider,
+                                    credential_id:
+                                        ((providers[provider] || [])[0] || {})
+                                            .id || ''
+                                })
+                            }
                         />
 
                         {validProviders.length === 1 && (

@@ -6,25 +6,54 @@ import { withSocket } from 'utils/hoc'
 import Heading from 'components/Heading'
 import PageTitle from 'components/PageTitle'
 import ServersList from 'components/ServersList'
-import React, { useEffect, useState } from 'react'
 import { Button, Small, toaster } from 'evergreen-ui'
 import CreateServerForm from 'components/CreateServerForm'
+import React, { useEffect, useState, useReducer } from 'react'
+
+const initialServersState = null
+
+const serversReducer = (servers, action) => {
+    switch (action.type) {
+        case 'SERVERS_FETCHED':
+            return action.payload
+        case 'SERVER_UPDATED':
+            return (servers || []).map(server =>
+                server.id === action.server.id ? action.server : server
+            )
+        case 'RESET_SERVERS':
+            return null
+        default:
+            return servers
+    }
+}
 
 const Dashboard = ({ auth, echo }) => {
     const [user] = auth
-    const [servers, setServers] = useState(null)
+    const [servers, setServers] = useReducer(
+        serversReducer,
+        initialServersState
+    )
     const [regions, setRegions] = useState(null)
 
     const fetchServers = () => {
-        servers && setServers(null)
+        servers &&
+            setServers({
+                type: 'RESET_SERVERS'
+            })
 
         client
             .get(`/servers`)
             .then(({ data }) => {
-                setServers(data)
+                setServers({
+                    type: 'SERVERS_FETCHED',
+                    payload: data
+                })
             })
             .catch(() => {
-                setServers([])
+                setServers({
+                    type: 'SERVERS_FETCHED',
+                    payload: []
+                })
                 toaster.danger(
                     'Failed to fetch servers. Please try again later.'
                 )
@@ -43,6 +72,24 @@ const Dashboard = ({ auth, echo }) => {
 
         fetchServers()
     }, [])
+
+    useEffect(() => {
+        const [socket] = echo
+
+        socket &&
+            socket.private(`App.User.${user.id}`).notification(notification => {
+                if (
+                    notification.type ===
+                    'App\\Notifications\\Servers\\ServerIsReady'
+                ) {
+                    setServers({
+                        type: 'SERVER_UPDATED',
+                        server: notification.server
+                    })
+                }
+            })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [echo, user])
 
     const [creatingServer, setCreatingServer] = useState(false)
 
@@ -99,7 +146,10 @@ const Dashboard = ({ auth, echo }) => {
             .catch(({ response }) => {
                 response && response.data && setErrors(response.data.errors)
 
-                response && response.data && response.data.message && toaster.danger(response.data.message)
+                response &&
+                    response.data &&
+                    response.data.message &&
+                    toaster.danger(response.data.message)
             })
             .finally(() => {
                 setSubmitting(false)
