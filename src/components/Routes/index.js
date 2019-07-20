@@ -9,6 +9,7 @@ import { WebsocketProviderWrapper } from 'utils/context'
 // PAGES
 import Login from 'pages/Login'
 import Dashboard from 'pages/Dashboard'
+import ServerDetails from 'pages/Server'
 import AccountSettings from 'pages/AccountSettings'
 
 const Routes = ({ location, auth: [user] }) => {
@@ -20,6 +21,7 @@ const Routes = ({ location, auth: [user] }) => {
                 <NoAuthRoute page={Login} path="/login" />
                 <AuthRoute page={Dashboard} path="/dashboard" />
                 <AuthRoute page={AccountSettings} path="/account" />
+                <AuthRoute page={ServerDetails} path="/servers/:server" />
             </React.Fragment>
         </WebsocketProviderWrapper>
     )
