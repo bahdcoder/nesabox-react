@@ -1,13 +1,22 @@
 import React from 'react'
+import Loadable from 'react-loadable'
+import Loading from 'components/Loader'
 import { Route } from 'react-router-dom'
-// pages
-import Account from 'pages/Account'
-import Applications from 'pages/Applications'
 
 // components
 import PageTitle from 'components/PageTitle'
 import SubNavbar from 'components/SubNavbar'
 import Container from 'components/Container'
+
+const AsyncAccount = Loadable({
+    loader: () => import(/* webpackChunkName: "AccountSettings-Account" */ 'pages/Account'),
+    loading: Loading
+})
+
+const AsyncApplications = Loadable({
+    loader: () => import(/* webpackChunkName: "AccountSettings-Applications" */ 'pages/Applications'),
+    loading: Loading
+})
 
 const AccountSettings = ({ match, location }) => {
     return (
@@ -28,16 +37,16 @@ const AccountSettings = ({ match, location }) => {
                 ]}
             />
             <Container>
-                <Route exact path={`${match.url}`} component={Account} />
+                <Route exact path={`${match.url}`} component={AsyncAccount} />
                 <Route
                     exact
                     path={`${match.url}/applications`}
-                    component={Applications}
+                    component={AsyncApplications}
                 />
 
                 <Route
                     exact
-                    component={Applications}
+                    component={AsyncApplications}
                     path={`${match.url}/applications/:provider`}
                 />
             </Container>
