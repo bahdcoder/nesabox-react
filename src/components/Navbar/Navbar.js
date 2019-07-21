@@ -24,7 +24,7 @@ const Navbar = () => {
                 </Button>
                 <Button
                     is={Link}
-                    to='/register'
+                    to="/register"
                     appearance="primary"
                     intent="success"
                     marginLeft="1rem"

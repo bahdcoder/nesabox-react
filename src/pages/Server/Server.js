@@ -1,10 +1,57 @@
-import React from 'react'
+import client from 'utils/axios'
+import { toaster } from 'evergreen-ui'
 import ServerDetails from 'components/Server'
+import { withSocket, withAuth } from 'utils/hoc'
+import React, { useEffect, useReducer } from 'react'
 
-const Server = () => {
-    return (
-        <ServerDetails />
-    )
+const serverReducer = (server, action) => {
+    switch (action.type) {
+        case 'SERVER_FETCHED':
+            return action.payload
+        default:
+            return server
+    }
 }
 
-export default Server
+const Server = ({ match, history, echo, auth }) => {
+    const [user] = auth
+    const [server, setServer] = useReducer(serverReducer, null)
+
+    useEffect(() => {
+        client
+            .get(`/servers/${match.params.server}`)
+            .then(({ data }) => {
+                setServer({
+                    type: 'SERVER_FETCHED',
+                    payload: data
+                })
+            })
+            .catch(() => {
+                toaster.danger('Server was not found.')
+
+                history.push('/dashboard')
+            })
+    }, [match, history])
+
+    useEffect(() => {
+        const [socket] = echo
+
+        socket &&
+            socket.private(`App.User.${user.id}`).notification(notification => {
+                if (
+                    notification.type ===
+                    'App\\Notifications\\Servers\\ServerIsReady'
+                ) {
+                    setServer({
+                        type: 'SERVER_FETCHED',
+                        payload: notification.server
+                    })
+                }
+            })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [echo, user])
+
+    return <ServerDetails server={server} />
+}
+
+export default withSocket(withAuth(Server))

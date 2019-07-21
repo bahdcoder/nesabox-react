@@ -9,12 +9,18 @@ import SubNavbar from 'components/SubNavbar'
 import Container from 'components/Container'
 
 const AsyncAccount = Loadable({
-    loader: () => import(/* webpackChunkName: "AccountSettings-Account" */ 'pages/Account'),
+    loader: () =>
+        import(
+            /* webpackChunkName: "AccountSettings-Account" */ 'pages/Account'
+        ),
     loading: Loading
 })
 
 const AsyncApplications = Loadable({
-    loader: () => import(/* webpackChunkName: "AccountSettings-Applications" */ 'pages/Applications'),
+    loader: () =>
+        import(
+            /* webpackChunkName: "AccountSettings-Applications" */ 'pages/Applications'
+        ),
     loading: Loading
 })
 

@@ -29,7 +29,10 @@ const AsyncServerDetails = Loadable({
 })
 
 const AsyncAccountSettings = Loadable({
-    loader: () => import(/* webpackChunkName: "AccountSettings" */ 'pages/AccountSettings'),
+    loader: () =>
+        import(
+            /* webpackChunkName: "AccountSettings" */ 'pages/AccountSettings'
+        ),
     loading: Loading
 })
 

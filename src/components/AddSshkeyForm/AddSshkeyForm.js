@@ -1,8 +1,24 @@
 import React from 'react'
-import { TextInputField, Textarea, FormField, Pane, Button, SideSheet } from 'evergreen-ui'
+import {
+    TextInputField,
+    Textarea,
+    FormField,
+    Pane,
+    Button,
+    SideSheet
+} from 'evergreen-ui'
 
-const AddSshkeyForm = ({ form, setValue, errors, creatingKey, setCreatingKey, handleFormSubmit, submitting }) => {
-        return <SideSheet
+const AddSshkeyForm = ({
+    form,
+    setValue,
+    errors,
+    creatingKey,
+    setCreatingKey,
+    handleFormSubmit,
+    submitting
+}) => {
+    return (
+        <SideSheet
             isShown={creatingKey}
             onCloseComplete={() => setCreatingKey(false)}
         >
@@ -50,6 +66,7 @@ const AddSshkeyForm = ({ form, setValue, errors, creatingKey, setCreatingKey, ha
                 </React.Fragment>
             </Pane>
         </SideSheet>
+    )
 }
 
 export default AddSshkeyForm

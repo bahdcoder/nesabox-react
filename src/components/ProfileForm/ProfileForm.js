@@ -2,7 +2,14 @@ import React from 'react'
 import Section from 'components/Section'
 import { TextInputField, Button, Avatar, Text, Link } from 'evergreen-ui'
 
-const ProfileForm = ({ user, form, errors, setValue, submitting, handleSubmit }) => {
+const ProfileForm = ({
+    user,
+    form,
+    errors,
+    setValue,
+    submitting,
+    handleSubmit
+}) => {
     return (
         <React.Fragment>
             <Section

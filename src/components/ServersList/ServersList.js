@@ -5,26 +5,12 @@ import Loader from 'components/Loader'
 import EmptySet from 'components/EmptySet'
 import Container from 'components/Container'
 import { Link as RouterLink } from 'react-router-dom'
+import ServerStatusIcon from 'components/ServerStatusIcon'
 import { withTheme, Text, Icon, Link } from 'evergreen-ui'
 
 import styles from './ServersList.css'
 
 const ServersList = ({ servers, setCreatingServer, theme }) => {
-    const statusIcons = {
-        active: {
-            icon: 'tick-circle',
-            color: 'success'
-        },
-        initializing: {
-            icon: 'social-media',
-            color: 'redTint'
-        },
-        new: {
-            icon: 'social-media',
-            color: 'redTint'
-        }
-    }
-
     return (
         <React.Fragment>
             {!servers && <Loader />}
@@ -41,14 +27,19 @@ const ServersList = ({ servers, setCreatingServer, theme }) => {
             {servers &&
                 servers.length > 0 &&
                 servers.map(server => (
-                    <Link textDecoration={'none'} is={RouterLink} to={`/servers/${server.id}`}>
+                    <Link
+                        key={server.id}
+                        textDecoration={'none'}
+                        is={RouterLink}
+                        to={`/servers/${server.id}`}
+                    >
                         <div
-                            key={server.id}
                             className={css([
                                 styles.server,
                                 {
                                     ':hover': {
-                                        backgroundColor: theme.scales.neutral.N1,
+                                        backgroundColor:
+                                            theme.scales.neutral.N1,
                                         cursor: 'pointer'
                                     }
                                 }
@@ -62,7 +53,9 @@ const ServersList = ({ servers, setCreatingServer, theme }) => {
                                     justifyContent: 'space-between'
                                 }}
                             >
-                                <div className={css(styles.serverNameContainer)}>
+                                <div
+                                    className={css(styles.serverNameContainer)}
+                                >
                                     <span>
                                         <Svg
                                             width={24}
@@ -77,34 +70,7 @@ const ServersList = ({ servers, setCreatingServer, theme }) => {
                                 <div className={css(styles.serverStatus)}>
                                     <Text>{server.ip_address}</Text>
                                     <span>
-                                        {statusIcons[server.status] && (
-                                            <Icon
-                                                className={
-                                                    [
-                                                        'initializing',
-                                                        'new'
-                                                    ].includes(server.status) &&
-                                                    'rotate animated infinite'
-                                                }
-                                                size={16}
-                                                marginRight={16}
-                                                marginLeft={16}
-                                                icon={
-                                                    statusIcons[server.status].icon
-                                                }
-                                                color={
-                                                    statusIcons[server.status].color
-                                                }
-                                                fill={
-                                                    [
-                                                        'initializing',
-                                                        'new'
-                                                    ].includes(server.status)
-                                                        ? theme.scales.blue.B9
-                                                        : undefined
-                                                }
-                                            />
-                                        )}
+                                        <ServerStatusIcon status={server.status} />
                                     </span>
 
                                     {/* <IconButton marginLeft='16' icon='full-circle' appearance='minimal' /> */}
