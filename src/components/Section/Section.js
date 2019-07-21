@@ -12,7 +12,9 @@ const Section = ({ title, description, children, theme }) => (
         })}
     >
         <div className={css(styles.title)}>
-            <Heading color={theme.palette.blue.base}>{title}</Heading>
+            <Heading marginBottom={16} color={theme.palette.blue.base}>
+                {title}
+            </Heading>
             <Text>{description}</Text>
         </div>
 

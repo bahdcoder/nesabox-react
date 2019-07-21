@@ -4,9 +4,16 @@ import { Spinner } from 'evergreen-ui'
 
 import styles from './Loader.css'
 
-const Loader = ({ size = 24 }) => {
+const Loader = ({ size = 24, noPadding }) => {
     return (
-        <div className={css(styles)}>
+        <div
+            className={css([
+                styles,
+                !noPadding && {
+                    padding: '40px'
+                }
+            ])}
+        >
             <Spinner size={size} />
         </div>
     )

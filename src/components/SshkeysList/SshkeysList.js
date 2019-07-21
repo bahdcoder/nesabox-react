@@ -1,8 +1,9 @@
 import React from 'react'
 import { css } from 'glamor'
 import { withAuth } from 'utils/hoc'
+import EmptySet from 'components/EmptySet'
 import {
-    Pane,
+    Icon,
     Small,
     Link,
     Button,
@@ -15,58 +16,56 @@ import Heading from 'components/Heading'
 
 import styles from './SshkeysList.css'
 
-const SshkeysList = ({ auth, theme, openCreateKeyModal, setDeletingKeyId }) => {
-    const [user] = auth
-
+const SshkeysList = ({
+    theme,
+    openCreateKeyModal,
+    setDeletingKeyId,
+    sshkeys
+}) => {
     return (
         <React.Fragment>
-            {user.sshkeys.length === 0 && (
-                <Pane
-                    width={'100%'}
-                    display="flex"
-                    padding="1rem"
-                    border="default"
-                    borderRadius={3}
-                    background="tint1"
-                    alignItems="center"
-                    flexDirection="column"
-                    justifyContent="center"
-                >
-                    <Heading marginBottom={10}>
-                        There are no SSH Keys yet
-                    </Heading>
-                    <Small
-                        className={css({
-                            color: theme.colors.text.muted
-                        })}
-                    >
-                        Need help generating an SSH Key ? Checkout{' '}
-                        <Link
-                            href="https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/create-with-putty/"
-                            target="_blank"
+            {sshkeys.length === 0 && (
+                <EmptySet
+                    renderHeading={() => (
+                        <Heading marginBottom={10}>
+                            No SSH Keys have been added yet.
+                        </Heading>
+                    )}
+                    renderDescription={() => (
+                        <Small
+                            className={css({
+                                color: theme.colors.text.muted
+                            })}
                         >
-                            this article for Windows
-                        </Link>{' '}
-                        and{' '}
-                        <Link
-                            target="_blank"
-                            href="https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/create-with-openssh/"
+                            Need help generating an SSH Key ? Checkout{' '}
+                            <Link
+                                href="https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/create-with-putty/"
+                                target="_blank"
+                            >
+                                this article for Windows
+                            </Link>{' '}
+                            and{' '}
+                            <Link
+                                target="_blank"
+                                href="https://www.digitalocean.com/docs/droplets/how-to/add-ssh-keys/create-with-openssh/"
+                            >
+                                this one for Mac OS / Linux{' '}
+                            </Link>
+                            .
+                        </Small>
+                    )}
+                    renderButton={() => (
+                        <Button
+                            onClick={openCreateKeyModal}
+                            marginTop={20}
+                            appearance="primary"
                         >
-                            this one for Mac OS / Linux{' '}
-                        </Link>
-                        .
-                    </Small>
-
-                    <Button
-                        onClick={openCreateKeyModal}
-                        marginTop={20}
-                        appearance="primary"
-                    >
-                        Add SSH Key
-                    </Button>
-                </Pane>
+                            Add SSH Key
+                        </Button>
+                    )}
+                />
             )}
-            {user.sshkeys.length > 0 && (
+            {sshkeys.length > 0 && (
                 <React.Fragment>
                     <header className={css(styles.header)}>
                         <Heading>Active SSH Keys</Heading>
@@ -77,7 +76,7 @@ const SshkeysList = ({ auth, theme, openCreateKeyModal, setDeletingKeyId }) => {
                     <div className={css(styles.table)}>
                         <Table>
                             <Table.Body>
-                                {user.sshkeys.map(key => (
+                                {sshkeys.map(key => (
                                     <Table.Row
                                         key={key.id}
                                         borderBottom={'none'}
@@ -94,13 +93,17 @@ const SshkeysList = ({ auth, theme, openCreateKeyModal, setDeletingKeyId }) => {
                                             paddingLeft={0}
                                             flexGrow={1}
                                         >
-                                            <IconButton
-                                                icon="trash"
-                                                intent="danger"
-                                                onClick={() =>
-                                                    setDeletingKeyId(key.id)
-                                                }
-                                            />
+                                            {key.isReady ? (
+                                                <IconButton
+                                                    icon="trash"
+                                                    intent="danger"
+                                                    onClick={() =>
+                                                        setDeletingKeyId(key.id)
+                                                    }
+                                                />
+                                            ): (
+                                                <Icon className='rotate animated infinite' marginLeft={8} icon='social-media' fill={theme.scales.blue.B9} />
+                                            )}
                                         </Table.TextCell>
                                     </Table.Row>
                                 ))}

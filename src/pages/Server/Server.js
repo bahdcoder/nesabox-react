@@ -13,7 +13,7 @@ const serverReducer = (server, action) => {
     }
 }
 
-const Server = ({ match, history, echo, auth }) => {
+const Server = ({ match, history, location, echo, auth }) => {
     const [user] = auth
     const [server, setServer] = useReducer(serverReducer, null)
 
@@ -51,7 +51,16 @@ const Server = ({ match, history, echo, auth }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [echo, user])
 
-    return <ServerDetails server={server} />
+    return (
+        <ServerDetails
+            match={match}
+            server={server}
+            location={location}
+            setServer={payload =>
+                setServer({ type: 'SERVER_FETCHED', payload })
+            }
+        />
+    )
 }
 
 export default withSocket(withAuth(Server))

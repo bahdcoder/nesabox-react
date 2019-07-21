@@ -8,8 +8,8 @@ import Section from 'components/Section'
 import SshkeysList from 'components/SshkeysList'
 import AddSshkeyForm from 'components/AddSshkeyForm'
 
-const Sshkeys = ({ auth }) => {
-    const [, setUser] = auth
+const Sshkeys = ({ auth, description, keyEndpoint, type, server, setServer, ...rest }) => {
+    const [user, setUser] = auth
     const [
         [form, setValue, resetForm],
         [submitting, setSubmitting],
@@ -25,14 +25,16 @@ const Sshkeys = ({ auth }) => {
         setSubmitting(true)
 
         client
-            .delete(`/me/sshkeys/${deletingKeyId}`)
+            .delete(`${keyEndpoint}/${deletingKeyId}`)
             .then(({ data }) => {
-                setUser(data)
+                type === 'server' ? setServer(data) : setUser(data)
+                
                 setSubmitting(false)
                 setDeletingKeyId(null)
                 toaster.success('Public key deleted.')
             })
-            .catch(({ response }) => {
+            .catch(error => {
+                console.log(error)
                 setSubmitting(false)
                 setDeletingKeyId(null)
                 toaster.danger('Failed deleting key.')
@@ -45,13 +47,13 @@ const Sshkeys = ({ auth }) => {
         setSubmitting(true)
 
         client
-            .post('/me/sshkeys', form)
+            .post(keyEndpoint, form)
             .then(({ data }) => {
                 setSubmitting(false)
 
                 setErrors({})
 
-                setUser(data)
+                type === 'server' ? setServer(data) : setUser(data)
 
                 resetForm()
 
@@ -69,16 +71,15 @@ const Sshkeys = ({ auth }) => {
     const [creatingKey, setCreatingKey] = useState(false)
 
     return (
-        <Section
-            title="SSH Keys"
-            description="These keys will automatically be added to every server you create."
-        >
+        <Section title="SSH Keys" description={description}>
             <SshkeysList
                 setDeletingKeyId={setDeletingKeyId}
                 openCreateKeyModal={() => setCreatingKey(true)}
+                sshkeys={type === 'server' ? server.sshkeys : user.sshkeys}
             />
 
             <AddSshkeyForm
+                {...rest}
                 form={form}
                 errors={errors}
                 setValue={setValue}

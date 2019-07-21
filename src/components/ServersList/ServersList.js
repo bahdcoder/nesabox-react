@@ -70,7 +70,9 @@ const ServersList = ({ servers, setCreatingServer, theme }) => {
                                 <div className={css(styles.serverStatus)}>
                                     <Text>{server.ip_address}</Text>
                                     <span>
-                                        <ServerStatusIcon status={server.status} />
+                                        <ServerStatusIcon
+                                            status={server.status}
+                                        />
                                     </span>
 
                                     {/* <IconButton marginLeft='16' icon='full-circle' appearance='minimal' /> */}

@@ -1,72 +1,121 @@
 import React from 'react'
 import { css } from 'glamor'
 import { Small } from 'evergreen-ui'
-import { Helmet } from 'react-helmet'
+import Loadable from 'react-loadable'
 import Loader from 'components/Loader'
+import { Route } from 'react-router-dom'
 import Heading from 'components/Heading'
+import Container from 'components/Container'
 import PageTitle from 'components/PageTitle'
+import SubNavbar from 'components/SubNavbar'
 import ServerStatusIcon from 'components/ServerStatusIcon'
 
-const Server = ({ server }) => {
-    return (
-        <PageTitle>
-            {!server && <Loader />}
-            {server && (
-                <Helmet>
-                    <title>Nesabox | {server.name}</title>
-                </Helmet>
-            )}
-            {server && (
-                <div
-                    className={css({
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between'
-                    })}
-                >
-                    <Heading>Server Details</Heading>
+const MetaAsync = Loadable({
+    loader: () => import(/* webpackChunkName: "Server-Meta" */ 'pages/Meta'),
+    loading: Loader
+})
 
-                    <div className={css({
-                        display: 'flex'
-                    })}>
-                        <Small
+const ServerDetails = ({ server, location, match, setServer }) => {
+    return (
+        <React.Fragment>
+            <PageTitle>
+                {!server && <Loader noPadding />}
+                {server && (
+                    <div
+                        className={css({
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between'
+                        })}
+                    >
+                        <Heading>Server Details</Heading>
+
+                        <div
                             className={css({
-                                textTransform: 'uppercase'
+                                display: 'flex'
                             })}
                         >
-                            {server.name}
-                        </Small>
-                        <Small
-                            className={css({
-                                marginLeft: '24px',
-                                textTransform: 'uppercase'
-                            })}
-                        >
-                            {server.region}
-                        </Small>
-                        <Small
-                            className={css({
-                                marginLeft: '24px',
-                                textTransform: 'uppercase'
-                            })}
-                        >
-                            {server.ip_address}
-                        </Small>
-                        <Small
-                            className={css({
-                                display: 'flex',
-                                marginLeft: '24px',
-                                alignItems: 'center',
-                                textTransform: 'uppercase'
-                            })}
-                        >
-                            {server.status} <ServerStatusIcon status={server.status} />
-                        </Small>
+                            <Small
+                                className={css({
+                                    textTransform: 'uppercase'
+                                })}
+                            >
+                                {server.name}
+                            </Small>
+                            <Small
+                                className={css({
+                                    marginLeft: '24px',
+                                    textTransform: 'uppercase'
+                                })}
+                            >
+                                {server.region}
+                            </Small>
+                            <Small
+                                className={css({
+                                    marginLeft: '24px',
+                                    textTransform: 'uppercase'
+                                })}
+                            >
+                                {server.ip_address}
+                            </Small>
+                            <Small
+                                className={css({
+                                    display: 'flex',
+                                    marginLeft: '24px',
+                                    alignItems: 'center',
+                                    textTransform: 'uppercase'
+                                })}
+                            >
+                                {server.status}{' '}
+                                <ServerStatusIcon status={server.status} />
+                            </Small>
+                        </div>
                     </div>
-                </div>
+                )}
+            </PageTitle>
+
+            <SubNavbar
+                items={[
+                    {
+                        label: 'Sites',
+                        active: match.isExact,
+                        to: match.url
+                    },
+                    {
+                        label: 'Databases',
+                        active: location.pathname.search(/databases/) > -1,
+                        to: `${match.url}/databases`
+                    },
+                    {
+                        label: 'Daemons',
+                        active: location.pathname.search(/daemons/) > -1,
+                        to: `${match.url}/daemons`
+                    },
+                    {
+                        label: 'Monitoring',
+                        active: location.pathname.search(/monitoring/) > -1,
+                        to: `${match.url}/monitoring`
+                    },
+                    {
+                        label: 'Meta',
+                        active: location.pathname.search(/meta/) > -1,
+                        to: `${match.url}/meta`
+                    }
+                ]}
+            />
+
+            {server && (
+                <Container>
+                    <Route
+                        render={routerProps => (
+                            <MetaAsync {...routerProps} server={server} setServer={setServer} />
+                        )}
+                        path={`${match.url}/meta`}
+                    />
+                </Container>
             )}
-        </PageTitle>
+        </React.Fragment>
     )
 }
 
-export default Server
+export default ServerDetails

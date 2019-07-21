@@ -61,7 +61,10 @@ const Account = ({ auth }) => {
 
             <ChangePassword />
 
-            <Sshkeys />
+            <Sshkeys
+                keyEndpoint="/me/sshkeys"
+                description="These keys will automatically be added to every server you create."
+            />
 
             <APIToken />
         </React.Fragment>
