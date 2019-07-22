@@ -32,17 +32,17 @@ const MetaDetails = ({ server, setServer }) => {
                     borderRadius={3}
                     background="tint1"
                     alignItems="center"
-                    wordWrap='break-word'
+                    wordWrap="break-word"
                     flexDirection="column"
                     justifyContent="center"
                 >
-                    <div {...css({
-                        width: '100%',
-                        fontSize: '12px'
-                    })}>
-                        <code>
-                            {server.ssh_key}
-                        </code>
+                    <div
+                        {...css({
+                            width: '100%',
+                            fontSize: '12px'
+                        })}
+                    >
+                        <code>{server.ssh_key}</code>
                     </div>
                 </Pane>
             </Section>
@@ -59,17 +59,17 @@ const MetaDetails = ({ server, setServer }) => {
                     borderRadius={3}
                     background="tint1"
                     alignItems="center"
-                    wordWrap='break-word'
+                    wordWrap="break-word"
                     flexDirection="column"
                     justifyContent="center"
                 >
-                    <div {...css({
-                        width: '100%',
-                        fontSize: '12px'
-                    })}>
-                        <code>
-                            {server.nesa_key}
-                        </code>
+                    <div
+                        {...css({
+                            width: '100%',
+                            fontSize: '12px'
+                        })}
+                    >
+                        <code>{server.nesa_key}</code>
                     </div>
                 </Pane>
             </Section>

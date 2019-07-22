@@ -15,6 +15,12 @@ const MetaAsync = Loadable({
     loading: Loader
 })
 
+const ProcessesAsync = Loadable({
+    loader: () =>
+        import(/* webpackChunkName: "Server-Processes" */ 'pages/Processes'),
+    loading: Loader
+})
+
 const ServerDetails = ({ server, location, match, setServer }) => {
     return (
         <React.Fragment>
@@ -87,9 +93,9 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                         to: `${match.url}/databases`
                     },
                     {
-                        label: 'Daemons',
-                        active: location.pathname.search(/daemons/) > -1,
-                        to: `${match.url}/daemons`
+                        label: 'Processes',
+                        active: location.pathname.search(/processes/) > -1,
+                        to: `${match.url}/processes`
                     },
                     {
                         label: 'Monitoring',
@@ -108,9 +114,23 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                 <Container>
                     <Route
                         render={routerProps => (
-                            <MetaAsync {...routerProps} server={server} setServer={setServer} />
+                            <MetaAsync
+                                {...routerProps}
+                                server={server}
+                                setServer={setServer}
+                            />
                         )}
                         path={`${match.url}/meta`}
+                    />
+                    <Route
+                        render={routerProps => (
+                            <ProcessesAsync
+                                {...routerProps}
+                                server={server}
+                                setServer={setServer}
+                            />
+                        )}
+                        path={`${match.url}/processes`}
                     />
                 </Container>
             )}

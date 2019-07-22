@@ -101,8 +101,13 @@ const SshkeysList = ({
                                                         setDeletingKeyId(key.id)
                                                     }
                                                 />
-                                            ): (
-                                                <Icon className='rotate animated infinite' marginLeft={8} icon='social-media' fill={theme.scales.blue.B9} />
+                                            ) : (
+                                                <Icon
+                                                    className="rotate animated infinite"
+                                                    marginLeft={8}
+                                                    icon="social-media"
+                                                    fill={theme.scales.blue.B9}
+                                                />
                                             )}
                                         </Table.TextCell>
                                     </Table.Row>

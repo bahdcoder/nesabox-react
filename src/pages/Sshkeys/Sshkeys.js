@@ -8,7 +8,15 @@ import Section from 'components/Section'
 import SshkeysList from 'components/SshkeysList'
 import AddSshkeyForm from 'components/AddSshkeyForm'
 
-const Sshkeys = ({ auth, description, keyEndpoint, type, server, setServer, ...rest }) => {
+const Sshkeys = ({
+    auth,
+    description,
+    keyEndpoint,
+    type,
+    server,
+    setServer,
+    ...rest
+}) => {
     const [user, setUser] = auth
     const [
         [form, setValue, resetForm],
@@ -28,7 +36,7 @@ const Sshkeys = ({ auth, description, keyEndpoint, type, server, setServer, ...r
             .delete(`${keyEndpoint}/${deletingKeyId}`)
             .then(({ data }) => {
                 type === 'server' ? setServer(data) : setUser(data)
-                
+
                 setSubmitting(false)
                 setDeletingKeyId(null)
                 toaster.success('Public key deleted.')
