@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from 'glamor'
 import Section from 'components/Section'
 import EmptySet from 'components/EmptySet'
-import { SideSheet, TextInputField, Pane, Button, Table, Heading, Icon, withTheme, IconButton } from 'evergreen-ui'
+import { SideSheet, TextInputField, Pane, Button, Table, Heading, Icon, withTheme, IconButton, Dialog, Text } from 'evergreen-ui'
 
 import styles from './Daemon.css'
 
@@ -13,10 +13,12 @@ const Daemon = ({
     errors,
     setValue,
     submitting,
+    outputDialog,
     addingDaemon,
     deleteDaemon,
     restartDaemon,
     runningCommand,
+    setOutputDialog,
     setAddingDaemon,
     getDaemonStatus,
     handleFormSubmit
@@ -211,6 +213,34 @@ const Daemon = ({
                     </React.Fragment>
                 </Pane>
             </SideSheet>
+
+
+            {outputDialog && (
+                <Dialog
+                    isShown={true}
+                    hasFooter={false}
+                    title={`${outputDialog.title} (${outputDialog.daemon.slug})`}
+                    onCloseComplete={() => setOutputDialog(null)}
+                >
+                    <Text>Command: {outputDialog.daemon.command}</Text>
+                    <pre>
+                        <code>
+                            {outputDialog.content}
+                        </code>
+                    </pre>
+
+                    <Pane borderTop="muted" clearfix>
+                        <Pane padding={16} float="right">
+                        <Button
+                            tabIndex={0}
+                            onClick={() => setOutputDialog(null)}
+                        >
+                            Close
+                        </Button>
+                        </Pane>
+                    </Pane>
+                </Dialog>
+            )}
         </Section>
     )
 }

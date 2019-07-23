@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import DaemonDetails from 'components/Daemon'
 
 const Daemon = props => {
+    const [outputDialog, setOutputDialog] = useState(null)
     const [addingDaemon, setAddingDaemon] = useState(false)
     const [runningCommand, setRunningCommand] = useState(false)
 
@@ -24,7 +25,12 @@ const Daemon = props => {
         client.get(`/servers/${props.server.id}/daemons/${daemon.id}/status`)
             .then(({ data }) => {
                 setRunningCommand(null)
-                console.log('>>>>>>>', data)
+
+                setOutputDialog({
+                    title: 'Daemon status',
+                    content: data.data,
+                    daemon
+                })
             })
             .catch(({ response }) => {
                 toaster.danger('Failed to load daemon status.')
@@ -53,6 +59,11 @@ const Daemon = props => {
             .then(({ data }) => {
                 setRunningCommand(null)
 
+                setOutputDialog({
+                    title: 'Daemon restart output',
+                    content: data.data,
+                    daemon
+                })
                 toaster.success('Daemon restarted.')
             })
             .catch(({ response }) => {
@@ -87,10 +98,12 @@ const Daemon = props => {
             errors={errors}
             setValue={setValue}
             submitting={submitting}
+            outputDialog={outputDialog}
             addingDaemon={addingDaemon}
             deleteDaemon={deleteDaemon}
             restartDaemon={restartDaemon}
             runningCommand={runningCommand}
+            setOutputDialog={setOutputDialog}
             setAddingDaemon={setAddingDaemon}
             getDaemonStatus={getDaemonStatus}
             handleFormSubmit={handleFormSubmit}
