@@ -14,10 +14,13 @@ const Daemon = ({
     setValue,
     submitting,
     addingDaemon,
+    deleteDaemon,
+    restartDaemon,
+    runningCommand,
     setAddingDaemon,
+    getDaemonStatus,
     handleFormSubmit
 }) => {
-    console.log(theme)
     return (
         <Section
             title="Daemons"
@@ -43,30 +46,29 @@ const Daemon = ({
                         <Table>
                             <Table.Head backgroundColor={'transparent'}>
                                 <Table.Cell
-                                    paddingRight={0} paddingLeft={0}
+                                    paddingLeft={0}
+                                    flex={'1 0 20%'}
                                 >
                                     Command
                                 </Table.Cell>
 
-                                <Table.Cell paddingRight={0} paddingLeft={0} >
+                                <Table.Cell>
                                     User
                                 </Table.Cell>
 
-                                <Table.Cell paddingRight={0} paddingLeft={0} >
+                                <Table.Cell>
                                     Processes
                                 </Table.Cell>
 
-                                <Table.Cell paddingRight={0} paddingLeft={0}>
-                                    Cell
+                                <Table.Cell>
+                                    Status
                                 </Table.Cell>
 
-                                <Table.Cell paddingRight={0} paddingLeft={0}>
+                                <Table.Cell>
                                     Restart
                                 </Table.Cell>
 
                                 <Table.Cell
-                                    paddingRight={0}
-                                    paddingLeft={0}
                                 ></Table.Cell>
                             </Table.Head>
                             <Table.Body>
@@ -76,67 +78,44 @@ const Daemon = ({
                                         borderBottom={'none'}
                                     >
                                         <Table.Cell
-                                            paddingRight={0}
                                             paddingLeft={0}
+                                            flex={'1 0 20%'}
                                         >
                                             <code className={css({ color: theme.palette.red.dark })}>{daemon.command}</code>
                                         </Table.Cell>
                                         <Table.Cell
-                                            paddingRight={0}
-                                            paddingLeft={0}
-                                            // display={'flex'} justifyContent={'flex-end'}
                                         >
                                             {daemon.user}
                                         </Table.Cell>
                                         <Table.Cell
-                                            paddingLeft={0}
-                                            paddingRight={0}
-                                            // display={'flex'}
-                                            // justifyContent={'flex-end'}
                                         >
                                             {daemon.processes}
                                         </Table.Cell>
                                         <Table.Cell
-                                            paddingLeft={0}
-                                            paddingRight={0}
-                                            // display={'flex'}
-                                            // justifyContent={'flex-end'}
                                         >
-                                            <IconButton
-                                                icon="pulse"
-                                                onClick={() =>
-                                                    null
-                                                }
-                                            />
+                                            {((runningCommand && runningCommand.id !== daemon.id) || !runningCommand) && daemon.isReady && (
+                                                <IconButton
+                                                    icon="pulse"
+                                                    onClick={() => getDaemonStatus(daemon)}
+                                                />
+                                            )}
+                                            
                                         </Table.Cell>
-                                        <Table.Cell
-                                            paddingLeft={0}
-                                            paddingRight={0}
-                                            // display={'flex'}
-                                            // justifyContent={'flex-end'}
+                                        <Table.TextCell
                                         >
-                                            <IconButton
-                                                icon="social-media"
-                                                onClick={() =>
-                                                    null
-                                                }
-                                            />
-                                        </Table.Cell>
-                                        <Table.Cell
-                                            paddingLeft={0}
-                                            paddingRight={0}
-                                            // display={'flex'}
-                                            // justifyContent={'flex-end'}
-                                        >
-                                            {daemon.isReady ? (
+                                            {((runningCommand && runningCommand.id !== daemon.id) || !runningCommand) && daemon.isReady && (
+                                                <IconButton
+                                                    icon="social-media"
+                                                    onClick={() => restartDaemon(daemon)}
+                                                />
+                                            )}
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                            {(((runningCommand && runningCommand.id !== daemon.id) || !runningCommand) && daemon.isReady) ? (
                                                 <IconButton
                                                     icon="trash"
                                                     intent="danger"
-                                                    // display={'flex'}
-                                                    // justifyContent={'flex-end'}
-                                                    onClick={() =>
-                                                        null
-                                                    }
+                                                    onClick={() => deleteDaemon(daemon)}
                                                 />
                                             ) : (
                                                 <Icon
@@ -146,7 +125,7 @@ const Daemon = ({
                                                     className="rotate animated infinite"
                                                 />
                                             )}
-                                        </Table.Cell>
+                                        </Table.TextCell>
                                     </Table.Row>
                                 ))}
                             </Table.Body>
