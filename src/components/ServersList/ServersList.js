@@ -6,7 +6,7 @@ import EmptySet from 'components/EmptySet'
 import Container from 'components/Container'
 import { Link as RouterLink } from 'react-router-dom'
 import ServerStatusIcon from 'components/ServerStatusIcon'
-import { withTheme, Text, Icon, Link } from 'evergreen-ui'
+import { withTheme, Text, Link } from 'evergreen-ui'
 
 import styles from './ServersList.css'
 

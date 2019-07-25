@@ -16,13 +16,14 @@ const Daemon = props => {
     ] = useForm({
         command: '',
         directory: '',
-        user: 'root',
+        user: 'nesa',
         processes: 1
     })
 
     const getDaemonStatus = daemon => {
         setRunningCommand(daemon)
-        client.get(`/servers/${props.server.id}/daemons/${daemon.id}/status`)
+        client
+            .get(`/servers/${props.server.id}/daemons/${daemon.id}/status`)
             .then(({ data }) => {
                 setRunningCommand(null)
 
@@ -40,7 +41,8 @@ const Daemon = props => {
     const deleteDaemon = daemon => {
         setRunningCommand(daemon)
 
-        client.delete(`/servers/${props.server.id}/daemons/${daemon.id}`)
+        client
+            .delete(`/servers/${props.server.id}/daemons/${daemon.id}`)
             .then(({ data }) => {
                 setRunningCommand(null)
 
@@ -55,7 +57,8 @@ const Daemon = props => {
     const restartDaemon = daemon => {
         setRunningCommand(daemon)
 
-        client.post(`/servers/${props.server.id}/daemons/${daemon.id}/restart`)
+        client
+            .post(`/servers/${props.server.id}/daemons/${daemon.id}/restart`)
             .then(({ data }) => {
                 setRunningCommand(null)
 

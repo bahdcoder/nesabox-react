@@ -7,11 +7,8 @@ export default {
         borderTop: 'none',
         borderLeft: 'none'
     },
-    title: {
-        width: '35%'
-    },
+    title: {},
     content: {
-        marginLeft: '10%',
-        width: '65%'
+        marginLeft: '10%'
     }
 }

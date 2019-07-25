@@ -2,7 +2,19 @@ import React from 'react'
 import { css } from 'glamor'
 import Section from 'components/Section'
 import EmptySet from 'components/EmptySet'
-import { SideSheet, TextInputField, Pane, Button, Table, Heading, Icon, withTheme, IconButton, Dialog, Text } from 'evergreen-ui'
+import {
+    SideSheet,
+    TextInputField,
+    Pane,
+    Button,
+    Table,
+    Heading,
+    Icon,
+    withTheme,
+    IconButton,
+    Dialog,
+    Text
+} from 'evergreen-ui'
 
 import styles from './Daemon.css'
 
@@ -41,37 +53,38 @@ const Daemon = ({
                     <header className={css(styles.header)}>
                         <Heading>Active Daemons</Heading>
 
-                        <Button onClick={() => setAddingDaemon(true)}>Add</Button>
+                        <Button onClick={() => setAddingDaemon(true)}>
+                            Add
+                        </Button>
                     </header>
 
                     <div className={css(styles.table)}>
                         <Table>
                             <Table.Head backgroundColor={'transparent'}>
-                                <Table.Cell
+                                <Table.TextHeaderCell
                                     paddingLeft={0}
                                     flex={'1 0 20%'}
                                 >
                                     Command
-                                </Table.Cell>
+                                </Table.TextHeaderCell>
 
-                                <Table.Cell>
+                                <Table.TextHeaderCell>
                                     User
-                                </Table.Cell>
+                                </Table.TextHeaderCell>
 
-                                <Table.Cell>
+                                <Table.TextHeaderCell>
                                     Processes
-                                </Table.Cell>
+                                </Table.TextHeaderCell>
 
-                                <Table.Cell>
+                                <Table.TextHeaderCell>
                                     Status
-                                </Table.Cell>
+                                </Table.TextHeaderCell>
 
-                                <Table.Cell>
+                                <Table.TextHeaderCell>
                                     Restart
-                                </Table.Cell>
+                                </Table.TextHeaderCell>
 
-                                <Table.Cell
-                                ></Table.Cell>
+                                <Table.TextHeaderCell></Table.TextHeaderCell>
                             </Table.Head>
                             <Table.Body>
                                 {server.daemons.map(daemon => (
@@ -79,45 +92,69 @@ const Daemon = ({
                                         key={daemon.id}
                                         borderBottom={'none'}
                                     >
-                                        <Table.Cell
+                                        <Table.TextCell
                                             paddingLeft={0}
                                             flex={'1 0 20%'}
                                         >
-                                            <code className={css({ color: theme.palette.red.dark })}>{daemon.command}</code>
-                                        </Table.Cell>
-                                        <Table.Cell
-                                        >
-                                            {daemon.user}
-                                        </Table.Cell>
-                                        <Table.Cell
-                                        >
-                                            {daemon.processes}
-                                        </Table.Cell>
-                                        <Table.Cell
-                                        >
-                                            {((runningCommand && runningCommand.id !== daemon.id) || !runningCommand) && daemon.isReady && (
-                                                <IconButton
-                                                    icon="pulse"
-                                                    onClick={() => getDaemonStatus(daemon)}
-                                                />
-                                            )}
-                                            
-                                        </Table.Cell>
-                                        <Table.TextCell
-                                        >
-                                            {((runningCommand && runningCommand.id !== daemon.id) || !runningCommand) && daemon.isReady && (
-                                                <IconButton
-                                                    icon="social-media"
-                                                    onClick={() => restartDaemon(daemon)}
-                                                />
-                                            )}
+                                            <code
+                                                className={css({
+                                                    color:
+                                                        theme.palette.red.dark
+                                                })}
+                                            >
+                                                {daemon.command}
+                                            </code>
                                         </Table.TextCell>
                                         <Table.TextCell>
-                                            {(((runningCommand && runningCommand.id !== daemon.id) || !runningCommand) && daemon.isReady) ? (
+                                            {daemon.user}
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                            {daemon.processes}
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                            {((runningCommand &&
+                                                runningCommand.id !==
+                                                    daemon.id) ||
+                                                !runningCommand) &&
+                                                daemon.isReady && (
+                                                    <IconButton
+                                                        icon="pulse"
+                                                        onClick={() =>
+                                                            getDaemonStatus(
+                                                                daemon
+                                                            )
+                                                        }
+                                                    />
+                                                )}
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                            {((runningCommand &&
+                                                runningCommand.id !==
+                                                    daemon.id) ||
+                                                !runningCommand) &&
+                                                daemon.isReady && (
+                                                    <IconButton
+                                                        icon="social-media"
+                                                        onClick={() =>
+                                                            restartDaemon(
+                                                                daemon
+                                                            )
+                                                        }
+                                                    />
+                                                )}
+                                        </Table.TextCell>
+                                        <Table.TextCell>
+                                            {((runningCommand &&
+                                                runningCommand.id !==
+                                                    daemon.id) ||
+                                                !runningCommand) &&
+                                            daemon.isReady ? (
                                                 <IconButton
                                                     icon="trash"
                                                     intent="danger"
-                                                    onClick={() => deleteDaemon(daemon)}
+                                                    onClick={() =>
+                                                        deleteDaemon(daemon)
+                                                    }
                                                 />
                                             ) : (
                                                 <Icon
@@ -214,7 +251,6 @@ const Daemon = ({
                 </Pane>
             </SideSheet>
 
-
             {outputDialog && (
                 <Dialog
                     isShown={true}
@@ -223,20 +259,16 @@ const Daemon = ({
                     onCloseComplete={() => setOutputDialog(null)}
                 >
                     <Text>Command: {outputDialog.daemon.command}</Text>
-                    <pre>
-                        <code>
-                            {outputDialog.content}
-                        </code>
-                    </pre>
+                    <code>{outputDialog.content}</code>
 
                     <Pane borderTop="muted" clearfix>
                         <Pane padding={16} float="right">
-                        <Button
-                            tabIndex={0}
-                            onClick={() => setOutputDialog(null)}
-                        >
-                            Close
-                        </Button>
+                            <Button
+                                tabIndex={0}
+                                onClick={() => setOutputDialog(null)}
+                            >
+                                Close
+                            </Button>
                         </Pane>
                     </Pane>
                 </Dialog>

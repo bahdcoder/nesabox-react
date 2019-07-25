@@ -71,6 +71,7 @@ const Dashboard = ({ auth, echo }) => {
             })
 
         fetchServers()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
