@@ -81,10 +81,12 @@ const Cron = props => {
 
         client
             .post(`/servers/${props.server.id}/cron-jobs`, data)
-            .then(() => {
+            .then(({ data }) => {
                 setAddingJob(false)
 
                 resetForm()
+
+                props.setServer(data)
 
                 toaster.success('Cron job added to server.')
             })
@@ -95,6 +97,24 @@ const Cron = props => {
             })
             .finally(() => {
                 setSubmitting(false)
+            })
+    }
+
+    const deleteJob = job => {
+        setRunningCommand(job)
+
+        client.delete(`/servers/${props.server.id}/cron-jobs/${job.id}`)
+            .then(({ data }) => {
+                setRunningCommand(null)
+
+                props.setServer(data)
+
+                toaster.success('Cron job deleted.')
+            })
+            .catch(() => {
+                setRunningCommand(null)
+
+                toaster.danger('Failed deleting cron job.')
             })
     }
 
@@ -126,6 +146,7 @@ const Cron = props => {
             dialog={dialog}
             errors={errors}
             setValue={setValue}
+            deleteJob={deleteJob}
             setDialog={setDialog}
             addingJob={addingJob}
             getJobLog={getJobLog}
