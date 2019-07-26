@@ -15,6 +15,12 @@ const MetaAsync = Loadable({
     loading: Loader
 })
 
+const DatabasesAsync = Loadable({
+    loader: () =>
+        import(/* webpackChunkName: "Server-Databases" */ 'pages/Databases'),
+    loading: Loader
+})
+
 const ProcessesAsync = Loadable({
     loader: () =>
         import(/* webpackChunkName: "Server-Processes" */ 'pages/Processes'),
@@ -131,6 +137,16 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                             />
                         )}
                         path={`${match.url}/processes`}
+                    />
+                    <Route
+                        render={routerProps => (
+                            <DatabasesAsync
+                                {...routerProps}
+                                server={server}
+                                setServer={setServer}
+                            />
+                        )}
+                        path={`${match.url}/databases`}
                     />
                 </Container>
             )}

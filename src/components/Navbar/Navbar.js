@@ -26,7 +26,6 @@ const Navbar = () => {
                     is={Link}
                     to="/register"
                     appearance="primary"
-                    intent="success"
                     marginLeft="1rem"
                     height={40}
                 >

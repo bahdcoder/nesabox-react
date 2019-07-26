@@ -103,7 +103,8 @@ const Cron = props => {
     const deleteJob = job => {
         setRunningCommand(job)
 
-        client.delete(`/servers/${props.server.id}/cron-jobs/${job.id}`)
+        client
+            .delete(`/servers/${props.server.id}/cron-jobs/${job.id}`)
             .then(({ data }) => {
                 setRunningCommand(null)
 

@@ -27,7 +27,11 @@ const Section = ({
                     }
                 ])}
             >
-                <Heading marginBottom={16} color={theme.palette.blue.base}>
+                <Heading
+                    textTransform="capitalize"
+                    marginBottom={16}
+                    color={theme.palette.blue.base}
+                >
                     {title}
                 </Heading>
                 <Text>{description}</Text>
