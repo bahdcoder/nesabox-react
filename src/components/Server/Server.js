@@ -116,7 +116,7 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                 ]}
             />
 
-            {server && (
+            {server && server.is_ready && (
                 <Container>
                     <Route
                         render={routerProps => (

@@ -3,23 +3,16 @@ import { css } from 'glamor'
 import {
     SideSheet,
     TextInputField,
-    SelectField,
     Label,
-    TextInput,
     Pane,
     Button,
-    Alert,
     Table,
     Switch,
     Heading,
-    Icon,
-    Link,
     withTheme,
     IconButton,
     Dialog,
-    Text,
-    RadioGroup,
-    Small
+    Text
 } from 'evergreen-ui'
 import Section from 'components/Section'
 import EmptySet from 'components/EmptySet'
@@ -57,7 +50,10 @@ const Databases = ({
                             <EmptySet
                                 buttonLabel={`Add ${databaseType} database`}
                                 heading={`There are no ${databaseType} databases yet.`}
-                                handleAction={() => setAddingDatabase(true)}
+                                handleAction={() => setAddingDatabase({
+                                    ...addingDatabase,
+                                    [databaseType]: true
+                                })}
                             />
                         )}
                         {deletingDatabase && (
@@ -125,7 +121,10 @@ const Databases = ({
                                     </Heading>
 
                                     <Button
-                                        onClick={() => setAddingDatabase(true)}
+                                        onClick={() => setAddingDatabase({
+                                            ...addingDatabase,
+                                            [databaseType]: true
+                                        })}
                                     >
                                         Add
                                     </Button>
@@ -186,8 +185,11 @@ const Databases = ({
                         )}
 
                         <SideSheet
-                            isShown={addingDatabase}
-                            onCloseComplete={() => setAddingDatabase(false)}
+                            isShown={addingDatabase[databaseType]}
+                            onCloseComplete={() => setAddingDatabase({
+                                ...addingDatabase,
+                                [databaseType]: false
+                            })}
                         >
                             <Pane width={'100%'} padding={40}>
                                 <React.Fragment>
@@ -214,15 +216,17 @@ const Databases = ({
 
                                         <div className={css(styles.switch)}>
                                             <Switch
-                                                checked={createNewUser}
+                                                disabled={databaseType === 'mongodb'}
+                                                checked={createNewUser[databaseType]}
                                                 onChange={e => {
-                                                    setCreateNewUser(
-                                                        !createNewUser
-                                                    )
+                                                    setCreateNewUser({
+                                                        ...createNewUser,
+                                                        [databaseType]: !createNewUser[databaseType]
+                                                    })
 
                                                     setValue(
                                                         'user',
-                                                        createNewUser
+                                                        createNewUser[databaseType]
                                                             ? 'nesa'
                                                             : ''
                                                     )
@@ -238,7 +242,7 @@ const Databases = ({
                                             </Label>
                                         </div>
 
-                                        {createNewUser && (
+                                        {createNewUser[databaseType] && (
                                             <React.Fragment>
                                                 <TextInputField
                                                     required

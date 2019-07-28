@@ -16,8 +16,14 @@ const Databases = props => {
         password: ''
     })
 
-    const [addingDatabase, setAddingDatabase] = useState(false)
-    const [createNewUser, setCreateNewUser] = useState(false)
+    const [createNewUser, setCreateNewUser] = useState({
+        mongodb: true,
+        mysql: false
+    })
+    const [addingDatabase, setAddingDatabase] = useState({
+        mongodb: false,
+        mysql: false
+    })
     const [deletingDatabase, setDeletingDatabase] = useState(false)
 
     const handleFormSubmit = type => {
@@ -27,21 +33,28 @@ const Databases = props => {
             .post(`/servers/${props.server.id}/databases`, {
                 ...form,
                 type,
-                user: createNewUser ? form.user : undefined
+                user: createNewUser[type] ? form.user : undefined,
+                password: createNewUser[type] ? form.password : undefined,
             })
             .then(({ data }) => {
                 toaster.success('Database successfully added.')
 
                 props.setServer(data)
 
+                setAddingDatabase({
+                    ...addingDatabase,
+                    [type]: false
+                })
+
                 resetForm()
             })
             .catch(({ response }) => {
                 response && response.data && setErrors(response.data.errors)
+
+                response && response.message && toaster.danger(response.message)
             })
             .finally(() => {
                 setSubmitting(false)
-                setAddingDatabase(false)
             })
     }
 
