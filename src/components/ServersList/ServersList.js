@@ -56,24 +56,18 @@ const ServersList = ({ servers, setCreatingServer, theme }) => {
                                 <div
                                     className={css(styles.serverNameContainer)}
                                 >
-                                    <span>
-                                        <Svg
-                                            width={24}
-                                            height={24}
-                                            icon={server.provider}
-                                        />
-                                    </span>
+                                    <Svg
+                                        width={24}
+                                        height={24}
+                                        icon={server.provider}
+                                    />
 
                                     <Text marginLeft={16}>{server.name}</Text>
                                 </div>
 
                                 <div className={css(styles.serverStatus)}>
                                     <Text>{server.ip_address}</Text>
-                                    <span>
-                                        <ServerStatusIcon
-                                            status={server.status}
-                                        />
-                                    </span>
+                                    <ServerStatusIcon status={server.status} />
 
                                     {/* <IconButton marginLeft='16' icon='full-circle' appearance='minimal' /> */}
                                 </div>

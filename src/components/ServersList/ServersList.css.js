@@ -8,7 +8,7 @@ export default {
     },
     serverNameContainer: {
         display: 'flex',
-        height: '100%',
+        // height: '100%',
         alignItems: 'center'
     },
     serverStatus: {

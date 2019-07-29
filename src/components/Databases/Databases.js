@@ -50,10 +50,12 @@ const Databases = ({
                             <EmptySet
                                 buttonLabel={`Add ${databaseType} database`}
                                 heading={`There are no ${databaseType} databases yet.`}
-                                handleAction={() => setAddingDatabase({
-                                    ...addingDatabase,
-                                    [databaseType]: true
-                                })}
+                                handleAction={() =>
+                                    setAddingDatabase({
+                                        ...addingDatabase,
+                                        [databaseType]: true
+                                    })
+                                }
                             />
                         )}
                         {deletingDatabase && (
@@ -61,7 +63,9 @@ const Databases = ({
                                 isShown={true}
                                 hasFooter={false}
                                 title={'Delete database'}
-                                onCloseComplete={() => setDeletingDatabase(null)}
+                                onCloseComplete={() =>
+                                    setDeletingDatabase(null)
+                                }
                             >
                                 <Pane marginBottom={16}>
                                     <Text textAlign="center" display={'block'}>
@@ -75,7 +79,9 @@ const Databases = ({
                                         tabIndex={0}
                                         type="button"
                                         marginRight={8}
-                                        onClick={() => setDeletingDatabase(null)}
+                                        onClick={() =>
+                                            setDeletingDatabase(null)
+                                        }
                                     >
                                         Close
                                     </Button>
@@ -121,10 +127,12 @@ const Databases = ({
                                     </Heading>
 
                                     <Button
-                                        onClick={() => setAddingDatabase({
-                                            ...addingDatabase,
-                                            [databaseType]: true
-                                        })}
+                                        onClick={() =>
+                                            setAddingDatabase({
+                                                ...addingDatabase,
+                                                [databaseType]: true
+                                            })
+                                        }
                                     >
                                         Add
                                     </Button>
@@ -186,10 +194,12 @@ const Databases = ({
 
                         <SideSheet
                             isShown={addingDatabase[databaseType]}
-                            onCloseComplete={() => setAddingDatabase({
-                                ...addingDatabase,
-                                [databaseType]: false
-                            })}
+                            onCloseComplete={() =>
+                                setAddingDatabase({
+                                    ...addingDatabase,
+                                    [databaseType]: false
+                                })
+                            }
                         >
                             <Pane width={'100%'} padding={40}>
                                 <React.Fragment>
@@ -216,17 +226,25 @@ const Databases = ({
 
                                         <div className={css(styles.switch)}>
                                             <Switch
-                                                disabled={databaseType === 'mongodb'}
-                                                checked={createNewUser[databaseType]}
+                                                disabled={
+                                                    databaseType === 'mongodb'
+                                                }
+                                                checked={
+                                                    createNewUser[databaseType]
+                                                }
                                                 onChange={e => {
                                                     setCreateNewUser({
                                                         ...createNewUser,
-                                                        [databaseType]: !createNewUser[databaseType]
+                                                        [databaseType]: !createNewUser[
+                                                            databaseType
+                                                        ]
                                                     })
 
                                                     setValue(
                                                         'user',
-                                                        createNewUser[databaseType]
+                                                        createNewUser[
+                                                            databaseType
+                                                        ]
                                                             ? 'nesa'
                                                             : ''
                                                     )

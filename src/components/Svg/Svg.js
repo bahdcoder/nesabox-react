@@ -110,7 +110,34 @@ const Svg = ({ icon, width = 40, name, height = 40, src }) => {
         bitbucket:
             'https://res.cloudinary.com/bahdcoder/image/upload/v1563440912/imageedit_3_5451227750_hd3vcz.png',
         custom:
-            'https://res.cloudinary.com/bahdcoder/image/upload/v1563480490/ubuntu_ymonj9.png'
+            'https://res.cloudinary.com/bahdcoder/image/upload/v1563480490/ubuntu_ymonj9.png',
+        'no-app': (
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
+                version="1.1"
+                id="Capa_1"
+                x="0px"
+                y="0px"
+                viewBox="0 0 51.976 51.976"
+                style={{ enableBackground: 'new 0 0 51.976 51.976' }}
+                xmlSpace="preserve"
+                width={width}
+                height={height}
+            >
+                <g>
+                    <g>
+                        <path
+                            d="M44.373,7.603c-10.137-10.137-26.632-10.138-36.77,0c-10.138,10.138-10.137,26.632,0,36.77s26.632,10.138,36.77,0   C54.51,34.235,54.51,17.74,44.373,7.603z M36.241,36.241c-0.781,0.781-2.047,0.781-2.828,0l-7.425-7.425l-7.778,7.778   c-0.781,0.781-2.047,0.781-2.828,0c-0.781-0.781-0.781-2.047,0-2.828l7.778-7.778l-7.425-7.425c-0.781-0.781-0.781-2.048,0-2.828   c0.781-0.781,2.047-0.781,2.828,0l7.425,7.425l7.071-7.071c0.781-0.781,2.047-0.781,2.828,0c0.781,0.781,0.781,2.047,0,2.828   l-7.071,7.071l7.425,7.425C37.022,34.194,37.022,35.46,36.241,36.241z"
+                            data-original="#000000"
+                            className="active-path"
+                            data-old_color="#000000"
+                            fill="#66788A"
+                        />
+                    </g>
+                </g>{' '}
+            </svg>
+        )
     }
 
     return typeof svgs[icon] === 'string' ? (

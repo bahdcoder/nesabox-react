@@ -34,7 +34,7 @@ const Databases = props => {
                 ...form,
                 type,
                 user: createNewUser[type] ? form.user : undefined,
-                password: createNewUser[type] ? form.password : undefined,
+                password: createNewUser[type] ? form.password : undefined
             })
             .then(({ data }) => {
                 toaster.success('Database successfully added.')
