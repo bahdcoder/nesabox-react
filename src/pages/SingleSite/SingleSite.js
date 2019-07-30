@@ -107,7 +107,7 @@ const SingleSite = props => {
                                     marginLeft={16}
                                     intent="success"
                                     icon="arrow-right"
-                                    href={`http://${site.nesabox_domain}`}
+                                    href={`https://${site.nesabox_domain}`}
                                 />
                             </div>
                         </div>
@@ -122,13 +122,13 @@ const SingleSite = props => {
                             active:
                                 props.location.pathname.search(/sites/) > -1 &&
                                 props.location.pathname.search(/settings/) < 0,
-                            to: `${props.match.url}/sites/${site.id}`
+                            to: `${props.match.url}`
                         },
                         {
                             label: 'Settings',
                             active:
                                 props.location.pathname.search(/settings/) > -1,
-                            to: `${props.match.url}/sites/${site.id}/settings`
+                            to: `${props.match.url}/settings`
                         }
                     ]}
                 />

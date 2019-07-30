@@ -1,4 +1,5 @@
 import React from 'react'
+import GhostApp from 'pages/GhostApp'
 import Loader from 'components/Loader'
 import Section from 'components/Section'
 import { SegmentedControl, Button } from 'evergreen-ui'
@@ -8,7 +9,8 @@ const SingleSite = ({
     setAppType,
     appType,
     submitting,
-    installGhost
+    installGhost,
+    ...rest
 }) => {
     return (
         <React.Fragment>
@@ -53,6 +55,7 @@ const SingleSite = ({
                     )}
                 </Section>
             )}
+            {site && site.app_type === 'ghost' && <GhostApp {...rest} site={site} />}
         </React.Fragment>
     )
 }

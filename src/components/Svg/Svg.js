@@ -139,7 +139,12 @@ const Svg = ({ icon, width = 40, name, height = 40, src }) => {
             </svg>
         ),
         ghost: (
-            <svg width={width} height={height} viewBox="0 0 85 87" xmlns="http://www.w3.org/2000/svg">
+            <svg
+                width={width}
+                height={height}
+                viewBox="0 0 85 87"
+                xmlns="http://www.w3.org/2000/svg"
+            >
                 <g fillRule="evenodd" opacity=".6">
                     <rect
                         x=".209"
