@@ -13,6 +13,9 @@ export const statusIcons = {
     new: {
         icon: 'social-media',
         color: 'redTint'
+    },
+    installing: {
+        icon: 'social-media'
     }
 }
 
@@ -20,7 +23,7 @@ const ServerStatusIcon = ({ status, theme }) =>
     statusIcons[status] ? (
         <Icon
             className={
-                ['initializing', 'new'].includes(status) &&
+                ['initializing', 'new', 'installing'].includes(status) &&
                 'rotate animated infinite'
             }
             size={16}
@@ -29,7 +32,7 @@ const ServerStatusIcon = ({ status, theme }) =>
             icon={statusIcons[status].icon}
             color={statusIcons[status].color}
             fill={
-                ['initializing', 'new'].includes(status)
+                ['initializing', 'new', 'installing'].includes(status)
                     ? theme.scales.blue.B9
                     : undefined
             }

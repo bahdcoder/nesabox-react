@@ -3,7 +3,13 @@ import Loader from 'components/Loader'
 import Section from 'components/Section'
 import { SegmentedControl, Button } from 'evergreen-ui'
 
-const SingleSite = ({ site, setAppType, appType, submitting, installGhost }) => {
+const SingleSite = ({
+    site,
+    setAppType,
+    appType,
+    submitting,
+    installGhost
+}) => {
     return (
         <React.Fragment>
             {!site && <Loader />}
