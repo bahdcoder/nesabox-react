@@ -2,7 +2,13 @@ import React from 'react'
 import Section from 'components/Section'
 import { Button, Dialog, Text } from 'evergreen-ui'
 
-const GhostApp = ({ uninstalling, setUninstalling, uninstallGhost, site, submitting }) => {
+const GhostApp = ({
+    uninstalling,
+    setUninstalling,
+    uninstallGhost,
+    site,
+    submitting
+}) => {
     return (
         <Section
             title="Ghost blog"
@@ -25,7 +31,13 @@ const GhostApp = ({ uninstalling, setUninstalling, uninstallGhost, site, submitt
                 confirmLabel="Uninstall Ghost"
                 onCloseComplete={() => setUninstalling(false)}
             >
-                <Text display='flex' alignItems='center' justifyContent='center'>Are you sure you want to uninstall ghost blog ? </Text>
+                <Text
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                >
+                    Are you sure you want to uninstall ghost blog ?{' '}
+                </Text>
             </Dialog>
         </Section>
     )

@@ -49,8 +49,8 @@ const Server = ({ match, history, location, echo, auth }) => {
                 }
             })
 
-        return () =>
-            socket && socket.private(`App.User.${user.id}`).unsubscribe()
+        // return () =>
+        //     socket && socket.private(`App.User.${user.id}`).unsubscribe()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [echo, user])
 

@@ -7,12 +7,15 @@ const GhostApp = props => {
     const [submitting, setSubmitting] = useState(false)
     const [uninstalling, setUninstalling] = useState(false)
 
-    const uninstallGhost = (closeConfirmDialog) => {
+    const uninstallGhost = closeConfirmDialog => {
         closeConfirmDialog()
 
         setSubmitting(true)
 
-        client.post(`/servers/${props.server.id}/sites/${props.site.id}/uninstall-ghost`)
+        client
+            .post(
+                `/servers/${props.server.id}/sites/${props.site.id}/uninstall-ghost`
+            )
             .then(({ data }) => {
                 props.setServer(data)
 
@@ -21,7 +24,9 @@ const GhostApp = props => {
             .finally(() => {
                 setSubmitting(false)
 
-                toaster.danger('Failed uninstalling ghost. Please try again later.')
+                toaster.danger(
+                    'Failed uninstalling ghost. Please try again later.'
+                )
             })
     }
 

@@ -55,7 +55,9 @@ const SingleSite = ({
                     )}
                 </Section>
             )}
-            {site && site.app_type === 'ghost' && <GhostApp {...rest} site={site} />}
+            {site && site.app_type === 'ghost' && (
+                <GhostApp {...rest} site={site} />
+            )}
         </React.Fragment>
     )
 }
