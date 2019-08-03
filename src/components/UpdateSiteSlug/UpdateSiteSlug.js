@@ -17,7 +17,8 @@ const UpdateSiteSlug = ({ site, server, setServer, theme }) => {
     const updateSiteSlug = () => {
         setSubmitting(true)
 
-        client.put(`/servers/${server.id}/sites/${site.id}`, form)
+        client
+            .put(`/servers/${server.id}/sites/${site.id}`, form)
             .then(({ data }) => {
                 setServer(data)
 
@@ -35,14 +36,19 @@ const UpdateSiteSlug = ({ site, server, setServer, theme }) => {
 
     return (
         <React.Fragment>
-            <div {...css({
-                display: 'flex',
-                width: '100%'
-            })}>
-                <TextInput value={form.slug}
+            <div
+                {...css({
+                    display: 'flex',
+                    width: '100%'
+                })}
+            >
+                <TextInput
+                    value={form.slug}
                     isInvalid={!!errors.slug}
-                    onChange={e => setValue('slug', e.target.value)} marginRight={24} />
-                
+                    onChange={e => setValue('slug', e.target.value)}
+                    marginRight={24}
+                />
+
                 <Button
                     appearance={'primary'}
                     onClick={updateSiteSlug}
@@ -52,13 +58,20 @@ const UpdateSiteSlug = ({ site, server, setServer, theme }) => {
                 </Button>
             </div>
 
-            {errors && errors.slug && <Small color={theme.palette.red.base} display='block' marginTop={16}>{errors.slug}</Small>}
+            {errors && errors.slug && (
+                <Small
+                    color={theme.palette.red.base}
+                    display="block"
+                    marginTop={16}
+                >
+                    {errors.slug}
+                </Small>
+            )}
 
-            <Alert
-                marginTop={16}
-                intent="danger"
-                title="Updating this would update the subdomain your application is available at."
-            />
+            <Alert marginTop={16} intent="danger">
+                Updating this would update the subdomain your application is
+                available at.
+            </Alert>
         </React.Fragment>
     )
 }

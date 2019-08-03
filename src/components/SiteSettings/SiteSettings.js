@@ -10,10 +10,22 @@ import styles from './SiteSettings.css'
 import 'brace/mode/json'
 import 'brace/theme/textmate'
 
-const SiteSettings = ({ site, server, theme, working, configFile, setConfigurationFile, setConfigFile, getConfigurationFile }) => {
+const SiteSettings = ({
+    site,
+    server,
+    theme,
+    working,
+    configFile,
+    setConfigurationFile,
+    setConfigFile,
+    getConfigurationFile
+}) => {
     return (
         <React.Fragment>
-            <Section title="Site slug" description="This site slug would be used as your nesabox subdomain.">
+            <Section
+                title="Site slug"
+                description="This site slug would be used as your nesabox subdomain."
+            >
                 <UpdateSiteSlug server={server} site={site} />
             </Section>
             <Section
@@ -31,22 +43,24 @@ const SiteSettings = ({ site, server, theme, working, configFile, setConfigurati
                     )}
 
                     {configFile && (
-                        <div className={css({
-                            padding: 16,
-                            width: '100%',
-                            height: '100%',
-                            boxSizing: 'border-box',
-                            border: `1px solid ${theme.palette.neutral.light}`
-                        })}>
+                        <div
+                            className={css({
+                                padding: 16,
+                                width: '100%',
+                                height: '100%',
+                                boxSizing: 'border-box',
+                                border: `1px solid ${theme.palette.neutral.light}`
+                            })}
+                        >
                             <Ace
                                 mode="json"
-                                width='100%'
+                                width="100%"
                                 theme="textmate"
                                 value={configFile}
                                 showGutter={false}
                                 showPrintMargin={false}
                                 onChange={content => setConfigFile(content)}
-                                name='ghost-config-production-json'
+                                name="ghost-config-production-json"
                                 editorProps={{
                                     showGutter: false,
                                     showLineNumbers: false
@@ -56,12 +70,14 @@ const SiteSettings = ({ site, server, theme, working, configFile, setConfigurati
                     )}
 
                     {configFile && (
-                        <div className={css({
-                            width: '100%',
-                            display: 'flex',
-                            marginTop: 16,
-                            justifyContent: 'flex-end'
-                        })}>
+                        <div
+                            className={css({
+                                width: '100%',
+                                display: 'flex',
+                                marginTop: 16,
+                                justifyContent: 'flex-end'
+                            })}
+                        >
                             <Button
                                 intent="danger"
                                 marginRight={16}
@@ -72,7 +88,7 @@ const SiteSettings = ({ site, server, theme, working, configFile, setConfigurati
 
                             <Button
                                 isLoading={working}
-                                appearance='primary'
+                                appearance="primary"
                                 onClick={setConfigurationFile}
                             >
                                 Update config.production.json file

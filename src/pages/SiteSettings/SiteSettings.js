@@ -10,23 +10,27 @@ const SiteSettings = props => {
     const setConfigurationFile = () => {
         setWorking(true)
 
-        client.post(`/servers/${props.server.id}/sites/${props.site.id}/ghost-config`, {
-            configProductionJson: configFile
-        })
-        .then(() => {
-            setConfigFile(null)
-
-            toaster.success('Configuration file updated.')
-        })
-        .catch(({ response }) => {
-            toaster.danger(
-                (response && response.data && response.data.message) ||
-                    'Failed updating ghost configuration file.'
+        client
+            .post(
+                `/servers/${props.server.id}/sites/${props.site.id}/ghost-config`,
+                {
+                    configProductionJson: configFile
+                }
             )
-        })
-        .finally(() => {
-            setWorking(false)
-        })
+            .then(() => {
+                setConfigFile(null)
+
+                toaster.success('Configuration file updated.')
+            })
+            .catch(({ response }) => {
+                toaster.danger(
+                    (response && response.data && response.data.message) ||
+                        'Failed updating ghost configuration file.'
+                )
+            })
+            .finally(() => {
+                setWorking(false)
+            })
     }
 
     const getConfigurationFile = () => {

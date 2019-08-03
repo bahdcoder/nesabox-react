@@ -3,6 +3,7 @@ import GhostApp from 'pages/GhostApp'
 import Loader from 'components/Loader'
 import Section from 'components/Section'
 import { SegmentedControl, Button } from 'evergreen-ui'
+import SelectRepoForGitApp from 'components/SelectRepoForGitApp'
 
 const SingleSite = ({
     site,
@@ -15,12 +16,13 @@ const SingleSite = ({
     return (
         <React.Fragment>
             {!site && <Loader />}
-            {site && site.app_type === 'None' && (
+
+            {site.app_type === 'None' && (
                 <Section
                     title="Application type"
                     description="App could be a ghost blog, or a git repository"
                 >
-                    {!site.installing_ghost && (
+                    {!site.installing_ghost && !site.installing_repository && (
                         <SegmentedControl
                             width={'100%'}
                             options={[
@@ -53,6 +55,8 @@ const SingleSite = ({
                             Install Ghost Blog
                         </Button>
                     )}
+
+                    {appType === 'git' && <SelectRepoForGitApp {...rest} site={site} />}
                 </Section>
             )}
             {site && site.app_type === 'ghost' && (

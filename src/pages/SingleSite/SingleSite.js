@@ -3,10 +3,10 @@ import client from 'utils/axios'
 import Loadable from 'react-loadable'
 import Loader from 'components/Loader'
 import { toaster } from 'evergreen-ui'
-import React, { useState } from 'react'
 import PageTitle from 'components/PageTitle'
 import SubNavbar from 'components/SubNavbar'
 import Container from 'components/Container'
+import React, { useState, useEffect } from 'react'
 import { Small, Link, IconButton } from 'evergreen-ui'
 import { Route, Link as RouterLink, Redirect } from 'react-router-dom'
 
@@ -27,12 +27,20 @@ const SiteSettingsAsync = Loadable({
 })
 
 const SingleSite = props => {
-    const [appType, setAppType] = useState('ghost')
+    const [appType, setAppType] = useState(null)
     const [submitting, setSubmitting] = useState(false)
 
     const site = props.server.sites.find(
         site => site.id === props.match.params.site
     )
+
+    useEffect(() => {
+        if (site) {
+            setAppType(
+                site.installing_repository ? 'git' : 'ghost'
+            )
+        }
+    }, [site])
 
     const installGhost = () => {
         setSubmitting(true)
