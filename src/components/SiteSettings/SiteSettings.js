@@ -2,10 +2,9 @@ import React from 'react'
 import Ace from 'react-ace'
 import { css } from 'glamor'
 import Section from 'components/Section'
+import Env from 'components/EnvironmentVariables'
 import UpdateSiteSlug from 'components/UpdateSiteSlug'
 import { Button, TextInput, IconButton, withTheme } from 'evergreen-ui'
-
-import styles from './SiteSettings.css'
 
 import 'brace/mode/json'
 import 'brace/theme/textmate'
@@ -97,13 +96,11 @@ const SiteSettings = ({
                             </div>
                         )}
                     </div>
-
-                    {/* <div className={css(styles.row)}>
-                        <TextInput readOnly />
-                        <TextInput readOnly marginLeft={24} />
-                        <IconButton marginLeft={24} intent='danger' icon='trash' />
-                    </div> */}
                 </Section>
+            )}
+
+            {['git'].includes(site.app_type) && (
+                <Env site={site} server={server} />
             )}
         </React.Fragment>
     )

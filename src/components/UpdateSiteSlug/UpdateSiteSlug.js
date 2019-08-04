@@ -18,7 +18,7 @@ const UpdateSiteSlug = ({ site, server, setServer, theme }) => {
         setSubmitting(true)
 
         client
-            .put(`/servers/${server.id}/sites/${site.id}`, form)
+            .put(`/servers/${server.id}/sites/${site.id}/update-slug`, form)
             .then(({ data }) => {
                 setServer(data)
 
