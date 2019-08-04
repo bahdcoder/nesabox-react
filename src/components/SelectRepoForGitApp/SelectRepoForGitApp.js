@@ -30,22 +30,27 @@ const SelectRepoForGitApp = ({ auth, site, server, setServer }) => {
             value: provider
         }))
 
-        const [
-            [form, setValue],
-            [submitting, setSubmitting],
-            [errors, setErrors]
-        ] = useForm({
-            repository: site.repository || '',
-            branch: site.repository_branch || 'master',
-            provider: availableProviders.length > 0 ? availableProviders[0].value : '',
-        })
+    const [
+        [form, setValue],
+        [submitting, setSubmitting],
+        [errors, setErrors]
+    ] = useForm({
+        repository: site.repository || '',
+        branch: site.repository_branch || 'master',
+        provider:
+            availableProviders.length > 0 ? availableProviders[0].value : ''
+    })
 
-    const installRepository = (e) => {
+    const installRepository = e => {
         e.preventDefault()
 
         setSubmitting(true)
 
-        client.post(`/servers/${server.id}/sites/${site.id}/install-repository`, form)
+        client
+            .post(
+                `/servers/${server.id}/sites/${site.id}/install-repository`,
+                form
+            )
             .then(({ data }) => {
                 setServer(data)
 
@@ -122,7 +127,13 @@ const SelectRepoForGitApp = ({ auth, site, server, setServer }) => {
                                 justifyContent: 'flex-end'
                             })}
                         >
-                            <Button isLoading={submitting || site.installing_repository} marginTop={8} appearance="primary">
+                            <Button
+                                isLoading={
+                                    submitting || site.installing_repository
+                                }
+                                marginTop={8}
+                                appearance="primary"
+                            >
                                 Install repository
                             </Button>
                         </div>

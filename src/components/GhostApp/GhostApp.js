@@ -15,10 +15,7 @@ const GhostApp = ({
             description="You can manage your ghost installation here."
         >
             {site.installing_ghost && (
-                <Button
-                    appearance="primary"
-                    isLoading={site.installing_ghost}
-                >
+                <Button appearance="primary" isLoading={site.installing_ghost}>
                     Installing Ghost
                 </Button>
             )}

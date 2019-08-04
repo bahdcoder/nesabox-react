@@ -67,8 +67,8 @@ const SitesList = ({
                 sites.map(site => (
                     <Link
                         key={site.id}
-                        textDecoration={'none'}
                         is={RouterLink}
+                        textDecoration={'none'}
                         to={`/servers/${server.id}/sites/${site.id}`}
                     >
                         <div
@@ -79,7 +79,8 @@ const SitesList = ({
                                         backgroundColor:
                                             theme.scales.neutral.N1,
                                         cursor: 'pointer'
-                                    }
+                                    },
+                                    borderBottom: `1px solid ${theme.scales.neutral.N4}`
                                 }
                             ])}
                         >
@@ -100,6 +101,8 @@ const SitesList = ({
                                         icon={
                                             site.app_type === 'None'
                                                 ? 'no-app'
+                                                : site.app_type === 'git'
+                                                ? site.repository_provider
                                                 : site.app_type
                                         }
                                     />
@@ -108,7 +111,9 @@ const SitesList = ({
                                 </div>
 
                                 <div className={css(styles.serverStatus)}>
-                                    <Text>{site.app_type}</Text>
+                                    <Text textTransform="capitalize">
+                                        {site.app_type}
+                                    </Text>
                                     <ServerStatusIcon status={site.status} />
                                     {/* <IconButton marginLeft='16' icon='full-circle' appearance='minimal' /> */}
                                 </div>

@@ -1,4 +1,5 @@
 import React from 'react'
+import GitApp from 'pages/GitApp'
 import GhostApp from 'pages/GhostApp'
 import Loader from 'components/Loader'
 import Section from 'components/Section'
@@ -56,11 +57,16 @@ const SingleSite = ({
                         </Button>
                     )}
 
-                    {appType === 'git' && <SelectRepoForGitApp {...rest} site={site} />}
+                    {appType === 'git' && (
+                        <SelectRepoForGitApp {...rest} site={site} />
+                    )}
                 </Section>
             )}
             {site && site.app_type === 'ghost' && (
                 <GhostApp {...rest} site={site} />
+            )}
+            {site && site.app_type === 'git' && (
+                <GitApp {...rest} site={site} />
             )}
         </React.Fragment>
     )

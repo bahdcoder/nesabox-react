@@ -36,9 +36,7 @@ const SingleSite = props => {
 
     useEffect(() => {
         if (site) {
-            setAppType(
-                site.installing_repository ? 'git' : 'ghost'
-            )
+            setAppType(site.installing_repository ? 'git' : 'ghost')
         }
     }, [site])
 
@@ -113,7 +111,6 @@ const SingleSite = props => {
                                     is="a"
                                     target="_blank"
                                     marginLeft={16}
-                                    intent="success"
                                     icon="arrow-right"
                                     href={`https://${site.nesabox_domain}`}
                                 />

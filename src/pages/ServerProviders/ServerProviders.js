@@ -51,6 +51,11 @@ const ServerProviders = ({ auth }) => {
             })
             .catch(({ response }) => {
                 response && response.data && setErrors(response.data.errors)
+
+                response &&
+                    response.data &&
+                    response.data.message &&
+                    toaster.danger(response.data.message)
             })
             .finally(() => {
                 setSubmitting(false)

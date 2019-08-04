@@ -41,7 +41,8 @@ const ServersList = ({ servers, setCreatingServer, theme }) => {
                                         backgroundColor:
                                             theme.scales.neutral.N1,
                                         cursor: 'pointer'
-                                    }
+                                    },
+                                    borderBottom: `1px solid ${theme.scales.neutral.N4A}`
                                 }
                             ])}
                         >
