@@ -7,9 +7,7 @@ import Section from 'components/Section'
 import { Button, withTheme, TextInput, Textarea, toaster } from 'evergreen-ui'
 
 import 'brace/mode/sh'
-import 'brace/mode/batchfile'
-import 'brace/theme/textmate'
-import 'brace/theme/tomorrow_night'
+import 'brace/theme/tomorrow'
 
 const GitApp = ({ site, theme, server, setSite }) => {
     const editorStyles = css({
@@ -59,6 +57,10 @@ const GitApp = ({ site, theme, server, setSite }) => {
             
     }
 
+    const togglePushToDeploy = () => {
+
+    }
+
     const updateSite = () => {
         client.put(`servers/${server.id}/sites/${site.id}`, form)
             .then(() => {
@@ -95,7 +97,7 @@ const GitApp = ({ site, theme, server, setSite }) => {
                                 readOnly
                                 width="100%"
                                 mode="sh"
-                                theme="tomorrow_night"
+                                theme="tomorrow"
                                 showGutter={false}
                                 showPrintMargin={false}
                                 name="before-deploy-script"
@@ -113,6 +115,26 @@ const GitApp = ({ site, theme, server, setSite }) => {
             </Section>
 
             <Section
+                title="Push to deploy"
+                description={`With Push to Deploy enabled, Nesabox would automatically deploy your application once new code is pushed to the ${site.repository_branch} of the ${site.repository} repository. This can also be triggered by merging a pull request.`}
+            >
+                <div>
+                    <div
+                        {...css({
+                            display: 'flex',
+                            width: '100%',
+                            justifyContent: 'flex-end',
+                            marginBottom: 16
+                        })}
+                    >
+
+                        <Button onClick={togglePushToDeploy} isLoading={site.deploying} appearance={site.quick_deploy ? undefined : 'primary'}>{site.quick_deploy ? 'Disable' : 'Enable'} Push to Deploy</Button>
+                    </div>
+                </div>
+
+            </Section>
+
+            <Section
                 title="Before deploy script"
                 description="You can define a bash script that would be run before the application is actually restarted, or started with PM2."
             >
@@ -121,8 +143,8 @@ const GitApp = ({ site, theme, server, setSite }) => {
                         <Ace
                             width="100%"
                             height={'112px'}
-                            mode="batchfile"
-                            theme="textmate"
+                            mode="sh"
+                            theme="tomorrow"
                             showGutter={false}
                             showPrintMargin={false}
                             value={form.before_deploy_script}
@@ -156,8 +178,8 @@ const GitApp = ({ site, theme, server, setSite }) => {
                         <Ace
                             width="100%"
                             height={'56px'}
-                            mode="batchfile"
-                            theme="textmate"
+                            mode="sh"
+                            theme="tomorrow"
                             showGutter={false}
                             showPrintMargin={false}
                             value={form.after_deploy_script}
