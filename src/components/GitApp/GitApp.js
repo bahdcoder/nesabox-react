@@ -1,15 +1,17 @@
-import React from 'react'
 import Ace from 'react-ace'
 import { css } from 'glamor'
 import client from 'utils/axios'
 import { useForm } from 'utils/hooks'
+import React, { useState, useEffect } from 'react'
 import Section from 'components/Section'
 import { Button, withTheme, TextInput, Textarea, toaster } from 'evergreen-ui'
 
+import 'brace/mode/sh'
 import 'brace/mode/batchfile'
 import 'brace/theme/textmate'
+import 'brace/theme/tomorrow_night'
 
-const GitApp = ({ site, theme, server }) => {
+const GitApp = ({ site, theme, server, setSite }) => {
     const editorStyles = css({
         padding: 16,
         width: '100%',
@@ -17,6 +19,8 @@ const GitApp = ({ site, theme, server }) => {
         boxSizing: 'border-box',
         border: `1px solid ${theme.palette.neutral.light}`
     })
+
+    let latestDeployment = site.deployments.data.length > 0 ? site.deployments.data[0] : ''
 
     const [
         [form, setValue, resetForm],
@@ -26,6 +30,8 @@ const GitApp = ({ site, theme, server }) => {
         before_deploy_script: site.before_deploy_script || '',
         after_deploy_script: site.after_deploy_script || '',
     })
+
+    const [showLatestLogs, setShowLatestLogs] = useState(false)
 
     const updateButtonStyles = css({
         width: '100%',
@@ -39,11 +45,20 @@ const GitApp = ({ site, theme, server }) => {
         document.execCommand('copy')
         toaster.success('Deployment trigger url has been copied to clipboard.')
     }
-    
+
     const deployNow = () => {
         client.post(`servers/${server.id}/sites/${site.id}/deployments`)
+            .then(({ data }) => {
+                setSite(data)
+
+                toaster.success('Deployment has been queued.')
+            })
+            .catch(() => {
+                toaster.danger('Failed triggering deployment.')
+            })
             
     }
+
     const updateSite = () => {
         client.put(`servers/${server.id}/sites/${site.id}`, form)
             .then(() => {
@@ -60,15 +75,41 @@ const GitApp = ({ site, theme, server }) => {
                 title="Deployment"
                 description="You can manually trigger a site deployment from your site dashboard."
             >
-                <div
-                    {...css({
-                        display: 'flex',
-                        width: '100%',
-                        justifyContent: 'flex-end'
-                    })}
-                >
-                    <Button onClick={deployNow} appearance="primary">Deploy Now</Button>
+                <div>
+                    <div
+                        {...css({
+                            display: 'flex',
+                            width: '100%',
+                            justifyContent: 'space-between',
+                            marginBottom: 16
+                        })}
+                    >
+                        <Button onClick={() => setShowLatestLogs(!showLatestLogs)}>{showLatestLogs ? 'Hide' : 'View'} latest deployment logs</Button>
+                        <Button onClick={deployNow} isLoading={site.deploying} appearance="primary">Deploy Now</Button>
+                    </div>
+
+
+                    {(showLatestLogs || site.deploying) && (
+                        <div id='deployment-logs' className={editorStyles}>
+                            <Ace
+                                readOnly
+                                width="100%"
+                                mode="sh"
+                                theme="tomorrow_night"
+                                showGutter={false}
+                                showPrintMargin={false}
+                                name="before-deploy-script"
+                                value={latestDeployment.properties.log}
+                                editorProps={{
+                                    showGutter: false,
+                                    showLineNumbers: false
+                                }}
+                            />
+                        </div>
+                    )}
                 </div>
+
+                
             </Section>
 
             <Section

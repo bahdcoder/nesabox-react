@@ -6,6 +6,7 @@ import { toaster } from 'evergreen-ui'
 import PageTitle from 'components/PageTitle'
 import SubNavbar from 'components/SubNavbar'
 import Container from 'components/Container'
+import { withSocket, withAuth } from 'utils/hoc'
 import React, { useState, useEffect } from 'react'
 import { Small, Link, IconButton } from 'evergreen-ui'
 import { Route, Link as RouterLink, Redirect } from 'react-router-dom'
@@ -27,12 +28,22 @@ const SiteSettingsAsync = Loadable({
 })
 
 const SingleSite = props => {
+    const { echo, auth, server, setServer } = props
+
+    const [user] = auth
     const [appType, setAppType] = useState(null)
     const [submitting, setSubmitting] = useState(false)
 
-    const site = props.server.sites.find(
+    const site = server.sites.find(
         site => site.id === props.match.params.site
     )
+
+    const setSite = (site) => {
+        setServer({
+            ...server,
+            sites: server.sites.map(oldSite => oldSite.id !== site.id ? oldSite : site)
+        })
+    }
 
     useEffect(() => {
         if (site) {
@@ -40,13 +51,31 @@ const SingleSite = props => {
         }
     }, [site])
 
+    useEffect(() => {
+        const [socket] = echo
+
+        socket &&
+            socket.private(`App.User.${user.id}`).notification(notification => {
+                if (
+                    notification.type ===
+                    'App\\Notifications\\Sites\\SiteUpdated'
+                ) {
+                    setSite(notification.site)
+                }
+            })
+
+        // return () =>
+        //     socket && socket.private(`App.User.${user.id}`).unsubscribe()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [echo, user])
+
     const installGhost = () => {
         setSubmitting(true)
 
         client
             .post(`servers/${props.server.id}/sites/${site.id}/install-ghost`)
             .then(({ data }) => {
-                props.setServer(data)
+                setServer(data)
 
                 toaster.success('Ghost blog has been queued for deployment.')
             })
@@ -60,7 +89,7 @@ const SingleSite = props => {
 
     return (
         <React.Fragment>
-            {!site && <Redirect to={`/servers/${props.server.id}`} />}
+            {!site && <Redirect to={`/servers/${server.id}`} />}
 
             {site && (
                 <PageTitle>
@@ -163,6 +192,7 @@ const SingleSite = props => {
                                 {...props}
                                 site={site}
                                 {...routerProps}
+                                setSite={setSite}
                                 appType={appType}
                                 setAppType={setAppType}
                                 submitting={submitting}
@@ -189,4 +219,4 @@ const SingleSite = props => {
     )
 }
 
-export default SingleSite
+export default withAuth(withSocket(SingleSite))

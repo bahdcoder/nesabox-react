@@ -10,6 +10,7 @@ const SingleSite = ({
     site,
     setAppType,
     appType,
+    setSite,
     submitting,
     installGhost,
     ...rest
@@ -57,14 +58,14 @@ const SingleSite = ({
                         </Button>
                     )}
 
-                    {appType === 'git' && <SelectRepoForGitApp {...rest} site={site} />}
+                    {appType === 'git' && <SelectRepoForGitApp setSite={setSite} {...rest} site={site} />}
                 </Section>
             )}
             {site && site.app_type === 'ghost' && (
-                <GhostApp {...rest} site={site} />
+                <GhostApp {...rest} site={site} setSite={setSite} />
             )}
             {site && site.app_type === 'git' && (
-                <GitApp {...rest} site={site} />
+                <GitApp {...rest} site={site} setSite={setSite} />
             )}
         </React.Fragment>
     )
