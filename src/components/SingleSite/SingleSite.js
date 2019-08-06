@@ -23,7 +23,7 @@ const SingleSite = ({
                     title="Application type"
                     description="App could be a ghost blog, or a git repository"
                 >
-                    {!site.installing_ghost && !site.installing_repository && (
+                    {!site.installing_ghost && !site.installing_repository && appType !== 'git' && (
                         <SegmentedControl
                             width={'100%'}
                             options={[
@@ -57,9 +57,7 @@ const SingleSite = ({
                         </Button>
                     )}
 
-                    {appType === 'git' && (
-                        <SelectRepoForGitApp {...rest} site={site} />
-                    )}
+                    {appType === 'git' && <SelectRepoForGitApp {...rest} site={site} />}
                 </Section>
             )}
             {site && site.app_type === 'ghost' && (
