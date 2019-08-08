@@ -34,14 +34,14 @@ const SingleSite = props => {
     const [appType, setAppType] = useState(null)
     const [submitting, setSubmitting] = useState(false)
 
-    const site = server.sites.find(
-        site => site.id === props.match.params.site
-    )
+    const site = server.sites.find(site => site.id === props.match.params.site)
 
-    const setSite = (site) => {
+    const setSite = site => {
         setServer({
             ...server,
-            sites: server.sites.map(oldSite => oldSite.id !== site.id ? oldSite : site)
+            sites: server.sites.map(oldSite =>
+                oldSite.id !== site.id ? oldSite : site
+            )
         })
     }
 
@@ -75,7 +75,7 @@ const SingleSite = props => {
         client
             .post(`servers/${props.server.id}/sites/${site.id}/install-ghost`)
             .then(({ data }) => {
-                setServer(data)
+                setSite(data)
 
                 toaster.success('Ghost blog has been queued for deployment.')
             })

@@ -7,7 +7,7 @@ import UpdateSiteSlug from 'components/UpdateSiteSlug'
 import { Button, TextInput, IconButton, withTheme } from 'evergreen-ui'
 
 import 'brace/mode/json'
-import 'brace/theme/textmate'
+import 'brace/theme/tomorrow'
 
 const SiteSettings = ({
     site,
@@ -55,7 +55,7 @@ const SiteSettings = ({
                                 <Ace
                                     mode="json"
                                     width="100%"
-                                    theme="textmate"
+                                    theme="tomorrow"
                                     value={configFile}
                                     showGutter={false}
                                     showPrintMargin={false}

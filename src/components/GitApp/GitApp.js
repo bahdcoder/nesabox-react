@@ -2,9 +2,9 @@ import Ace from 'react-ace'
 import { css } from 'glamor'
 import client from 'utils/axios'
 import { useForm } from 'utils/hooks'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Section from 'components/Section'
-import { Button, withTheme, TextInput, Textarea, toaster } from 'evergreen-ui'
+import { Button, withTheme, TextInput, toaster } from 'evergreen-ui'
 
 import 'brace/mode/sh'
 import 'brace/theme/tomorrow'
@@ -18,7 +18,8 @@ const GitApp = ({ site, theme, server, setSite }) => {
         border: `1px solid ${theme.palette.neutral.light}`
     })
 
-    let latestDeployment = site.deployments.data.length > 0 ? site.deployments.data[0] : ''
+    let latestDeployment =
+        site.deployments.data.length > 0 ? site.deployments.data[0] : ''
 
     const [
         [form, setValue, resetForm],
@@ -26,7 +27,7 @@ const GitApp = ({ site, theme, server, setSite }) => {
         [errors, setErrors]
     ] = useForm({
         before_deploy_script: site.before_deploy_script || '',
-        after_deploy_script: site.after_deploy_script || '',
+        after_deploy_script: site.after_deploy_script || ''
     })
 
     const [showLatestLogs, setShowLatestLogs] = useState(false)
@@ -45,7 +46,8 @@ const GitApp = ({ site, theme, server, setSite }) => {
     }
 
     const deployNow = () => {
-        client.post(`servers/${server.id}/sites/${site.id}/deployments`)
+        client
+            .post(`servers/${server.id}/sites/${site.id}/deployments`)
             .then(({ data }) => {
                 setSite(data)
 
@@ -54,15 +56,13 @@ const GitApp = ({ site, theme, server, setSite }) => {
             .catch(() => {
                 toaster.danger('Failed triggering deployment.')
             })
-            
     }
 
-    const togglePushToDeploy = () => {
-
-    }
+    const togglePushToDeploy = () => {}
 
     const updateSite = () => {
-        client.put(`servers/${server.id}/sites/${site.id}`, form)
+        client
+            .put(`servers/${server.id}/sites/${site.id}`, form)
             .then(() => {
                 toaster.success('Updated.')
             })
@@ -82,17 +82,29 @@ const GitApp = ({ site, theme, server, setSite }) => {
                         {...css({
                             display: 'flex',
                             width: '100%',
-                            justifyContent: 'space-between',
+                            justifyContent: latestDeployment ? 'space-between' : 'flex-end',
                             marginBottom: 16
                         })}
                     >
-                        <Button onClick={() => setShowLatestLogs(!showLatestLogs)}>{showLatestLogs ? 'Hide' : 'View'} latest deployment logs</Button>
-                        <Button onClick={deployNow} isLoading={site.deploying} appearance="primary">Deploy Now</Button>
+                        {latestDeployment && (
+                            <Button
+                                onClick={() => setShowLatestLogs(!showLatestLogs)}
+                            >
+                                {showLatestLogs ? 'Hide' : 'View'} latest deployment
+                                logs
+                            </Button>
+                        )}
+                        <Button
+                            onClick={deployNow}
+                            isLoading={site.deploying}
+                            appearance="primary"
+                        >
+                            Deploy Now
+                        </Button>
                     </div>
 
-
-                    {(showLatestLogs || site.deploying) && (
-                        <div id='deployment-logs' className={editorStyles}>
+                    {(showLatestLogs || site.deploying) && latestDeployment && (
+                        <div id="deployment-logs" className={editorStyles}>
                             <Ace
                                 readOnly
                                 width="100%"
@@ -110,8 +122,6 @@ const GitApp = ({ site, theme, server, setSite }) => {
                         </div>
                     )}
                 </div>
-
-                
             </Section>
 
             <Section
@@ -127,11 +137,18 @@ const GitApp = ({ site, theme, server, setSite }) => {
                             marginBottom: 16
                         })}
                     >
-
-                        <Button onClick={togglePushToDeploy} isLoading={site.deploying} appearance={site.quick_deploy ? undefined : 'primary'}>{site.quick_deploy ? 'Disable' : 'Enable'} Push to Deploy</Button>
+                        <Button
+                            onClick={togglePushToDeploy}
+                            isLoading={site.deploying}
+                            appearance={
+                                site.quick_deploy ? undefined : 'primary'
+                            }
+                        >
+                            {site.quick_deploy ? 'Disable' : 'Enable'} Push to
+                            Deploy
+                        </Button>
                     </div>
                 </div>
-
             </Section>
 
             <Section
@@ -148,7 +165,9 @@ const GitApp = ({ site, theme, server, setSite }) => {
                             showGutter={false}
                             showPrintMargin={false}
                             value={form.before_deploy_script}
-                            onChange={content => setValue('before_deploy_script', content)}
+                            onChange={content =>
+                                setValue('before_deploy_script', content)
+                            }
                             name="before-deploy-script"
                             editorProps={{
                                 showGutter: false,
@@ -183,7 +202,9 @@ const GitApp = ({ site, theme, server, setSite }) => {
                             showGutter={false}
                             showPrintMargin={false}
                             value={form.after_deploy_script}
-                            onChange={content => setValue('after_deploy_script', content)}
+                            onChange={content =>
+                                setValue('after_deploy_script', content)
+                            }
                             name="after-deploy-script"
                             editorProps={{
                                 showGutter: false,

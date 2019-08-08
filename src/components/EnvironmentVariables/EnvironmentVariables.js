@@ -29,18 +29,21 @@ const EnvironmentVariables = ({ site, server }) => {
     })
 
     const deleteEnvVariable = key => {
-        client.delete(`/servers/${server.id}/sites/${site.id}/env-variables/${key}`)
-        .then(({ data }) => {
-            setEnv(data)
+        client
+            .delete(
+                `/servers/${server.id}/sites/${site.id}/env-variables/${key}`
+            )
+            .then(({ data }) => {
+                setEnv(data)
 
-            toaster.success('Environment variable deleted.')
-        })
-        .catch(({ response }) => {
-            response &&
-                response.data &&
-                response.data.message &&
-                toaster.danger(response.data.message)
-        })
+                toaster.success('Environment variable deleted.')
+            })
+            .catch(({ response }) => {
+                response &&
+                    response.data &&
+                    response.data.message &&
+                    toaster.danger(response.data.message)
+            })
     }
 
     const addEnvVariable = () => {

@@ -38,6 +38,7 @@ const Server = ({ match, history, location, echo, auth }) => {
 
         socket &&
             socket.private(`App.User.${user.id}`).notification(notification => {
+                console.log(notification)
                 if (
                     notification.type ===
                     'App\\Notifications\\Servers\\ServerIsReady'

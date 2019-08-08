@@ -24,27 +24,29 @@ const SingleSite = ({
                     title="Application type"
                     description="App could be a ghost blog, or a git repository"
                 >
-                    {!site.installing_ghost && !site.installing_repository && appType !== 'git' && (
-                        <SegmentedControl
-                            width={'100%'}
-                            options={[
-                                {
-                                    label: 'Ghost blog',
-                                    value: 'ghost'
-                                },
-                                {
-                                    label: 'Node BB Forum',
-                                    value: 'nodebb'
-                                },
-                                {
-                                    label: 'Git Repository',
-                                    value: 'git'
-                                }
-                            ]}
-                            value={appType}
-                            onChange={value => setAppType(value)}
-                        />
-                    )}
+                    {!site.installing_ghost &&
+                        !site.installing_repository &&
+                        appType !== 'git' && (
+                            <SegmentedControl
+                                width={'100%'}
+                                options={[
+                                    {
+                                        label: 'Ghost blog',
+                                        value: 'ghost'
+                                    },
+                                    {
+                                        label: 'Node BB Forum',
+                                        value: 'nodebb'
+                                    },
+                                    {
+                                        label: 'Git Repository',
+                                        value: 'git'
+                                    }
+                                ]}
+                                value={appType}
+                                onChange={value => setAppType(value)}
+                            />
+                        )}
 
                     {appType === 'ghost' && (
                         <Button
@@ -58,7 +60,13 @@ const SingleSite = ({
                         </Button>
                     )}
 
-                    {appType === 'git' && <SelectRepoForGitApp setSite={setSite} {...rest} site={site} />}
+                    {appType === 'git' && (
+                        <SelectRepoForGitApp
+                            setSite={setSite}
+                            {...rest}
+                            site={site}
+                        />
+                    )}
                 </Section>
             )}
             {site && site.app_type === 'ghost' && (

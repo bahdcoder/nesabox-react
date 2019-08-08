@@ -15,6 +15,11 @@ const MetaAsync = Loadable({
     loading: Loader
 })
 
+const MonitoringAsync = Loadable({
+    loader: () => import(/* webpackChunkName: "Server-Meta" */ 'pages/Monitoring'),
+    loading: Loader
+})
+
 const DatabasesAsync = Loadable({
     loader: () =>
         import(/* webpackChunkName: "Server-Databases" */ 'pages/Databases'),
@@ -167,6 +172,16 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                                 />
                             )}
                             path={`${match.url}/meta`}
+                        />
+                        <Route
+                            render={routerProps => (
+                                <MonitoringAsync
+                                    server={server}
+                                    {...routerProps}
+                                    setServer={setServer}
+                                />
+                            )}
+                            path={`${match.url}/monitoring`}
                         />
                         <Route
                             render={routerProps => (
