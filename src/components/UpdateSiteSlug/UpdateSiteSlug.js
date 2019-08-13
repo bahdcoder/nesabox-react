@@ -52,6 +52,7 @@ const UpdateSiteSlug = ({ site, server, setServer, theme }) => {
                 <Button
                     appearance={'primary'}
                     onClick={updateSiteSlug}
+                    intent="success"
                     isLoading={submitting || site.updating_slug}
                 >
                     Update

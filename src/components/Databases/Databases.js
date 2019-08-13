@@ -91,6 +91,7 @@ const Databases = ({
                                         type="button"
                                         marginRight={8}
                                         intent="danger"
+                                        intent="success"
                                         appearance="primary"
                                         onClick={() => deleteDatabase(false)}
                                         isLoading={
@@ -307,6 +308,7 @@ const Databases = ({
                                         <Button
                                             type="submit"
                                             marginTop={8}
+                                            intent="success"
                                             appearance="primary"
                                             isLoading={submitting}
                                         >

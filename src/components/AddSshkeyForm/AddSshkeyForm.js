@@ -57,6 +57,7 @@ const AddSshkeyForm = ({
                         <Button
                             type="submit"
                             marginTop={32}
+                            intent="success"
                             appearance="primary"
                             isLoading={submitting}
                         >

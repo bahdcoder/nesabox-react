@@ -43,6 +43,7 @@ const EmptySet = ({
             {buttonLabel && (
                 <Button
                     marginTop={20}
+                    intent="success"
                     appearance="primary"
                     onClick={handleAction}
                 >

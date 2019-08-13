@@ -19,6 +19,14 @@ const SingleSiteAsync = Loadable({
     loading: Loader
 })
 
+const SiteProcessesAsync = Loadable({
+    loader: () =>
+        import(
+            /* webpackChunkName: "Server-SingleSite-SiteProcesses" */ 'components/SiteProcesses'
+        ),
+    loading: Loader
+})
+
 const SiteSettingsAsync = Loadable({
     loader: () =>
         import(
@@ -155,7 +163,9 @@ const SingleSite = props => {
                             label: 'Apps',
                             active:
                                 props.location.pathname.search(/sites/) > -1 &&
-                                props.location.pathname.search(/settings/) < 0,
+                                props.location.pathname.search(/settings/) <
+                                    0 &&
+                                props.location.pathname.search(/processes/) < 0,
                             to: `${props.match.url}`
                         },
                         {
@@ -163,6 +173,13 @@ const SingleSite = props => {
                             active:
                                 props.location.pathname.search(/settings/) > -1,
                             to: `${props.match.url}/settings`
+                        },
+                        {
+                            label: 'Processes',
+                            active:
+                                props.location.pathname.search(/processes/) >
+                                -1,
+                            to: `${props.match.url}/processes`
                         }
                     ]}
                 />
@@ -212,6 +229,18 @@ const SingleSite = props => {
                             />
                         )}
                         path={`${props.match.url}/settings`}
+                    />
+
+                    <Route
+                        render={routerProps => (
+                            <SiteProcessesAsync
+                                {...props}
+                                site={site}
+                                {...routerProps}
+                                setSite={setSite}
+                            />
+                        )}
+                        path={`${props.match.url}/processes`}
                     />
                 </Container>
             )}

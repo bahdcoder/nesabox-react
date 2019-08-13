@@ -175,6 +175,7 @@ const EnvironmentVariables = ({ site, server }) => {
                             display="flex"
                             appearance="primary"
                             justifyContent="center"
+                            intent="success"
                             width="10%"
                         >
                             Add

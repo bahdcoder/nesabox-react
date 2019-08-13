@@ -190,6 +190,7 @@ const Dashboard = ({ auth, echo }) => {
                     <Heading>Dashboard</Heading>
 
                     <Button
+                        intent="success"
                         iconBefore="add"
                         appearance="primary"
                         onClick={() => setCreatingServer(true)}

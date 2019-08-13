@@ -59,6 +59,7 @@ const ProfileForm = ({
                         type="submit"
                         display="flex"
                         appearance="primary"
+                        intent="success"
                         isLoading={submitting}
                         justifyContent="center"
                     >

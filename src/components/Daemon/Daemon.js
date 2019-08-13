@@ -242,6 +242,7 @@ const Daemon = ({
                                 type="submit"
                                 marginTop={32}
                                 appearance="primary"
+                                intent="success"
                                 isLoading={submitting}
                             >
                                 Add Daemon

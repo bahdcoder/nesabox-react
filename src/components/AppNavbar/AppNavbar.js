@@ -27,7 +27,7 @@ const AppNavbar = ({ theme, auth, history: { push } }) => {
         <nav
             className={css({
                 ...styles.container,
-                borderBottom: `3px solid ${theme.palette.blue.base}`
+                borderBottom: `3px solid ${theme.palette.green.base}`
             })}
         >
             <Link is={RouterLink} textDecoration={'none'} to={'/dashboard'}>

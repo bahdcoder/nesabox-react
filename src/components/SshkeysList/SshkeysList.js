@@ -59,6 +59,7 @@ const SshkeysList = ({
                             onClick={openCreateKeyModal}
                             marginTop={20}
                             appearance="primary"
+                            intent="success"
                         >
                             Add SSH Key
                         </Button>

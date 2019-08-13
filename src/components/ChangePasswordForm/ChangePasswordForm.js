@@ -64,6 +64,7 @@ const ChangePasswordForm = ({
                     <Button
                         type="submit"
                         display="flex"
+                        intent="success"
                         appearance="primary"
                         isLoading={submitting}
                         justifyContent="center"

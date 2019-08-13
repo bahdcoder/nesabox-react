@@ -122,6 +122,7 @@ const ServerProvidersForm = ({
                         appearance="primary"
                         onClick={addCredential}
                         isLoading={submitting}
+                        intent="success"
                     >
                         Add Credential
                     </Button>

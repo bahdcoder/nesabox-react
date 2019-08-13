@@ -256,6 +256,7 @@ const CreateServerForm = ({
 
                         <Button
                             type="submit"
+                            intent="success"
                             isLoading={submitting}
                             appearance="primary"
                             marginTop={32}

@@ -204,6 +204,7 @@ const Cron = ({
                                 size={16}
                                 marginTop={40}
                                 label="Frequency"
+                                intent="success"
                                 options={frequencies}
                                 value={form.frequency}
                                 onChange={frequency =>
@@ -268,6 +269,7 @@ const Cron = ({
 
                             <Button
                                 type="submit"
+                                intent="success"
                                 marginTop={16}
                                 appearance="primary"
                                 isLoading={submitting}

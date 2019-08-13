@@ -31,7 +31,11 @@ const GhostApp = ({
             <div>
                 {site.installing_ghost && (
                     <React.Fragment>
-                        <Button appearance="primary" marginBottom={16} isLoading={site.installing_ghost}>
+                        <Button
+                            appearance="primary"
+                            marginBottom={16}
+                            isLoading={site.installing_ghost}
+                        >
                             Installing Ghost
                         </Button>
 
@@ -40,7 +44,7 @@ const GhostApp = ({
                                 readOnly
                                 mode="sh"
                                 width="100%"
-                                theme="tomorrow" 
+                                theme="tomorrow"
                                 showGutter={false}
                                 value={site.logs || ''}
                                 name="deployment-logs"

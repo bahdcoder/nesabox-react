@@ -1,10 +1,25 @@
 import React from 'react'
-import GitApp from 'pages/GitApp'
-import GhostApp from 'pages/GhostApp'
+import Loadable from 'react-loadable'
 import Loader from 'components/Loader'
 import Section from 'components/Section'
 import { SegmentedControl, Button } from 'evergreen-ui'
 import SelectRepoForGitApp from 'components/SelectRepoForGitApp'
+
+const GhostAppAsync = Loadable({
+    loader: () =>
+        import(
+            /* webpackChunkName: "Server-SingleSite-GhostApp" */ 'pages/GhostApp'
+        ),
+    loading: Loader
+})
+
+const GitAppAsync = Loadable({
+    loader: () =>
+        import(
+            /* webpackChunkName: "Server-SingleSite-GitApp" */ 'pages/GitApp'
+        ),
+    loading: Loader
+})
 
 const SingleSite = ({
     site,
@@ -69,11 +84,12 @@ const SingleSite = ({
                     )}
                 </Section>
             )}
+
             {site && site.app_type === 'ghost' && (
-                <GhostApp {...rest} site={site} setSite={setSite} />
+                <GhostAppAsync {...rest} site={site} setSite={setSite} />
             )}
             {site && site.app_type === 'git' && (
-                <GitApp {...rest} site={site} setSite={setSite} />
+                <GitAppAsync {...rest} site={site} setSite={setSite} />
             )}
         </React.Fragment>
     )

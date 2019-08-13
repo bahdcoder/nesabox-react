@@ -82,20 +82,25 @@ const GitApp = ({ site, theme, server, setSite }) => {
                         {...css({
                             display: 'flex',
                             width: '100%',
-                            justifyContent: latestDeployment ? 'space-between' : 'flex-end',
+                            justifyContent: latestDeployment
+                                ? 'space-between'
+                                : 'flex-end',
                             marginBottom: 16
                         })}
                     >
                         {latestDeployment && (
                             <Button
-                                onClick={() => setShowLatestLogs(!showLatestLogs)}
+                                onClick={() =>
+                                    setShowLatestLogs(!showLatestLogs)
+                                }
                             >
-                                {showLatestLogs ? 'Hide' : 'View'} latest deployment
-                                logs
+                                {showLatestLogs ? 'Hide' : 'View'} latest
+                                deployment logs
                             </Button>
                         )}
                         <Button
                             onClick={deployNow}
+                            intent="success"
                             isLoading={site.deploying}
                             appearance="primary"
                         >
@@ -140,6 +145,7 @@ const GitApp = ({ site, theme, server, setSite }) => {
                         <Button
                             onClick={togglePushToDeploy}
                             isLoading={site.deploying}
+                            intent="success"
                             appearance={
                                 site.quick_deploy ? undefined : 'primary'
                             }
@@ -163,6 +169,7 @@ const GitApp = ({ site, theme, server, setSite }) => {
                             mode="sh"
                             theme="tomorrow"
                             showGutter={false}
+                            intent="success"
                             showPrintMargin={false}
                             value={form.before_deploy_script}
                             onChange={content =>
@@ -179,6 +186,7 @@ const GitApp = ({ site, theme, server, setSite }) => {
                     <div {...updateButtonStyles}>
                         <Button
                             marginLeft="5%"
+                            intent="success"
                             appearance="primary"
                             onClick={updateSite}
                         >
@@ -216,6 +224,7 @@ const GitApp = ({ site, theme, server, setSite }) => {
                     <div {...updateButtonStyles}>
                         <Button
                             marginLeft="5%"
+                            intent="success"
                             appearance="primary"
                             onClick={updateSite}
                         >
@@ -264,6 +273,7 @@ const GitApp = ({ site, theme, server, setSite }) => {
 
                 <Button
                     marginLeft="5%"
+                    intent="success"
                     appearance="primary"
                     onClick={console.log}
                 >

@@ -19,22 +19,22 @@ const SubNavbar = ({ items, theme }) => {
                 <ul className={css(styles.unorderedList)}>
                     {items.map((item, index) => (
                         <Link
+                            to={item.to}
                             key={item.to}
-                            textDecoration={'none'}
                             color="neutral"
                             is={RouterLink}
-                            to={item.to}
+                            textDecoration={'none'}
                         >
                             <Text
                                 is="li"
                                 className={css([
                                     styles.listItem,
                                     item.active && {
-                                        borderBottom: `1px solid ${theme.palette.blue.base}`
+                                        borderBottom: `1px solid ${theme.palette.green.base}`
                                     }
                                 ])}
                                 color={
-                                    item.active ? theme.palette.blue.base : ''
+                                    item.active ? theme.palette.green.base : ''
                                 }
                                 key={index}
                             >

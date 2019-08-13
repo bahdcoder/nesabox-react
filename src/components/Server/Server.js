@@ -16,7 +16,8 @@ const MetaAsync = Loadable({
 })
 
 const MonitoringAsync = Loadable({
-    loader: () => import(/* webpackChunkName: "Server-Meta" */ 'pages/Monitoring'),
+    loader: () =>
+        import(/* webpackChunkName: "Server-Meta" */ 'pages/Monitoring'),
     loading: Loader
 })
 

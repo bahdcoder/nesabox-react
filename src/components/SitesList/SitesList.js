@@ -54,6 +54,7 @@ const SitesList = ({
                     }}
                 >
                     <Button
+                        intent="success"
                         appearance="primary"
                         onClick={() => setCreatingSite(true)}
                     >
@@ -143,6 +144,7 @@ const SitesList = ({
 
                             <Button
                                 type="submit"
+                                intent="success"
                                 isLoading={submitting}
                                 appearance="primary"
                             >

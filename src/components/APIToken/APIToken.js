@@ -52,7 +52,9 @@ const APIToken = ({ auth }) => {
                     id="api_token_input_field"
                 />
 
-                <Button onClick={copyToClipboard}>Copy</Button>
+                <Button intent="success" onClick={copyToClipboard}>
+                    Copy
+                </Button>
             </div>
 
             <Button
@@ -60,6 +62,7 @@ const APIToken = ({ auth }) => {
                 onClick={regenerate}
                 isLoading={regenerating}
                 appearance="primary"
+                intent="success"
             >
                 Regenerate API Token
             </Button>

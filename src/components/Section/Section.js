@@ -28,13 +28,13 @@ const Section = ({
                 ])}
             >
                 <Heading
-                    textTransform="capitalize"
                     marginBottom={16}
-                    color={theme.palette.blue.base}
+                    textTransform="capitalize"
+                    color={theme.palette.neutral.dark}
                 >
                     {title}
                 </Heading>
-                <Text>{description}</Text>
+                <Text color={theme.colors.text.dark}>{description}</Text>
             </div>
 
             <div
