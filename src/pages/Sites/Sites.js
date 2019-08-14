@@ -10,7 +10,8 @@ const Sites = ({ setServer, server }) => {
         [submitting, setSubmitting],
         [errors, setErrors]
     ] = useForm({
-        name: ''
+        name: '',
+        slug: ''
     })
 
     const [creatingSite, setCreatingSite] = useState(false)

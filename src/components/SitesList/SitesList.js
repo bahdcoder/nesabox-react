@@ -142,6 +142,18 @@ const SitesList = ({
                                 hint="This would also be used as the domain name of your site."
                             />
 
+                            <TextInputField
+                                required
+                                label="Slug"
+                                name={'slug'}
+                                value={form.slug}
+                                isInvalid={!!errors.slug}
+                                validationMessage={errors.slug}
+                                placeholder="evergreen-blog"
+                                onChange={e => setValue('slug', e.target.value)}
+                                hint={`${form.slug}.nesabox.com`}
+                            />
+
                             <Button
                                 type="submit"
                                 intent="success"
