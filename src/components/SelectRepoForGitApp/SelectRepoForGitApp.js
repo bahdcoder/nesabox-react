@@ -10,8 +10,6 @@ import {
     Alert,
     Link,
     Text,
-    Label,
-    Select,
     TextInputField
 } from 'evergreen-ui'
 

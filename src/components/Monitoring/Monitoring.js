@@ -1,38 +1,47 @@
 import React from 'react'
-import { Button, Link } from 'evergreen-ui'
-import Section from 'components/Section'
-import { Link as RouterLink } from 'react-router-dom'
+import { css } from 'glamor'
+import Loader from 'components/Loader'
+import Chart from 'react-google-charts'
 
-const Monitoring = ({ server, submitting, installMonitoring }) => {
+const Monitoring = ({ metrics, fetchingMetrics }) => {
+    console.log('>>>>>>>>', metrics)
     return (
-        <Section
-            title="Server monitoring"
-            description="Server monitoring is setup automatically using Netdata. Once installed, you can monitor the performance of your server, databases, nginx, systemd services and so much more."
-        >
-            {!server.server_monitoring_installed && (
-                <Button
-                    isLoading={
-                        server.server_monitoring_installing || submitting
-                    }
-                    appearance="primary"
-                    intent="success"
-                    onClick={installMonitoring}
-                >
-                    Install server monitoring
-                </Button>
+        <React.Fragment>
+            {!metrics && fetchingMetrics && (
+                <Loader />
             )}
-            {server.server_monitoring_installed && (
-                <React.Fragment>
-                    <Button
-                        is={'a'}
-                        target="_blank"
-                        href={server.server_monitoring_site}
-                    >
-                        Monitor Server
-                    </Button>
-                </React.Fragment>
+            {!fetchingMetrics && metrics && (
+                <div {...css({
+                    marginTop: 48,
+                    display: 'flex',
+                    width: '80%',
+                    justifyContent: 'center'
+                })}>
+                    {/* <Chart
+                        width={'100%'}
+                        height={300}
+                        chartType="Line"
+                        loader={<Loader />}
+                        data={[
+                            metrics.labels,
+                            ...metrics.data
+                        ]}
+                        options={{
+                            title: 'Population of Largest U.S. Cities',
+                            chartArea: { width: '30%' },
+                            hAxis: {
+                                title: 'Total Population',
+                                minValue: 0
+                            },
+                            vAxis: {
+                                title: 'City'
+                            }
+                        }}
+                        legendToggle
+                /> */}
+                </div>
             )}
-        </Section>
+        </React.Fragment>
     )
 }
 

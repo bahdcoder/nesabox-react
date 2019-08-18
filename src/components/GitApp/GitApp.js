@@ -22,7 +22,7 @@ const GitApp = ({ site, theme, server, setSite }) => {
         site.deployments.data.length > 0 ? site.deployments.data[0] : ''
 
     const [
-        [form, setValue, resetForm],
+        [form, setValue],
         [submitting, setSubmitting],
         [errors, setErrors]
     ] = useForm({

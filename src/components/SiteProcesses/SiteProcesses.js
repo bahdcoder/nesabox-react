@@ -80,7 +80,6 @@ const SiteProcesses = ({ theme, site, setSite, server, auth }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [site])
 
-    console.log('>>>>>>>>', console.log(Object.keys(logs)))
     const handleFormSubmit = e => {
         e.preventDefault()
 
