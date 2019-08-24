@@ -50,10 +50,6 @@ const SingleSite = ({
                                         value: 'ghost'
                                     },
                                     {
-                                        label: 'Node BB Forum',
-                                        value: 'nodebb'
-                                    },
-                                    {
                                         label: 'Git Repository',
                                         value: 'git'
                                     }

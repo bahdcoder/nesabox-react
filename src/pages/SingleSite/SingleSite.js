@@ -19,14 +19,6 @@ const SingleSiteAsync = Loadable({
     loading: Loader
 })
 
-const SiteProcessesAsync = Loadable({
-    loader: () =>
-        import(
-            /* webpackChunkName: "Server-SingleSite-SiteProcesses" */ 'components/SiteProcesses'
-        ),
-    loading: Loader
-})
-
 const SiteSettingsAsync = Loadable({
     loader: () =>
         import(
@@ -109,20 +101,13 @@ const SingleSite = props => {
                                 justifyContent: 'space-between'
                             })}
                         >
-                            <Link
-                                is="a"
-                                target="_blank"
-                                textDecoration="none"
-                                href={`http://${site.name}`}
+                            <Small
+                                className={css({
+                                    textTransform: 'uppercase'
+                                })}
                             >
-                                <Small
-                                    className={css({
-                                        textTransform: 'uppercase'
-                                    })}
-                                >
-                                    {site.name}
-                                </Small>
-                            </Link>
+                                {site.name}
+                            </Small>
 
                             <div
                                 className={css({
@@ -133,23 +118,33 @@ const SingleSite = props => {
                                 <Link
                                     is={RouterLink}
                                     textDecoration="none"
-                                    to={`/servers/${props.server.id}`}
+                                    to={`/servers/${server.id}`}
                                 >
                                     <Small
                                         className={css({
                                             textTransform: 'uppercase'
                                         })}
                                     >
-                                        {props.server.name}
+                                        {server.name}
                                     </Small>
                                 </Link>
+
+                                <Small
+                                    className={css({
+                                        marginLeft: '20px',
+                                        marginRight: '20px',
+                                        textTransform: 'uppercase',
+                                    })}
+                                >
+                                    {server.ip_address}
+                                </Small>
 
                                 <IconButton
                                     is="a"
                                     target="_blank"
                                     marginLeft={16}
                                     icon="arrow-right"
-                                    href={`https://${site.nesabox_domain}`}
+                                    href={`http://${site.name}`}
                                 />
                             </div>
                         </div>
@@ -174,13 +169,6 @@ const SingleSite = props => {
                                 props.location.pathname.search(/settings/) > -1,
                             to: `${props.match.url}/settings`
                         },
-                        {
-                            label: 'Processes',
-                            active:
-                                props.location.pathname.search(/processes/) >
-                                -1,
-                            to: `${props.match.url}/processes`
-                        }
                     ]}
                 />
             )}
@@ -229,18 +217,6 @@ const SingleSite = props => {
                             />
                         )}
                         path={`${props.match.url}/settings`}
-                    />
-
-                    <Route
-                        render={routerProps => (
-                            <SiteProcessesAsync
-                                {...props}
-                                site={site}
-                                {...routerProps}
-                                setSite={setSite}
-                            />
-                        )}
-                        path={`${props.match.url}/processes`}
                     />
                 </Container>
             )}
