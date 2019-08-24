@@ -140,9 +140,7 @@ const SiteSettings = props => {
                 )
             })
             .catch(({ response }) => {
-                toaster.danger(
-                    'Nginx configuration was updated with errors.'
-                )
+                toaster.danger('Nginx configuration was updated with errors.')
 
                 setNginxReloadOutput(response.data.message)
             })

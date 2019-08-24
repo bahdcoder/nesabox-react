@@ -133,7 +133,7 @@ const SingleSite = props => {
                                     className={css({
                                         marginLeft: '20px',
                                         marginRight: '20px',
-                                        textTransform: 'uppercase',
+                                        textTransform: 'uppercase'
                                     })}
                                 >
                                     {server.ip_address}
@@ -168,7 +168,7 @@ const SingleSite = props => {
                             active:
                                 props.location.pathname.search(/settings/) > -1,
                             to: `${props.match.url}/settings`
-                        },
+                        }
                     ]}
                 />
             )}

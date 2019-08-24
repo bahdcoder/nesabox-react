@@ -15,12 +15,6 @@ const MetaAsync = Loadable({
     loading: Loader
 })
 
-const MonitoringAsync = Loadable({
-    loader: () =>
-        import(/* webpackChunkName: "Server-Meta" */ 'pages/Monitoring'),
-    loading: Loader
-})
-
 const DatabasesAsync = Loadable({
     loader: () =>
         import(/* webpackChunkName: "Server-Databases" */ 'pages/Databases'),
@@ -41,6 +35,12 @@ const SitesAsync = Loadable({
 const SingleSiteAsync = Loadable({
     loader: () =>
         import(/* webpackChunkName: "Server-Sites" */ 'pages/SingleSite'),
+    loading: Loader
+})
+
+const NetworkAsync = Loadable({
+    loader: () =>
+        import(/* webpackChunkName: "Server-Network" */ 'pages/Network'),
     loading: Loader
 })
 
@@ -124,14 +124,14 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                             to: `${match.url}/processes`
                         },
                         {
-                            label: 'Monitoring',
-                            active: location.pathname.search(/monitoring/) > -1,
-                            to: `${match.url}/monitoring`
-                        },
-                        {
                             label: 'Meta',
                             active: location.pathname.search(/meta/) > -1,
                             to: `${match.url}/meta`
+                        },
+                        {
+                            label: 'Network',
+                            active: location.pathname.search(/network/) > -1,
+                            to: `${match.url}/network`
                         }
                     ]}
                 />
@@ -176,16 +176,6 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                         />
                         <Route
                             render={routerProps => (
-                                <MonitoringAsync
-                                    server={server}
-                                    {...routerProps}
-                                    setServer={setServer}
-                                />
-                            )}
-                            path={`${match.url}/monitoring`}
-                        />
-                        <Route
-                            render={routerProps => (
                                 <ProcessesAsync
                                     server={server}
                                     {...routerProps}
@@ -194,6 +184,7 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                             )}
                             path={`${match.url}/processes`}
                         />
+
                         <Route
                             render={routerProps => (
                                 <DatabasesAsync
@@ -203,6 +194,17 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                                 />
                             )}
                             path={`${match.url}/databases`}
+                        />
+
+                        <Route
+                            render={routerProps => (
+                                <NetworkAsync
+                                    server={server}
+                                    {...routerProps}
+                                    setServer={setServer}
+                                />
+                            )}
+                            path={`${match.url}/network`}
                         />
                     </Container>
                 </React.Fragment>

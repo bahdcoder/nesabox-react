@@ -12,7 +12,7 @@ const Logs = ({ theme, logs, id }) => {
         border: `2px solid ${theme.palette.neutral.light}`
     })
 
-    if (! logs) return null
+    if (!logs) return null
 
     return (
         <div id={id || 'logs'} className={editorStyles}>

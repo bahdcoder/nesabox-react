@@ -226,29 +226,6 @@ const GitApp = ({ site, theme, server, setSite }) => {
                             <Button onClick={copyToClipboard}>Copy</Button>
                         </div>
                     </Section>
-
-                    <Section
-                        title="Deployment branch"
-                        description="Nesa pulls and deploys the code from this branch."
-                    >
-                        <TextInput
-                            width="85%"
-                            resize="none"
-                            onChange={console.log}
-                            id="deployment_trigger_url"
-                            name="deployment_trigger_url"
-                            value={site.repository_branch}
-                        />
-
-                        <Button
-                            marginLeft="5%"
-                            intent="success"
-                            appearance="primary"
-                            onClick={console.log}
-                        >
-                            Update
-                        </Button>
-                    </Section>
                 </React.Fragment>
             )}
         </React.Fragment>

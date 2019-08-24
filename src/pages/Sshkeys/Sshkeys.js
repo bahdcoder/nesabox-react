@@ -42,7 +42,6 @@ const Sshkeys = ({
                 toaster.success('Public key deleted.')
             })
             .catch(error => {
-                console.log(error)
                 setSubmitting(false)
                 setDeletingKeyId(null)
                 toaster.danger('Failed deleting key.')

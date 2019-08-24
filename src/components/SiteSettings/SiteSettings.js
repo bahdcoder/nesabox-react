@@ -33,7 +33,7 @@ const SiteSettings = ({
     nginxReloadOutput,
     setNginxReloadOutput,
     setConfigurationFile,
-    getConfigurationFile,
+    getConfigurationFile
 }) => {
     return (
         <React.Fragment>
@@ -71,24 +71,24 @@ const SiteSettings = ({
                 fileName={`Nginx configuration file`}
                 description="Update the nginx configuration specifically for this site."
             />
-                <Dialog
-                    hasFooter={false}
-                    isShown={!!nginxReloadOutput}
-                    title="Nginx configuration test output"
-                >
-                    <Logs logs={nginxReloadOutput} />
+            <Dialog
+                hasFooter={false}
+                isShown={!!nginxReloadOutput}
+                title="Nginx configuration test output"
+            >
+                <Logs logs={nginxReloadOutput} />
 
-                    <Pane borderTop="muted" clearfix>
-                        <Pane padding={16} float="right">
-                            <Button
-                                tabIndex={0}
-                                onClick={() => setNginxReloadOutput(null)}
-                            >
-                                Close
-                            </Button>
-                        </Pane>
+                <Pane borderTop="muted" clearfix>
+                    <Pane padding={16} float="right">
+                        <Button
+                            tabIndex={0}
+                            onClick={() => setNginxReloadOutput(null)}
+                        >
+                            Close
+                        </Button>
                     </Pane>
-                </Dialog>
+                </Pane>
+            </Dialog>
 
             {['git'].includes(site.app_type) && (
                 <Env site={site} server={server} />
