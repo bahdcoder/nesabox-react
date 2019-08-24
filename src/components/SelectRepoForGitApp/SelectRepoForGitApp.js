@@ -18,7 +18,7 @@ const providerNames = {
     gitlab: 'Gitlab'
 }
 
-const SelectRepoForGitApp = ({ auth, site, server, setServer }) => {
+const SelectRepoForGitApp = ({ auth, site, server, setServer, setAppType }) => {
     const [user] = auth
 
     const availableProviders = Object.keys(user.source_control)
@@ -130,6 +130,7 @@ const SelectRepoForGitApp = ({ auth, site, server, setServer }) => {
                                 type="button"
                                 marginRight={8}
                                 intent="danger"
+                                onClick={() => setAppType('ghost')}
                             >
                                 Cancel
                             </Button>

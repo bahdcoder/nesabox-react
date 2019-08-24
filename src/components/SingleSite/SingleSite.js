@@ -78,6 +78,7 @@ const SingleSite = ({
                     {appType === 'git' && (
                         <SelectRepoForGitApp
                             setSite={setSite}
+                            setAppType={setAppType}
                             {...rest}
                             site={site}
                         />

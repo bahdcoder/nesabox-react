@@ -16,6 +16,7 @@ const Monitoring = props => {
         }, 10000)
 
         return () => clearInterval(fetchMetricsInterval)
+        // eslint-disable-next-line
     }, [])
 
     const fetchMetrics = () => {
@@ -35,7 +36,13 @@ const Monitoring = props => {
             })
     }
 
-    return <MonitoringDetails {...props} metrics={metrics} fetchingMetrics={fetchingMetrics} />
+    return (
+        <MonitoringDetails
+            {...props}
+            metrics={metrics}
+            fetchingMetrics={fetchingMetrics}
+        />
+    )
 }
 
 export default Monitoring

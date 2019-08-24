@@ -91,7 +91,6 @@ const Databases = ({
                                         type="button"
                                         marginRight={8}
                                         intent="danger"
-                                        intent="success"
                                         appearance="primary"
                                         onClick={() => deleteDatabase(false)}
                                         isLoading={

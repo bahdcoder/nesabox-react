@@ -9,6 +9,7 @@
         "glamor": "^2.20.40",
         "laravel-echo": "^1.5.4",
         "normalize.css": "^8.0.1",
+        "prism-react-renderer": "^0.1.7",
         "query-string": "^6.8.1",
         "react": "^16.8.6",
         "react-ace": "^7.0.2",

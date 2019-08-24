@@ -1,22 +1,21 @@
 import React from 'react'
 import { css } from 'glamor'
 import Loader from 'components/Loader'
-import Chart from 'react-google-charts'
 
 const Monitoring = ({ metrics, fetchingMetrics }) => {
     console.log('>>>>>>>>', metrics)
     return (
         <React.Fragment>
-            {!metrics && fetchingMetrics && (
-                <Loader />
-            )}
+            {!metrics && fetchingMetrics && <Loader />}
             {!fetchingMetrics && metrics && (
-                <div {...css({
-                    marginTop: 48,
-                    display: 'flex',
-                    width: '80%',
-                    justifyContent: 'center'
-                })}>
+                <div
+                    {...css({
+                        marginTop: 48,
+                        display: 'flex',
+                        width: '80%',
+                        justifyContent: 'center'
+                    })}
+                >
                     {/* <Chart
                         width={'100%'}
                         height={300}

@@ -3,15 +3,7 @@ import client from 'utils/axios'
 import { useForm } from 'utils/hooks'
 import React, { useState } from 'react'
 import Section from 'components/Section'
-import Heading from 'components/Heading'
-import {
-    Button,
-    TextInput,
-    IconButton,
-    withTheme,
-    Small,
-    toaster
-} from 'evergreen-ui'
+import { Button, TextInput, IconButton, Small, toaster } from 'evergreen-ui'
 
 const disabledKeys = ['PORT']
 

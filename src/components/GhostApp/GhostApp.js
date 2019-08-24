@@ -1,11 +1,7 @@
 import React from 'react'
-import Ace from 'react-ace'
-import { css } from 'glamor'
+import Logs from 'components/Logs'
 import Section from 'components/Section'
 import { Button, Dialog, Text, withTheme } from 'evergreen-ui'
-
-import 'brace/mode/sh'
-import 'brace/theme/tomorrow'
 
 const GhostApp = ({
     uninstalling,
@@ -15,14 +11,6 @@ const GhostApp = ({
     theme,
     submitting
 }) => {
-    const editorStyles = css({
-        padding: 16,
-        width: '100%',
-        height: '100%',
-        boxSizing: 'border-box',
-        border: `1px solid ${theme.palette.neutral.light}`
-    })
-
     return (
         <Section
             title="Ghost blog"
@@ -39,23 +27,7 @@ const GhostApp = ({
                             Installing Ghost
                         </Button>
 
-                        <div id="deployment-logs" className={editorStyles}>
-                            <Ace
-                                readOnly
-                                mode="sh"
-                                width="100%"
-                                theme="tomorrow"
-                                showGutter={false}
-                                value={site.logs || ''}
-                                name="deployment-logs"
-                                showPrintMargin={false}
-                                editorProps={{
-                                    showGutter: false,
-                                    showLineNumbers: false,
-                                    maxLines: Infinity
-                                }}
-                            />
-                        </div>
+                        {site.logs && <Logs logs={site.logs} />}
                     </React.Fragment>
                 )}
 
