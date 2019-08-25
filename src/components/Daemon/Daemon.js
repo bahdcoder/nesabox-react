@@ -1,5 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
+import Logs from 'components/Logs'
 import Section from 'components/Section'
 import EmptySet from 'components/EmptySet'
 import {
@@ -259,8 +260,8 @@ const Daemon = ({
                     title={`${outputDialog.title} (${outputDialog.daemon.slug})`}
                     onCloseComplete={() => setOutputDialog(null)}
                 >
-                    <Text>Command: {outputDialog.daemon.command}</Text>
-                    <code>{outputDialog.content}</code>
+                    <Text display='block' width='100%' marginBottom={8}>Command: {outputDialog.daemon.command}</Text>
+                    <Logs logs={outputDialog.content} />
 
                     <Pane borderTop="muted" clearfix>
                         <Pane padding={16} float="right">

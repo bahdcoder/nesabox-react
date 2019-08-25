@@ -1,5 +1,6 @@
 import React from 'react'
 import { css } from 'glamor'
+import Logs from 'components/Logs'
 import Section from 'components/Section'
 import EmptySet from 'components/EmptySet'
 import {
@@ -285,11 +286,11 @@ const Cron = ({
                 <Dialog
                     isShown={true}
                     hasFooter={false}
-                    title={`${dialog.title} (${dialog.job.slug})`}
+                    title={dialog.title}
                     onCloseComplete={() => setDialog(null)}
                 >
-                    <Text>Command: {dialog.job.command}</Text>
-                    <code>{dialog.content}</code>
+                    <Text display='block' width='100%' marginBottom={8}>Command: {dialog.job.command}</Text>
+                    <Logs logs={dialog.content} />
 
                     <Pane borderTop="muted" clearfix>
                         <Pane padding={16} float="right">
