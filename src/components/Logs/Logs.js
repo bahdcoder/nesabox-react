@@ -1,21 +1,29 @@
-import React from 'react'
 import { css } from 'glamor'
+import React, { useEffect } from 'react'
 import { withTheme } from 'evergreen-ui'
 import GithubTheme from 'utils/github-theme'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 
-const Logs = ({ theme, logs, id }) => {
+const Logs = ({ theme, logs, id = 'logs' }) => {
     const editorStyles = css({
         width: '100%',
-        height: '100%',
+        overflow: 'scroll',
+        maxHeight: '450px',
         boxSizing: 'border-box',
         border: `2px solid ${theme.palette.neutral.light}`
     })
 
+    useEffect(() => {
+        const logsContainer = document.getElementById(id)
+
+        if (logsContainer)
+            logsContainer.scrollTop = logsContainer.scrollHeight
+    }, [id, logs])
+
     if (!logs) return null
 
     return (
-        <div id={id || 'logs'} className={editorStyles}>
+        <div id={id} className={editorStyles}>
             <Highlight
                 code={logs}
                 language="bash"

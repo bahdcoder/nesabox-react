@@ -14,6 +14,12 @@ export const useForm = defaultForm => {
         const formattedErrors = {}
 
         Object.keys(errors).forEach(error => {
+            if (error.split('.').length > 1) {
+                formattedErrors[error.split('.')[0]] = errors[error][0]
+
+                return
+            }
+
             formattedErrors[error] = errors[error][0]
         })
 

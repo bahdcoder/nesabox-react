@@ -162,8 +162,8 @@ const GitApp = ({ site, theme, server, setSite }) => {
                     </Section>
 
                     <Section
-                        title="Before deploy script"
-                        description="You can define a bash script that would be run before the application is actually restarted, or started with PM2."
+                        title="Deploy script"
+                        description="This script would be run on every deployment."
                     >
                         <div>
                             <div className={editorStyles}>

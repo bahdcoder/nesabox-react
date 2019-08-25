@@ -19,10 +19,10 @@ const Network = ({
     setValue,
     addingRule,
     submitting,
-    setAddingRule,
-    handleFormSubmit,
     deletingRule,
-    setDeletingRule
+    setAddingRule,
+    setDeletingRule,
+    handleFormSubmit,
 }) => {
     return (
         <Section
@@ -37,14 +37,14 @@ const Network = ({
                         justifyContent: 'flex-end'
                     })}
                 >
-                    {/* <Button
+                    <Button
                         intent="success"
                         marginBottom={16}
                         appearance="primary"
                         onClick={() => setAddingRule(true)}
                     >
                         Add firewall rule
-                    </Button> */}
+                    </Button>
                 </div>
 
                 <Table>
@@ -111,12 +111,11 @@ const Network = ({
                             />
 
                             <TextInputField
-                                required
                                 name="from"
-                                label="From IP Address"
                                 inputWidth="100%"
                                 inputHeight={40}
                                 value={form.from}
+                                label="From IP Address"
                                 isInvalid={!!errors.from}
                                 validationMessage={errors.from}
                                 onChange={e => setValue('from', e.target.value)}
