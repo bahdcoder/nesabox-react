@@ -23,10 +23,11 @@ const Network = props => {
         setSubmitting(true)
         e.preventDefault()
 
-        client.post(`/servers/${server.id}/firewall-rules`, {
-            ...form,
-            from: form.from.split(',')
-        })
+        client
+            .post(`/servers/${server.id}/firewall-rules`, {
+                ...form,
+                from: form.from.split(',')
+            })
             .then(({ data }) => {
                 setServer(data)
 
@@ -35,7 +36,10 @@ const Network = props => {
                 toaster.success('Rule added.')
             })
             .catch(({ response }) => {
-                response && response.data && response.data.errors && setErrors(response.data.errors)
+                response &&
+                    response.data &&
+                    response.data.errors &&
+                    setErrors(response.data.errors)
             })
             .finally(() => {
                 setSubmitting(false)
@@ -45,7 +49,8 @@ const Network = props => {
     const deleteRule = () => {
         setSubmitting(true)
 
-        client.delete(`/servers/${server.id}/firewall-rules/${deletingRule.id}`)
+        client
+            .delete(`/servers/${server.id}/firewall-rules/${deletingRule.id}`)
             .then(({ data }) => {
                 setServer(data)
 
@@ -54,7 +59,10 @@ const Network = props => {
                 toaster.success('Rule deleted.')
             })
             .catch(({ response }) => {
-                response && response.data && response.data.message && toaster.danger(response.data.message)
+                response &&
+                    response.data &&
+                    response.data.message &&
+                    toaster.danger(response.data.message)
             })
             .finally(() => {
                 setSubmitting(false)

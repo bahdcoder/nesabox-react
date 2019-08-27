@@ -16,6 +16,7 @@ const GitApp = ({ site, theme, server, setSite }) => {
     const editorStyles = css({
         width: '100%',
         height: '100%',
+        padding: '8px 16px',
         boxSizing: 'border-box',
         border: `2px solid ${theme.palette.neutral.light}`
     })
@@ -170,7 +171,7 @@ const GitApp = ({ site, theme, server, setSite }) => {
                                 <Ace
                                     width="100%"
                                     mode="sh"
-                                    height={'140px'}
+                                    height={'180px'}
                                     theme="tomorrow"
                                     showGutter={false}
                                     intent="success"

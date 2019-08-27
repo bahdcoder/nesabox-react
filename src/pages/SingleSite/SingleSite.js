@@ -27,6 +27,14 @@ const SiteSettingsAsync = Loadable({
     loading: Loader
 })
 
+const SiteSSLAsync = Loadable({
+    loader: () =>
+        import(
+            /* webpackChunkName: "Server-SingleSite-Settings" */ 'pages/SiteSSL'
+        ),
+    loading: Loader
+})
+
 const SingleSite = props => {
     const { echo, auth, server, setServer } = props
 
@@ -144,7 +152,7 @@ const SingleSite = props => {
                                     target="_blank"
                                     marginLeft={16}
                                     icon="arrow-right"
-                                    href={`http://${site.name}`}
+                                    href={`http${site.ssl_certificate_installed ? 's' : ''}://${site.name}`}
                                 />
                             </div>
                         </div>
@@ -160,7 +168,7 @@ const SingleSite = props => {
                                 props.location.pathname.search(/sites/) > -1 &&
                                 props.location.pathname.search(/settings/) <
                                     0 &&
-                                props.location.pathname.search(/processes/) < 0,
+                                props.location.pathname.search(/ssl/) < 0,
                             to: `${props.match.url}`
                         },
                         {
@@ -168,6 +176,11 @@ const SingleSite = props => {
                             active:
                                 props.location.pathname.search(/settings/) > -1,
                             to: `${props.match.url}/settings`
+                        },
+                        {
+                            label: 'SSL',
+                            active: props.location.pathname.search(/ssl/) > -1,
+                            to: `${props.match.url}/ssl`
                         }
                     ]}
                 />
@@ -213,10 +226,23 @@ const SingleSite = props => {
                             <SiteSettingsAsync
                                 {...props}
                                 site={site}
+                                setSite={setSite}
                                 {...routerProps}
                             />
                         )}
                         path={`${props.match.url}/settings`}
+                    />
+
+                    <Route
+                        render={routerProps => (
+                            <SiteSSLAsync
+                                {...props}
+                                site={site}
+                                {...routerProps}
+                                setSite={setSite}
+                            />
+                        )}
+                        path={`${props.match.url}/ssl`}
                     />
                 </Container>
             )}

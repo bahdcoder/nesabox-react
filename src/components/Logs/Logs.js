@@ -16,8 +16,7 @@ const Logs = ({ theme, logs, id = 'logs' }) => {
     useEffect(() => {
         const logsContainer = document.getElementById(id)
 
-        if (logsContainer)
-            logsContainer.scrollTop = logsContainer.scrollHeight
+        if (logsContainer) logsContainer.scrollTop = logsContainer.scrollHeight
     }, [id, logs])
 
     if (!logs) return null

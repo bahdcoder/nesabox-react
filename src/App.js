@@ -20,7 +20,7 @@ const App = () => {
                             white: '#fff'
                         }
                     },
-                    getFontFamily: () => 'ProximaNova'
+                    getFontFamily: () => 'Graphik'
                 }}
             >
                 <BrowserRouter>

@@ -26,7 +26,7 @@ const Network = ({
     deletingRule,
     setAddingRule,
     setDeletingRule,
-    handleFormSubmit,
+    handleFormSubmit
 }) => (
     <Section
         title="Active firewall rules"
@@ -58,9 +58,7 @@ const Network = ({
 
                     <Table.TextHeaderCell>Port</Table.TextHeaderCell>
 
-                    <Table.TextHeaderCell>
-                        From IP Address
-                    </Table.TextHeaderCell>
+                    <Table.TextHeaderCell>From IP Address</Table.TextHeaderCell>
 
                     <Table.TextHeaderCell>Delete rule</Table.TextHeaderCell>
                 </Table.Head>
@@ -75,9 +73,18 @@ const Network = ({
 
                             <Table.TextCell>
                                 {rule.installing_firewall_rule ? (
-                                    <Icon marginLeft={8} className='rotate animated infinite' icon='social-media' size={16} />
-                                    ): (
-                                    <IconButton onClick={() => setDeletingRule(rule)} icon="trash" intent="danger" />
+                                    <Icon
+                                        marginLeft={8}
+                                        className="rotate animated infinite"
+                                        icon="social-media"
+                                        size={16}
+                                    />
+                                ) : (
+                                    <IconButton
+                                        onClick={() => setDeletingRule(rule)}
+                                        icon="trash"
+                                        intent="danger"
+                                    />
                                 )}
                             </Table.TextCell>
                         </Table.Row>
@@ -146,16 +153,27 @@ const Network = ({
         {deletingRule && (
             <Dialog
                 isShown={true}
-                intent='danger'
+                intent="danger"
                 onConfirm={deleteRule}
                 title="Delete firewall rule"
                 onCloseComplete={() => setDeletingRule(null)}
             >
-                <Text width='100%' minHeight={40} display='flex' justifyContent='center' alignItems='center'>
-                    Are you sure you want to delete rule <span className={css({
-                        padding: '0 5px',
-                        color: theme.colors.intent.danger
-                    })}>{deletingRule.name}</span>
+                <Text
+                    width="100%"
+                    minHeight={40}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                >
+                    Are you sure you want to delete rule{' '}
+                    <span
+                        className={css({
+                            padding: '0 5px',
+                            color: theme.colors.intent.danger
+                        })}
+                    >
+                        {deletingRule.name}
+                    </span>
                 </Text>
             </Dialog>
         )}

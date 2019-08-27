@@ -289,7 +289,9 @@ const Cron = ({
                     title={dialog.title}
                     onCloseComplete={() => setDialog(null)}
                 >
-                    <Text display='block' width='100%' marginBottom={8}>Command: {dialog.job.command}</Text>
+                    <Text display="block" width="100%" marginBottom={8}>
+                        Command: {dialog.job.command}
+                    </Text>
                     <Logs logs={dialog.content} />
 
                     <Pane borderTop="muted" clearfix>

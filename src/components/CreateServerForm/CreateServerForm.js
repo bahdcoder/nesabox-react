@@ -243,11 +243,11 @@ const CreateServerForm = ({
                         )}
 
                         <Label>Select databases to install</Label>
-                        <Checkbox
+                        {/* <Checkbox
                             label="Mongo DB"
                             checked={form.databases.includes('mongodb')}
                             onChange={() => setDatabase('mongodb')}
-                        />
+                        /> */}
                         <Checkbox
                             label="Mysql"
                             checked={form.databases.includes('mysql')}

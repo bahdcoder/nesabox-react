@@ -90,10 +90,6 @@ const SiteSettings = ({
                 </Pane>
             </Dialog>
 
-            {['git'].includes(site.app_type) && (
-                <Env site={site} server={server} />
-            )}
-
             <Section
                 title="Delete this site"
                 description="Delete this site, with all pm2 processes, all nginx configurations, site folder and generated SSL certificates."

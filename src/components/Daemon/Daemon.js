@@ -260,7 +260,9 @@ const Daemon = ({
                     title={`${outputDialog.title} (${outputDialog.daemon.slug})`}
                     onCloseComplete={() => setOutputDialog(null)}
                 >
-                    <Text display='block' width='100%' marginBottom={8}>Command: {outputDialog.daemon.command}</Text>
+                    <Text display="block" width="100%" marginBottom={8}>
+                        Command: {outputDialog.daemon.command}
+                    </Text>
                     <Logs logs={outputDialog.content} />
 
                     <Pane borderTop="muted" clearfix>

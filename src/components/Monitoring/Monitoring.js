@@ -14,8 +14,7 @@ const Monitoring = ({ metrics, fetchingMetrics }) => {
                         width: '80%',
                         justifyContent: 'center'
                     })}
-                >
-                </div>
+                ></div>
             )}
         </React.Fragment>
     )

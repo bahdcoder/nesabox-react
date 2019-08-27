@@ -30,7 +30,7 @@ const AppNavbar = ({ theme, auth, history: { push } }) => {
                 borderBottom: `3px solid ${theme.palette.green.base}`
             })}
         >
-            <Link is={RouterLink} textDecoration={'none'} to={'/dashboard'}>
+            <Link is={RouterLink} color={'green'} textDecoration={'none'} to={'/dashboard'}>
                 Nesabox
             </Link>
 
