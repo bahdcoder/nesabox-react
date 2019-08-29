@@ -3,6 +3,7 @@ import { css } from 'glamor'
 import Logs from 'components/Logs'
 import Section from 'components/Section'
 import EmptySet from 'components/EmptySet'
+import LoaderIcon from 'components/LoaderIcon'
 import {
     SideSheet,
     TextInputField,
@@ -158,12 +159,7 @@ const Daemon = ({
                                                     }
                                                 />
                                             ) : (
-                                                <Icon
-                                                    marginLeft={8}
-                                                    icon="social-media"
-                                                    fill={theme.scales.blue.B9}
-                                                    className="rotate animated infinite"
-                                                />
+                                                <LoaderIcon />
                                             )}
                                         </Table.TextCell>
                                     </Table.Row>

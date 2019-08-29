@@ -1,5 +1,6 @@
-import React from 'react'
 import { css } from 'glamor'
+import client from 'utils/axios'
+import React from 'react'
 import { withAuth } from 'utils/hoc'
 import { withRouter, Link as RouterLink } from 'react-router-dom'
 import {
@@ -9,8 +10,6 @@ import {
     Menu,
     Pane,
     Link,
-    Autocomplete,
-    TextInput
 } from 'evergreen-ui'
 
 import styles from './AppNavbar.css'
@@ -33,22 +32,6 @@ const AppNavbar = ({ theme, auth, history: { push } }) => {
             <Link is={RouterLink} color={'green'} textDecoration={'none'} to={'/dashboard'}>
                 Nesabox
             </Link>
-
-            <div>
-                <Autocomplete
-                    onChange={changedItem => console.log(changedItem)}
-                    items={['Apple', 'Apricot', 'Banana', 'Cherry', 'Cucumber']}
-                >
-                    {({ getInputProps, getRef, inputValue }) => (
-                        <TextInput
-                            innerRef={getRef}
-                            value={inputValue}
-                            {...getInputProps()}
-                            placeholder="Search Sites and Servers"
-                        />
-                    )}
-                </Autocomplete>
-            </div>
 
             <Popover
                 trigger="hover"

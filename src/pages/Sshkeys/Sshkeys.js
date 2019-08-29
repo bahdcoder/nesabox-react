@@ -1,10 +1,11 @@
+import { css } from 'glamor'
 import client from 'utils/axios'
 import { withAuth } from 'utils/hoc'
-import { Dialog } from 'evergreen-ui'
 import { useForm } from 'utils/hooks'
 import { toaster } from 'evergreen-ui'
 import React, { useState } from 'react'
 import Section from 'components/Section'
+import { Dialog, Text } from 'evergreen-ui'
 import SshkeysList from 'components/SshkeysList'
 import AddSshkeyForm from 'components/AddSshkeyForm'
 
@@ -109,7 +110,15 @@ const Sshkeys = ({
                 }}
                 onCloseComplete={() => setDeletingKeyId(null)}
             >
-                Are you sure you want to delete this SSH Key ?
+                <div className={css({
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                })}>
+                    <Text>
+                        Are you sure you want to delete this SSH Key ?
+                    </Text>
+                </div>
             </Dialog>
         </Section>
     )

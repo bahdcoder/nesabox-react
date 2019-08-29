@@ -12,7 +12,8 @@ import {
     withTheme,
     IconButton,
     Dialog,
-    Text
+    Text,
+    Icon
 } from 'evergreen-ui'
 import Section from 'components/Section'
 import EmptySet from 'components/EmptySet'
@@ -34,8 +35,7 @@ const Databases = ({
     deletingDatabase,
     setAddingDatabase,
     setDeletingDatabase
-}) => {
-    return (
+}) => (
         <React.Fragment>
             {server.databases.map(databaseType => {
                 const databasesList = server[`${databaseType}_databases`]
@@ -174,7 +174,8 @@ const Databases = ({
                                                     </Table.TextCell>
 
                                                     <Table.TextCell>
-                                                        <IconButton
+                                                        {database.is_ready ? (
+                                                           <IconButton
                                                             icon="trash"
                                                             intent="danger"
                                                             onClick={() =>
@@ -182,7 +183,15 @@ const Databases = ({
                                                                     database
                                                                 )
                                                             }
-                                                        />
+                                                        /> 
+                                                        ) : (
+                                                            <Icon
+                                                                marginLeft={8}
+                                                                icon="social-media"
+                                                                fill={theme.scales.blue.B9}
+                                                                className="rotate animated infinite"
+                                                            />
+                                                        )}
                                                     </Table.TextCell>
                                                 </Table.Row>
                                             ))}
@@ -322,6 +331,5 @@ const Databases = ({
             })}
         </React.Fragment>
     )
-}
 
 export default withTheme(Databases)
