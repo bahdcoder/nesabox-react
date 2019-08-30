@@ -55,7 +55,16 @@ export const AuthProviderWrapper = ({ children }) => {
             client
                 .get('/me')
                 .then(({ data }) => {
-                    setAuthAndCache(data)
+                    /**
+                     * When caching user auth token, we'll maintain the access token
+                     * since it won't come in all requests.
+                     * 
+                     */
+
+                    setAuthAndCache({
+                        ...data,
+                        access_token: defaultAuth.access_token
+                    })
                 })
                 .catch(() => {
                     setAuthAndCache(null)

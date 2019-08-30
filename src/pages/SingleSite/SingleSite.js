@@ -68,6 +68,7 @@ const SingleSite = props => {
                     notification.type ===
                     'App\\Notifications\\Sites\\SiteUpdated'
                 ) {
+                    console.log('>>>>>>>', notification.site)
                     setSite(notification.site)
                 }
             })

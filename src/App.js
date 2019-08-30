@@ -11,22 +11,22 @@ const App = () => {
     return (
         <AuthProviderWrapper>
             <ThemeProvider
-                value={{
-                    ...theme,
-                    colors: {
-                        ...theme.colors,
-                        background: {
-                            ...theme.colors.background,
-                            white: '#fff'
-                        }
-                    },
-                    getFontFamily: () => 'Graphik'
-                }}
-            >
-                <BrowserRouter>
-                    <Routes />
-                </BrowserRouter>
-            </ThemeProvider>
+                    value={{
+                        ...theme,
+                        colors: {
+                            ...theme.colors,
+                            background: {
+                                ...theme.colors.background,
+                                white: '#fff'
+                            }
+                        },
+                        getFontFamily: () => 'Graphik'
+                    }}
+                >
+                    <BrowserRouter>
+                        <Routes />
+                    </BrowserRouter>
+                </ThemeProvider>
         </AuthProviderWrapper>
     )
 }

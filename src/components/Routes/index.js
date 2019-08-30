@@ -6,6 +6,7 @@ import Navbar from 'components/Navbar'
 import AppNavbar from 'components/AppNavbar'
 import { withRouter } from 'react-router-dom'
 import { AuthRoute, NoAuthRoute } from 'utils/hoc'
+import Notifications from 'components/Notifications'
 import { WebsocketProviderWrapper } from 'utils/context'
 
 const AsyncLogin = Loadable({
@@ -42,6 +43,7 @@ const Routes = ({ location, auth: [user] }) => {
             <React.Fragment>
                 {!['/', '/login'].includes(location.pathname) && <AppNavbar />}
                 {location.pathname === '/' && <Navbar />}
+                <Notifications />
                 <NoAuthRoute page={AsyncLogin} path="/login" />
                 <NoAuthRoute page={AsyncRegister} path="/register" />
                 <AuthRoute page={AsyncDashboard} path="/dashboard" />
