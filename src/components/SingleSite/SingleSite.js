@@ -30,6 +30,7 @@ const SingleSite = ({
     installGhost,
     ...rest
 }) => {
+
     return (
         <React.Fragment>
             {!site && <Loader />}

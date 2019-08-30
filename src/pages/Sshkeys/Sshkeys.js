@@ -110,14 +110,14 @@ const Sshkeys = ({
                 }}
                 onCloseComplete={() => setDeletingKeyId(null)}
             >
-                <div className={css({
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                })}>
-                    <Text>
-                        Are you sure you want to delete this SSH Key ?
-                    </Text>
+                <div
+                    className={css({
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    })}
+                >
+                    <Text>Are you sure you want to delete this SSH Key ?</Text>
                 </div>
             </Dialog>
         </Section>

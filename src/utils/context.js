@@ -58,7 +58,7 @@ export const AuthProviderWrapper = ({ children }) => {
                     /**
                      * When caching user auth token, we'll maintain the access token
                      * since it won't come in all requests.
-                     * 
+                     *
                      */
 
                     setAuthAndCache({

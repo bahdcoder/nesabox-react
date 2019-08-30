@@ -3,14 +3,7 @@ import client from 'utils/axios'
 import React from 'react'
 import { withAuth } from 'utils/hoc'
 import { withRouter, Link as RouterLink } from 'react-router-dom'
-import {
-    withTheme,
-    Popover,
-    Avatar,
-    Menu,
-    Pane,
-    Link,
-} from 'evergreen-ui'
+import { withTheme, Popover, Avatar, Menu, Pane, Link } from 'evergreen-ui'
 
 import styles from './AppNavbar.css'
 
@@ -29,7 +22,12 @@ const AppNavbar = ({ theme, auth, history: { push } }) => {
                 borderBottom: `3px solid ${theme.palette.green.base}`
             })}
         >
-            <Link is={RouterLink} color={'green'} textDecoration={'none'} to={'/dashboard'}>
+            <Link
+                is={RouterLink}
+                color={'green'}
+                textDecoration={'none'}
+                to={'/dashboard'}
+            >
                 Nesabox
             </Link>
 

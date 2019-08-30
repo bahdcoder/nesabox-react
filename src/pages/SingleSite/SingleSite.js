@@ -2,14 +2,19 @@ import { css } from 'glamor'
 import client from 'utils/axios'
 import Loadable from 'react-loadable'
 import Loader from 'components/Loader'
-import { toaster } from 'evergreen-ui'
 import PageTitle from 'components/PageTitle'
 import SubNavbar from 'components/SubNavbar'
 import Container from 'components/Container'
 import { withSocket, withAuth } from 'utils/hoc'
-import React, { useState, useEffect } from 'react'
-import { Small, Link, IconButton } from 'evergreen-ui'
+import React, { useState, useEffect, useReducer } from 'react'
+import { Small, Link, IconButton, toaster } from 'evergreen-ui'
 import { Route, Link as RouterLink, Redirect } from 'react-router-dom'
+
+const siteReducer = (site, action) => {
+    if (action.type === 'SET_SITE') return action.payload
+
+    return site
+}
 
 const SingleSiteAsync = Loadable({
     loader: () =>
@@ -36,30 +41,44 @@ const SiteSSLAsync = Loadable({
 })
 
 const SingleSite = props => {
-    const { echo, auth, server, setServer } = props
-
-    const [user] = auth
+    const [loading, setLoading] = useState(true)
     const [appType, setAppType] = useState(null)
     const [submitting, setSubmitting] = useState(false)
+    const [site, dispatchSite] = useReducer(siteReducer, null)
+    const {
+        echo,
+        auth,
+        server,
+        location,
+        history: { push },
+        match
+    } = props
 
-    const site = server.sites.find(site => site.id === props.match.params.site)
-
-    const setSite = site => {
-        setServer({
-            ...server,
-            sites: server.sites.map(oldSite =>
-                oldSite.id !== site.id ? oldSite : site
-            )
+    const setSite = site =>
+        dispatchSite({
+            type: 'SET_SITE',
+            payload: site
         })
-    }
 
     useEffect(() => {
-        if (site) {
-            setAppType(site.installing_repository ? 'git' : 'ghost')
-        }
-    }, [site])
+        client
+            .get(`servers/${server.id}/sites/${match.params.site}`)
+            .then(({ data }) => {
+                setSite(data)
+
+                setAppType(data.installing_repository ? 'git' : 'ghost')
+
+                setLoading(false)
+            })
+            .catch(() => {
+                push(`/servers/${server.id}`)
+
+                toaster.danger('Site was not found.')
+            })
+    }, [])
 
     useEffect(() => {
+        const [user] = auth
         const [socket] = echo
 
         socket &&
@@ -68,15 +87,10 @@ const SingleSite = props => {
                     notification.type ===
                     'App\\Notifications\\Sites\\SiteUpdated'
                 ) {
-                    console.log('>>>>>>>', notification.site)
                     setSite(notification.site)
                 }
             })
-
-        // return () =>
-        //     socket && socket.private(`App.User.${user.id}`).unsubscribe()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [echo, user])
+    }, [echo, auth])
 
     const installGhost = () => {
         setSubmitting(true)
@@ -85,6 +99,8 @@ const SingleSite = props => {
             .post(`servers/${props.server.id}/sites/${site.id}/install-ghost`)
             .then(({ data }) => {
                 setSite(data)
+
+                setAppType(data.installing_repository ? 'git' : 'ghost')
 
                 toaster.success('Ghost blog has been queued for deployment.')
             })
@@ -96,98 +112,70 @@ const SingleSite = props => {
             })
     }
 
-    return (
+    return loading ? (
+        <Loader />
+    ) : (
         <React.Fragment>
-            {!site && <Redirect to={`/servers/${server.id}`} />}
+            <PageTitle>
+                <div
+                    className={css({
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                    })}
+                >
+                    <Small
+                        className={css({
+                            textTransform: 'uppercase'
+                        })}
+                    >
+                        {site.name}
+                    </Small>
 
-            {site && (
-                <PageTitle>
-                    {site && (
-                        <div
-                            className={css({
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'space-between'
-                            })}
+                    <div
+                        className={css({
+                            display: 'flex',
+                            alignItems: 'center'
+                        })}
+                    >
+                        <Link
+                            is={RouterLink}
+                            textDecoration="none"
+                            to={`/servers/${server.id}`}
                         >
                             <Small
                                 className={css({
                                     textTransform: 'uppercase'
                                 })}
                             >
-                                {site.name}
+                                {server.name}
                             </Small>
+                        </Link>
 
-                            <div
-                                className={css({
-                                    display: 'flex',
-                                    alignItems: 'center'
-                                })}
-                            >
-                                <Link
-                                    is={RouterLink}
-                                    textDecoration="none"
-                                    to={`/servers/${server.id}`}
-                                >
-                                    <Small
-                                        className={css({
-                                            textTransform: 'uppercase'
-                                        })}
-                                    >
-                                        {server.name}
-                                    </Small>
-                                </Link>
+                        <Small
+                            className={css({
+                                marginLeft: '20px',
+                                marginRight: '20px',
+                                textTransform: 'uppercase'
+                            })}
+                        >
+                            {server.ip_address}
+                        </Small>
 
-                                <Small
-                                    className={css({
-                                        marginLeft: '20px',
-                                        marginRight: '20px',
-                                        textTransform: 'uppercase'
-                                    })}
-                                >
-                                    {server.ip_address}
-                                </Small>
+                        <IconButton
+                            is="a"
+                            target="_blank"
+                            marginLeft={16}
+                            icon="arrow-right"
+                            href={`http${
+                                site.ssl_certificate_installed ? 's' : ''
+                            }://${site.name}`}
+                        />
+                    </div>
+                </div>
+            </PageTitle>
 
-                                <IconButton
-                                    is="a"
-                                    target="_blank"
-                                    marginLeft={16}
-                                    icon="arrow-right"
-                                    href={`http${site.ssl_certificate_installed ? 's' : ''}://${site.name}`}
-                                />
-                            </div>
-                        </div>
-                    )}
-                </PageTitle>
-            )}
-            {site && (
-                <SubNavbar
-                    items={[
-                        {
-                            label: 'Apps',
-                            active:
-                                props.location.pathname.search(/sites/) > -1 &&
-                                props.location.pathname.search(/settings/) <
-                                    0 &&
-                                props.location.pathname.search(/ssl/) < 0,
-                            to: `${props.match.url}`
-                        },
-                        {
-                            label: 'Settings',
-                            active:
-                                props.location.pathname.search(/settings/) > -1,
-                            to: `${props.match.url}/settings`
-                        },
-                        {
-                            label: 'SSL',
-                            active: props.location.pathname.search(/ssl/) > -1,
-                            to: `${props.match.url}/ssl`
-                        }
-                    ]}
-                />
-            )}
-
-            {site && !site.is_ready && (
+            {!site.is_ready && (
                 <React.Fragment>
                     <Container>
                         <Loader />
@@ -196,13 +184,36 @@ const SingleSite = props => {
                             display="flex"
                             justifyContent="center"
                         >
-                            Setting up site
+                            Installing site
                         </Small>
                     </Container>
                 </React.Fragment>
             )}
 
-            {site && site.is_ready && (
+            <SubNavbar
+                items={[
+                    {
+                        label: 'Apps',
+                        active:
+                            location.pathname.search(/sites/) > -1 &&
+                            location.pathname.search(/settings/) < 0 &&
+                            location.pathname.search(/ssl/) < 0,
+                        to: `${match.url}`
+                    },
+                    {
+                        label: 'Settings',
+                        active: location.pathname.search(/settings/) > -1,
+                        to: `${match.url}/settings`
+                    },
+                    {
+                        label: 'SSL',
+                        active: location.pathname.search(/ssl/) > -1,
+                        to: `${match.url}/ssl`
+                    }
+                ]}
+            />
+
+            {site.is_ready && (
                 <Container>
                     <Route
                         exact
@@ -219,7 +230,7 @@ const SingleSite = props => {
                                 setSubmitting={setSubmitting}
                             />
                         )}
-                        path={props.match.url}
+                        path={match.url}
                     />
 
                     <Route
@@ -227,11 +238,11 @@ const SingleSite = props => {
                             <SiteSettingsAsync
                                 {...props}
                                 site={site}
-                                setSite={setSite}
                                 {...routerProps}
+                                setSite={setSite}
                             />
                         )}
-                        path={`${props.match.url}/settings`}
+                        path={`${match.url}/settings`}
                     />
 
                     <Route
@@ -243,7 +254,7 @@ const SingleSite = props => {
                                 setSite={setSite}
                             />
                         )}
-                        path={`${props.match.url}/ssl`}
+                        path={`${match.url}/ssl`}
                     />
                 </Container>
             )}

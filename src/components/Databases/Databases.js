@@ -36,146 +36,136 @@ const Databases = ({
     setAddingDatabase,
     setDeletingDatabase
 }) => (
-        <React.Fragment>
-            {server.databases.map(databaseType => {
-                const databasesList = server[`${databaseType}_databases`]
+    <React.Fragment>
+        {server.databases.map(databaseType => {
+            const databasesList = server[`${databaseType}_databases`]
 
-                return (
-                    <Section
-                        key={databaseType}
-                        title={`${databaseType} databases`}
-                        description={`Here, you can manage your ${databaseType} databases and database users.`}
-                    >
-                        {server[`${databaseType}_databases`].length === 0 && (
-                            <EmptySet
-                                buttonLabel={`Add ${databaseType} database`}
-                                heading={`There are no ${databaseType} databases yet.`}
-                                handleAction={() =>
-                                    setAddingDatabase({
-                                        ...addingDatabase,
-                                        [databaseType]: true
-                                    })
-                                }
-                            />
-                        )}
-                        {deletingDatabase && (
-                            <Dialog
-                                isShown={true}
-                                hasFooter={false}
-                                title={'Delete database'}
-                                onCloseComplete={() =>
-                                    setDeletingDatabase(null)
-                                }
-                            >
-                                <Pane marginBottom={16}>
-                                    <Text textAlign="center" display={'block'}>
-                                        Are you sure you want to delete this
-                                        database ?
-                                    </Text>
-                                </Pane>
+            return (
+                <Section
+                    key={databaseType}
+                    title={`${databaseType} databases`}
+                    description={`Here, you can manage your ${databaseType} databases and database users.`}
+                >
+                    {server[`${databaseType}_databases`].length === 0 && (
+                        <EmptySet
+                            buttonLabel={`Add ${databaseType} database`}
+                            heading={`There are no ${databaseType} databases yet.`}
+                            handleAction={() =>
+                                setAddingDatabase({
+                                    ...addingDatabase,
+                                    [databaseType]: true
+                                })
+                            }
+                        />
+                    )}
+                    {deletingDatabase && (
+                        <Dialog
+                            isShown={true}
+                            hasFooter={false}
+                            title={'Delete database'}
+                            onCloseComplete={() => setDeletingDatabase(null)}
+                        >
+                            <Pane marginBottom={16}>
+                                <Text textAlign="center" display={'block'}>
+                                    Are you sure you want to delete this
+                                    database ?
+                                </Text>
+                            </Pane>
 
-                                <Pane padding={8} float="right">
-                                    <Button
-                                        tabIndex={0}
-                                        type="button"
-                                        marginRight={8}
-                                        onClick={() =>
-                                            setDeletingDatabase(null)
-                                        }
-                                    >
-                                        Close
-                                    </Button>
+                            <Pane padding={8} float="right">
+                                <Button
+                                    tabIndex={0}
+                                    type="button"
+                                    marginRight={8}
+                                    onClick={() => setDeletingDatabase(null)}
+                                >
+                                    Close
+                                </Button>
 
-                                    <Button
-                                        tabIndex={0}
-                                        type="button"
-                                        marginRight={8}
-                                        intent="danger"
-                                        appearance="primary"
-                                        onClick={() => deleteDatabase(false)}
-                                        isLoading={
-                                            submitting &&
-                                            submitting.delete_user === false
-                                        }
-                                    >
-                                        Delete
-                                    </Button>
+                                <Button
+                                    tabIndex={0}
+                                    type="button"
+                                    marginRight={8}
+                                    intent="danger"
+                                    appearance="primary"
+                                    onClick={() => deleteDatabase(false)}
+                                    isLoading={
+                                        submitting &&
+                                        submitting.delete_user === false
+                                    }
+                                >
+                                    Delete
+                                </Button>
 
-                                    <Button
-                                        tabIndex={0}
-                                        type="button"
-                                        intent="danger"
-                                        appearance="primary"
-                                        onClick={() => deleteDatabase(true)}
-                                        isLoading={
-                                            submitting &&
-                                            submitting.delete_user === true
-                                        }
-                                    >
-                                        Delete database and user -{' '}
-                                        {deletingDatabase.user}
-                                    </Button>
-                                </Pane>
-                            </Dialog>
-                        )}
+                                <Button
+                                    tabIndex={0}
+                                    type="button"
+                                    intent="danger"
+                                    appearance="primary"
+                                    onClick={() => deleteDatabase(true)}
+                                    isLoading={
+                                        submitting &&
+                                        submitting.delete_user === true
+                                    }
+                                >
+                                    Delete database and user -{' '}
+                                    {deletingDatabase.user}
+                                </Button>
+                            </Pane>
+                        </Dialog>
+                    )}
 
-                        {databasesList.length > 0 && (
-                            <React.Fragment>
-                                <header className={css(styles.header)}>
-                                    <Heading textTransform="capitalize">
-                                        Available databases
-                                    </Heading>
+                    {databasesList.length > 0 && (
+                        <React.Fragment>
+                            <header className={css(styles.header)}>
+                                <Heading textTransform="capitalize">
+                                    Available databases
+                                </Heading>
 
-                                    <Button
-                                        onClick={() =>
-                                            setAddingDatabase({
-                                                ...addingDatabase,
-                                                [databaseType]: true
-                                            })
-                                        }
-                                    >
-                                        Add
-                                    </Button>
-                                </header>
+                                <Button
+                                    onClick={() =>
+                                        setAddingDatabase({
+                                            ...addingDatabase,
+                                            [databaseType]: true
+                                        })
+                                    }
+                                >
+                                    Add
+                                </Button>
+                            </header>
 
-                                <div className={css(styles.table)}>
-                                    <Table>
-                                        <Table.Head
-                                            backgroundColor={'transparent'}
-                                        >
-                                            <Table.TextHeaderCell
-                                                paddingLeft={0}
+                            <div className={css(styles.table)}>
+                                <Table>
+                                    <Table.Head backgroundColor={'transparent'}>
+                                        <Table.TextHeaderCell paddingLeft={0}>
+                                            Name
+                                        </Table.TextHeaderCell>
+
+                                        <Table.TextHeaderCell>
+                                            User
+                                        </Table.TextHeaderCell>
+
+                                        <Table.TextHeaderCell>
+                                            Delete
+                                        </Table.TextHeaderCell>
+                                    </Table.Head>
+                                    <Table.Body>
+                                        {databasesList.map(database => (
+                                            <Table.Row
+                                                key={database.id}
+                                                borderBottom={'none'}
                                             >
-                                                Name
-                                            </Table.TextHeaderCell>
+                                                <Table.TextCell paddingLeft={0}>
+                                                    {database.name}
+                                                </Table.TextCell>
 
-                                            <Table.TextHeaderCell>
-                                                User
-                                            </Table.TextHeaderCell>
+                                                <Table.TextCell>
+                                                    {database.user}
+                                                </Table.TextCell>
 
-                                            <Table.TextHeaderCell>
-                                                Delete
-                                            </Table.TextHeaderCell>
-                                        </Table.Head>
-                                        <Table.Body>
-                                            {databasesList.map(database => (
-                                                <Table.Row
-                                                    key={database.id}
-                                                    borderBottom={'none'}
-                                                >
-                                                    <Table.TextCell
-                                                        paddingLeft={0}
-                                                    >
-                                                        {database.name}
-                                                    </Table.TextCell>
-
-                                                    <Table.TextCell>
-                                                        {database.user}
-                                                    </Table.TextCell>
-
-                                                    <Table.TextCell>
-                                                        {database.is_ready ? (
-                                                           <IconButton
+                                                <Table.TextCell>
+                                                    {database.is_ready ? (
+                                                        <IconButton
                                                             icon="trash"
                                                             intent="danger"
                                                             onClick={() =>
@@ -183,153 +173,148 @@ const Databases = ({
                                                                     database
                                                                 )
                                                             }
-                                                        /> 
-                                                        ) : (
-                                                            <Icon
-                                                                marginLeft={8}
-                                                                icon="social-media"
-                                                                fill={theme.scales.blue.B9}
-                                                                className="rotate animated infinite"
-                                                            />
-                                                        )}
-                                                    </Table.TextCell>
-                                                </Table.Row>
-                                            ))}
-                                        </Table.Body>
-                                    </Table>
-                                </div>
-                            </React.Fragment>
-                        )}
+                                                        />
+                                                    ) : (
+                                                        <Icon
+                                                            marginLeft={8}
+                                                            icon="social-media"
+                                                            fill={
+                                                                theme.scales
+                                                                    .blue.B9
+                                                            }
+                                                            className="rotate animated infinite"
+                                                        />
+                                                    )}
+                                                </Table.TextCell>
+                                            </Table.Row>
+                                        ))}
+                                    </Table.Body>
+                                </Table>
+                            </div>
+                        </React.Fragment>
+                    )}
 
-                        <SideSheet
-                            isShown={addingDatabase[databaseType]}
-                            onCloseComplete={() =>
-                                setAddingDatabase({
-                                    ...addingDatabase,
-                                    [databaseType]: false
-                                })
-                            }
-                        >
-                            <Pane width={'100%'} padding={40}>
-                                <React.Fragment>
-                                    <form
-                                        onSubmit={e => {
-                                            e.preventDefault()
+                    <SideSheet
+                        isShown={addingDatabase[databaseType]}
+                        onCloseComplete={() =>
+                            setAddingDatabase({
+                                ...addingDatabase,
+                                [databaseType]: false
+                            })
+                        }
+                    >
+                        <Pane width={'100%'} padding={40}>
+                            <React.Fragment>
+                                <form
+                                    onSubmit={e => {
+                                        e.preventDefault()
 
-                                            handleFormSubmit(databaseType)
-                                        }}
-                                    >
-                                        <TextInputField
-                                            required
-                                            name="name"
-                                            label="Name"
-                                            inputWidth="100%"
-                                            inputHeight={40}
-                                            value={form.name}
-                                            isInvalid={!!errors.name}
-                                            validationMessage={errors.name}
-                                            onChange={e =>
-                                                setValue('name', e.target.value)
+                                        handleFormSubmit(databaseType)
+                                    }}
+                                >
+                                    <TextInputField
+                                        required
+                                        name="name"
+                                        label="Name"
+                                        inputWidth="100%"
+                                        inputHeight={40}
+                                        value={form.name}
+                                        isInvalid={!!errors.name}
+                                        validationMessage={errors.name}
+                                        onChange={e =>
+                                            setValue('name', e.target.value)
+                                        }
+                                    />
+
+                                    <div className={css(styles.switch)}>
+                                        <Switch
+                                            disabled={
+                                                databaseType === 'mongodb'
                                             }
+                                            checked={
+                                                createNewUser[databaseType]
+                                            }
+                                            onChange={e => {
+                                                setCreateNewUser({
+                                                    ...createNewUser,
+                                                    [databaseType]: !createNewUser[
+                                                        databaseType
+                                                    ]
+                                                })
+
+                                                setValue(
+                                                    'user',
+                                                    createNewUser[databaseType]
+                                                        ? 'nesa'
+                                                        : ''
+                                                )
+                                            }}
                                         />
 
-                                        <div className={css(styles.switch)}>
-                                            <Switch
-                                                disabled={
-                                                    databaseType === 'mongodb'
-                                                }
-                                                checked={
-                                                    createNewUser[databaseType]
-                                                }
-                                                onChange={e => {
-                                                    setCreateNewUser({
-                                                        ...createNewUser,
-                                                        [databaseType]: !createNewUser[
-                                                            databaseType
-                                                        ]
-                                                    })
+                                        <Label
+                                            className={css(styles.switchLabel)}
+                                        >
+                                            Create new user
+                                        </Label>
+                                    </div>
 
+                                    {createNewUser[databaseType] && (
+                                        <React.Fragment>
+                                            <TextInputField
+                                                required
+                                                name="user"
+                                                label="User"
+                                                inputWidth="100%"
+                                                inputHeight={40}
+                                                value={form.user}
+                                                isInvalid={!!errors.user}
+                                                validationMessage={errors.user}
+                                                onChange={e =>
                                                     setValue(
                                                         'user',
-                                                        createNewUser[
-                                                            databaseType
-                                                        ]
-                                                            ? 'nesa'
-                                                            : ''
+                                                        e.target.value
                                                     )
-                                                }}
+                                                }
                                             />
 
-                                            <Label
-                                                className={css(
-                                                    styles.switchLabel
-                                                )}
-                                            >
-                                                Create new user
-                                            </Label>
-                                        </div>
+                                            <TextInputField
+                                                required
+                                                name="password"
+                                                label="Password"
+                                                inputWidth="100%"
+                                                inputHeight={40}
+                                                value={form.password}
+                                                isInvalid={!!errors.password}
+                                                validationMessage={
+                                                    errors.password
+                                                }
+                                                onChange={e =>
+                                                    setValue(
+                                                        'password',
+                                                        e.target.value
+                                                    )
+                                                }
+                                            />
+                                        </React.Fragment>
+                                    )}
 
-                                        {createNewUser[databaseType] && (
-                                            <React.Fragment>
-                                                <TextInputField
-                                                    required
-                                                    name="user"
-                                                    label="User"
-                                                    inputWidth="100%"
-                                                    inputHeight={40}
-                                                    value={form.user}
-                                                    isInvalid={!!errors.user}
-                                                    validationMessage={
-                                                        errors.user
-                                                    }
-                                                    onChange={e =>
-                                                        setValue(
-                                                            'user',
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                />
-
-                                                <TextInputField
-                                                    required
-                                                    name="password"
-                                                    label="Password"
-                                                    inputWidth="100%"
-                                                    inputHeight={40}
-                                                    value={form.password}
-                                                    isInvalid={
-                                                        !!errors.password
-                                                    }
-                                                    validationMessage={
-                                                        errors.password
-                                                    }
-                                                    onChange={e =>
-                                                        setValue(
-                                                            'password',
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                />
-                                            </React.Fragment>
-                                        )}
-
-                                        <Button
-                                            type="submit"
-                                            marginTop={8}
-                                            intent="success"
-                                            appearance="primary"
-                                            isLoading={submitting}
-                                        >
-                                            Add database
-                                        </Button>
-                                    </form>
-                                </React.Fragment>
-                            </Pane>
-                        </SideSheet>
-                    </Section>
-                )
-            })}
-        </React.Fragment>
-    )
+                                    <Button
+                                        type="submit"
+                                        marginTop={8}
+                                        intent="success"
+                                        appearance="primary"
+                                        isLoading={submitting}
+                                    >
+                                        Add database
+                                    </Button>
+                                </form>
+                            </React.Fragment>
+                        </Pane>
+                    </SideSheet>
+                </Section>
+            )
+        })}
+    </React.Fragment>
+)
 
 export default withTheme(Databases)

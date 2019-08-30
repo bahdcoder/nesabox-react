@@ -23,7 +23,7 @@ const SiteSSL = ({ server, site, submitting, installCertificate, theme }) => {
             description="Secure your site with an SSL certificate"
         >
             {site.ssl_certificate_installed && (
-                <Alert intent='success' marginBottom={16}>
+                <Alert intent="success" marginBottom={16}>
                     <Small fontSize={12}>
                         Let's Encrypt certificate is installed and active.
                     </Small>
@@ -44,7 +44,8 @@ const SiteSSL = ({ server, site, submitting, installCertificate, theme }) => {
                     >
                         <Alert marginBottom={16}>
                             <Small fontSize={12}>
-                                Make sure the DNS of your site is configured to point to{' '}
+                                Make sure the DNS of your site is configured to
+                                point to{' '}
                                 <span
                                     className={css({
                                         color: theme.palette.green.base
@@ -52,10 +53,16 @@ const SiteSSL = ({ server, site, submitting, installCertificate, theme }) => {
                                 >
                                     {server.ip_address}
                                 </span>
-                                . This would be verified when issuing certificate.
+                                . This would be verified when issuing
+                                certificate.
                             </Small>
                         </Alert>
-                        <Button isLoading={submitting} onClick={installCertificate} appearance="primary" intent="success">
+                        <Button
+                            intent="success"
+                            appearance="primary"
+                            onClick={installCertificate}
+                            isLoading={site.installing_certificate || submitting}
+                        >
                             Install certificate
                         </Button>
                     </div>

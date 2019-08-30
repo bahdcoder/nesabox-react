@@ -4,15 +4,19 @@ import Logs from 'components/Logs'
 import Container from 'components/Container'
 import { withSocket, withAuth } from 'utils/hoc'
 import React, { useState, useEffect, useReducer } from 'react'
-import { withTheme, Button, Text, SideSheet, Pane, IconButton } from 'evergreen-ui'
+import {
+    withTheme,
+    Button,
+    Text,
+    SideSheet,
+    Pane,
+    IconButton
+} from 'evergreen-ui'
 
 const notificationsReducer = (notifications, action) => {
     switch (action.type) {
         case 'ALERT_RECEIVED':
-            return [
-                ...notifications,
-                action.payload
-            ]
+            return [...notifications, action.payload]
         case 'ALERTS_FETCHED':
             return action.payload
         default:
@@ -23,16 +27,19 @@ const notificationsReducer = (notifications, action) => {
 const Notifications = ({ theme, auth, echo }) => {
     const [user] = auth
     const [showOutput, setShowOutput] = useState(false)
-    const [notifications, setNotifications] = useReducer(notificationsReducer, [])
+    const [notifications, setNotifications] = useReducer(
+        notificationsReducer,
+        []
+    )
 
-    const pushNewNotification = notification => setNotifications({
-        type: 'ALERT_RECEIVED',
-        payload: notification
-    })
+    const pushNewNotification = notification =>
+        setNotifications({
+            type: 'ALERT_RECEIVED',
+            payload: notification
+        })
 
-    const fetchNotifications = () => client
-        .get('/notifications')
-        .then(({ data }) => {
+    const fetchNotifications = () =>
+        client.get('/notifications').then(({ data }) => {
             setNotifications({
                 type: 'ALERTS_FETCHED',
                 payload: data
@@ -46,7 +53,8 @@ const Notifications = ({ theme, auth, echo }) => {
     useEffect(() => {
         const [socket] = echo
 
-        user && socket &&
+        user &&
+            socket &&
             socket.private(`App.User.${user.id}`).notification(notification => {
                 if (
                     notification.type ===
@@ -67,50 +75,67 @@ const Notifications = ({ theme, auth, echo }) => {
         client.post(`/notifications/${notification.id}`)
     }
 
-    return (
-        notifications.map((notification, index) => (
-            <div key={notification.id} className={css({
-                width: '100%',
-                height: '50px',
-                background: theme.palette.red.light
-            }, index !== (notifications.length - 1) && {
-                borderBottom: `1px solid ${theme.palette.red.base}`
-            })}>
-                <Container className={{
+    return notifications.map((notification, index) => (
+        <div
+            key={notification.id}
+            className={css(
+                {
+                    width: '100%',
+                    height: '50px',
+                    background: theme.palette.red.light
+                },
+                index !== notifications.length - 1 && {
+                    borderBottom: `1px solid ${theme.palette.red.base}`
+                }
+            )}
+        >
+            <Container
+                className={{
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'space-between',
-                }}>
-                    <Text>
-                        {notification.data && notification.data.message}
-                    </Text>
+                    justifyContent: 'space-between'
+                }}
+            >
+                <Text>{notification.data && notification.data.message}</Text>
 
-                    <div className={css({
+                <div
+                    className={css({
                         display: 'flex'
-                    })}>
-                        <Button onClick={() => setShowOutput(true)}>
-                            View output
+                    })}
+                >
+                    <Button onClick={() => setShowOutput(true)}>
+                        View output
+                    </Button>
+
+                    <IconButton
+                        onClick={() => hideAlert(notification)}
+                        marginLeft={8}
+                        icon="cross"
+                    />
+                </div>
+
+                <SideSheet
+                    isShown={showOutput}
+                    onCloseComplete={() => setShowOutput(false)}
+                >
+                    <Pane width={'100%'} padding={40}>
+                        <Logs
+                            logs={notification.data && notification.data.output}
+                        />
+
+                        <Button
+                            marginTop={16}
+                            appearance="primary"
+                            intent="success"
+                            onClick={() => setShowOutput(false)}
+                        >
+                            Close
                         </Button>
-
-                        <IconButton onClick={() => hideAlert(notification)} marginLeft={8} icon='cross' />
-                    </div>
-    
-                    <SideSheet
-                        isShown={showOutput}
-                        onCloseComplete={() => setShowOutput(false)}
-                    >
-                        <Pane width={'100%'} padding={40}>
-                            <Logs logs={notification.data && notification.data.output} />
-
-                            <Button marginTop={16} appearance='primary' intent='success' onClick={() => setShowOutput(false)}>
-                                Close
-                            </Button>
-                        </Pane>
-                    </SideSheet>
-                </Container>
-            </div>
-        ))
-    )
+                    </Pane>
+                </SideSheet>
+            </Container>
+        </div>
+    ))
 }
 
 export default withAuth(withSocket(withTheme(Notifications)))
