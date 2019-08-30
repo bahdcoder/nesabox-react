@@ -76,7 +76,10 @@ export const AuthProviderWrapper = ({ children }) => {
 
     const setAuthAndCache = (value = null) => {
         value
-            ? localStorage.setItem('auth', JSON.stringify(value))
+            ? localStorage.setItem('auth', JSON.stringify({
+                ...value,
+                access_token: defaultAuth.access_token
+            }))
             : localStorage.removeItem('auth')
 
         setAuth(value)
