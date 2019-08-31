@@ -61,10 +61,7 @@ export const AuthProviderWrapper = ({ children }) => {
                      *
                      */
 
-                    setAuthAndCache({
-                        ...data,
-                        access_token: defaultAuth.access_token
-                    })
+                    setAuthAndCache(data)
                 })
                 .catch(() => {
                     setAuthAndCache(null)
@@ -75,14 +72,19 @@ export const AuthProviderWrapper = ({ children }) => {
     }, [])
 
     const setAuthAndCache = (value = null) => {
+        const cache =
+            defaultAuth && defaultAuth.access_token
+                ? {
+                      ...value,
+                      access_token: defaultAuth.access_token
+                  }
+                : value
+
         value
-            ? localStorage.setItem('auth', JSON.stringify({
-                ...value,
-                access_token: defaultAuth.access_token
-            }))
+            ? localStorage.setItem('auth', JSON.stringify(cache))
             : localStorage.removeItem('auth')
 
-        setAuth(value)
+        setAuth(cache)
     }
 
     return (

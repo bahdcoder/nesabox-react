@@ -2,7 +2,6 @@ import React from 'react'
 import Logs from 'components/Logs'
 import Section from 'components/Section'
 import UpdateFile from 'components/UpdateFile'
-import Env from 'components/EnvironmentVariables'
 import { Button, Dialog, Small, Pane } from 'evergreen-ui'
 
 import 'brace/mode/sh'
@@ -73,6 +72,11 @@ const SiteSettings = ({
             />
             <Dialog
                 hasFooter={false}
+                contentContainerProps={{
+                    style: {
+                        padding: '0px'
+                    }
+                }}
                 isShown={!!nginxReloadOutput}
                 title="Nginx configuration test output"
             >

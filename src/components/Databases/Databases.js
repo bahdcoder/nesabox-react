@@ -62,6 +62,11 @@ const Databases = ({
                         <Dialog
                             isShown={true}
                             hasFooter={false}
+                            contentContainerProps={{
+                                style: {
+                                    padding: '0px'
+                                }
+                            }}
                             title={'Delete database'}
                             onCloseComplete={() => setDeletingDatabase(null)}
                         >

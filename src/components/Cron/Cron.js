@@ -287,6 +287,11 @@ const Cron = ({
                     isShown={true}
                     hasFooter={false}
                     title={dialog.title}
+                    contentContainerProps={{
+                        style: {
+                            padding: '0px'
+                        }
+                    }}
                     onCloseComplete={() => setDialog(null)}
                 >
                     <Text display="block" width="100%" marginBottom={8}>

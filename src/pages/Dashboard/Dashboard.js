@@ -6,9 +6,17 @@ import { withSocket } from 'utils/hoc'
 import Heading from 'components/Heading'
 import PageTitle from 'components/PageTitle'
 import ServersList from 'components/ServersList'
-import { Button, Small, toaster } from 'evergreen-ui'
 import CreateServerForm from 'components/CreateServerForm'
 import React, { useEffect, useState, useReducer } from 'react'
+import {
+    Button,
+    Small,
+    toaster,
+    Dialog,
+    Pane,
+    TextInput,
+    Text
+} from 'evergreen-ui'
 
 const initialServersState = null
 
@@ -34,6 +42,7 @@ const Dashboard = ({ auth, echo }) => {
         initialServersState
     )
     const [regions, setRegions] = useState(null)
+    const [provisionCommand, setProvisionCommand] = useState(null)
 
     const fetchServers = () => {
         servers &&
@@ -139,12 +148,15 @@ const Dashboard = ({ auth, echo }) => {
 
         client
             .post('/servers', form)
-            .then(() => {
+            .then(({ data }) => {
                 resetForm()
 
                 setCreatingServer(false)
 
+                setProvisionCommand(data.deploy_command)
+
                 fetchServers()
+
                 toaster.success('Server has been created.')
             })
             .catch(({ response }) => {
@@ -165,6 +177,68 @@ const Dashboard = ({ auth, echo }) => {
             <Helmet>
                 <title>Dashboard</title>
             </Helmet>
+            <Dialog
+                contentContainerProps={{
+                    style: {
+                        padding: '0px'
+                    }
+                }}
+                hasFooter={false}
+                isShown={!!provisionCommand}
+                title="Provision custom server"
+                onCloseComplete={() => setProvisionCommand(false)}
+            >
+                <div
+                    className={css({
+                        padding: '16px 32px'
+                    })}
+                >
+                    <Text>
+                        Almost there! Login to your server as root and run the
+                        following command. This would provision your server so
+                        that it can be configured by Nesabox. Once done, your
+                        server will become active on this dashboard.{' '}
+                    </Text>
+
+                    <div
+                        className={css({
+                            marginTop: '16px'
+                        })}
+                    >
+                        <TextInput
+                            readOnly
+                            width="100%"
+                            id="provision_command"
+                            name="provision_command"
+                            value={provisionCommand || ''}
+                        />
+
+                        <Button
+                            tabIndex={0}
+                            marginTop={16}
+                            onClick={() => {
+                                document
+                                    .getElementById('provision_command')
+                                    .select()
+                                document.execCommand('copy')
+                                toaster.success('Copied to clipboard.')
+                            }}
+                        >
+                            Copy command
+                        </Button>
+                    </div>
+                </div>
+                <Pane borderTop="muted">
+                    <Pane padding={16} display="flex" justifyContent="flex-end">
+                        <Button
+                            tabIndex={0}
+                            onClick={() => setProvisionCommand(null)}
+                        >
+                            Close
+                        </Button>
+                    </Pane>
+                </Pane>
+            </Dialog>
             <CreateServerForm
                 form={form}
                 errors={errors}

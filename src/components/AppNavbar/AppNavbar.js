@@ -1,6 +1,5 @@
-import { css } from 'glamor'
-import client from 'utils/axios'
 import React from 'react'
+import { css } from 'glamor'
 import { withAuth } from 'utils/hoc'
 import { withRouter, Link as RouterLink } from 'react-router-dom'
 import { withTheme, Popover, Avatar, Menu, Pane, Link } from 'evergreen-ui'

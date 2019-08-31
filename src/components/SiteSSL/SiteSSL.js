@@ -61,7 +61,9 @@ const SiteSSL = ({ server, site, submitting, installCertificate, theme }) => {
                             intent="success"
                             appearance="primary"
                             onClick={installCertificate}
-                            isLoading={site.installing_certificate || submitting}
+                            isLoading={
+                                site.installing_certificate || submitting
+                            }
                         >
                             Install certificate
                         </Button>

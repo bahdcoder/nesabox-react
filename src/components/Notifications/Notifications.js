@@ -58,7 +58,7 @@ const Notifications = ({ theme, auth, echo }) => {
             socket.private(`App.User.${user.id}`).notification(notification => {
                 if (
                     notification.type ===
-                    'App\\Notifications\\Servers\\AlertError'
+                    'App\\Notifications\\Servers\\Alert'
                 ) {
                     pushNewNotification(notification)
                 }

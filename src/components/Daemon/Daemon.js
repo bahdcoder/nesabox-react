@@ -11,7 +11,6 @@ import {
     Button,
     Table,
     Heading,
-    Icon,
     withTheme,
     IconButton,
     Dialog,
@@ -253,6 +252,11 @@ const Daemon = ({
                 <Dialog
                     isShown={true}
                     hasFooter={false}
+                    contentContainerProps={{
+                        style: {
+                            padding: '0px'
+                        }
+                    }}
                     title={`${outputDialog.title} (${outputDialog.daemon.slug})`}
                     onCloseComplete={() => setOutputDialog(null)}
                 >

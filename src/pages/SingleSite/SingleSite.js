@@ -6,9 +6,9 @@ import PageTitle from 'components/PageTitle'
 import SubNavbar from 'components/SubNavbar'
 import Container from 'components/Container'
 import { withSocket, withAuth } from 'utils/hoc'
+import { Route, Link as RouterLink } from 'react-router-dom'
 import React, { useState, useEffect, useReducer } from 'react'
 import { Small, Link, IconButton, toaster } from 'evergreen-ui'
-import { Route, Link as RouterLink, Redirect } from 'react-router-dom'
 
 const siteReducer = (site, action) => {
     if (action.type === 'SET_SITE') return action.payload
@@ -75,6 +75,7 @@ const SingleSite = props => {
 
                 toaster.danger('Site was not found.')
             })
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
@@ -175,21 +176,6 @@ const SingleSite = props => {
                 </div>
             </PageTitle>
 
-            {!site.is_ready && (
-                <React.Fragment>
-                    <Container>
-                        <Loader />
-                        <Small
-                            width="100%"
-                            display="flex"
-                            justifyContent="center"
-                        >
-                            Installing site
-                        </Small>
-                    </Container>
-                </React.Fragment>
-            )}
-
             <SubNavbar
                 items={[
                     {
@@ -212,6 +198,21 @@ const SingleSite = props => {
                     }
                 ]}
             />
+
+            {!site.is_ready && (
+                <React.Fragment>
+                    <Container>
+                        <Loader />
+                        <Small
+                            width="100%"
+                            display="flex"
+                            justifyContent="center"
+                        >
+                            Installing site
+                        </Small>
+                    </Container>
+                </React.Fragment>
+            )}
 
             {site.is_ready && (
                 <Container>

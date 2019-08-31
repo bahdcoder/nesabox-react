@@ -158,6 +158,8 @@ const SiteSettings = props => {
             .then(({ data }) => {
                 history.push(`/servers/${server.id}`)
 
+                toaster.success('Site has been queued for deletion.')
+
                 setServer(data)
             })
             .catch(({ response }) => {
