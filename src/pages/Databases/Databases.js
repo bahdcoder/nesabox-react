@@ -1,85 +1,34 @@
 import client from 'utils/axios'
 import { useForm } from 'utils/hooks'
 import { toaster } from 'evergreen-ui'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import DatabaseDetails from 'components/Databases'
 
 const Databases = props => {
+    const { server, match } = props
+    const [databases, setDatabases] = useState([])
+    const [databaseUsers, setDatabaseUsers] = useState([])
     const [
         [form, setValue, resetForm],
         [submitting, setSubmitting],
         [errors, setErrors]
     ] = useForm({
         name: '',
-        command: '',
         user: 'nesa',
-        password: ''
+        password: '',
+        database_user_id: ''
     })
 
-    const [createNewUser, setCreateNewUser] = useState({
-        mongodb: true,
-        mysql: false
-    })
-    const [addingDatabase, setAddingDatabase] = useState({
-        mongodb: false,
-        mysql: false
-    })
-    const [deletingDatabase, setDeletingDatabase] = useState(false)
-
-    const handleFormSubmit = type => {
-        setSubmitting(true)
-
-        client
-            .post(`/servers/${props.server.id}/databases`, {
-                ...form,
-                type,
-                user: createNewUser[type] ? form.user : undefined,
-                password: createNewUser[type] ? form.password : undefined
-            })
+    useEffect(() => {
+        client.get(`/servers/${server.id}/databases/${match.params.database}`)
             .then(({ data }) => {
-                toaster.success('Database successfully added.')
-
-                props.setServer(data)
-
-                setAddingDatabase({
-                    ...addingDatabase,
-                    [type]: false
-                })
-
-                resetForm()
+                setDatabases(data.databases)
+                setDatabaseUsers(data.database_users)
             })
-            .catch(({ response }) => {
-                response && response.data && setErrors(response.data.errors)
-
-                response && response.message && toaster.danger(response.message)
+            .catch(() => {
+                toaster.danger('Failed fetching databases.')
             })
-            .finally(() => {
-                setSubmitting(false)
-            })
-    }
-
-    const deleteDatabase = (delete_user = false) => {
-        if (submitting) return
-
-        setSubmitting({ delete_user })
-
-        client
-            .delete(
-                `/servers/${props.server.id}/databases/${deletingDatabase.id}?delete_user=${delete_user}`
-            )
-            .then(({ data }) => {
-                toaster.success('Database successfully deleted.')
-
-                props.setServer(data)
-            })
-            .catch(({ response }) => {
-                toaster.danger('Failed deleting database.')
-            })
-            .finally(() => {
-                setSubmitting(false)
-                setDeletingDatabase(false)
-            })
-    }
+    }, [match.params.database, server.id])
 
     return (
         <DatabaseDetails
@@ -88,14 +37,6 @@ const Databases = props => {
             errors={errors}
             setValue={setValue}
             submitting={submitting}
-            createNewUser={createNewUser}
-            deleteDatabase={deleteDatabase}
-            addingDatabase={addingDatabase}
-            deletingDatabase={deletingDatabase}
-            handleFormSubmit={handleFormSubmit}
-            setCreateNewUser={setCreateNewUser}
-            setAddingDatabase={setAddingDatabase}
-            setDeletingDatabase={setDeletingDatabase}
         />
     )
 }

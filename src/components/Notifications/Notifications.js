@@ -57,8 +57,7 @@ const Notifications = ({ theme, auth, echo }) => {
             socket &&
             socket.private(`App.User.${user.id}`).notification(notification => {
                 if (
-                    notification.type ===
-                    'App\\Notifications\\Servers\\Alert'
+                    notification.type === 'App\\Notifications\\Servers\\Alert'
                 ) {
                     pushNewNotification(notification)
                 }
@@ -75,6 +74,11 @@ const Notifications = ({ theme, auth, echo }) => {
         client.post(`/notifications/${notification.id}`)
     }
 
+    const colorMatches = {
+        error: 'red',
+        'info-delete': 'blue',
+    }
+
     return notifications.map((notification, index) => (
         <div
             key={notification.id}
@@ -82,10 +86,10 @@ const Notifications = ({ theme, auth, echo }) => {
                 {
                     width: '100%',
                     height: '50px',
-                    background: theme.palette.red.light
+                    background: theme.palette[colorMatches[notification.data && notification.data.type] || 'info-delete'].light
                 },
                 index !== notifications.length - 1 && {
-                    borderBottom: `1px solid ${theme.palette.red.base}`
+                    borderBottom: `1px solid ${theme.palette[colorMatches[notification.data && notification.data.type] || 'info-delete'].base}`
                 }
             )}
         >
@@ -103,9 +107,11 @@ const Notifications = ({ theme, auth, echo }) => {
                         display: 'flex'
                     })}
                 >
-                    <Button onClick={() => setShowOutput(true)}>
-                        View output
-                    </Button>
+                    {notification.data && notification.data.output && (
+                        <Button onClick={() => setShowOutput(true)}>
+                            View output
+                        </Button>
+                    )}
 
                     <IconButton
                         onClick={() => hideAlert(notification)}
@@ -119,9 +125,11 @@ const Notifications = ({ theme, auth, echo }) => {
                     onCloseComplete={() => setShowOutput(false)}
                 >
                     <Pane width={'100%'} padding={40}>
-                        <Logs
-                            logs={notification.data && notification.data.output}
-                        />
+                        {notification.data && notification.data.output && (
+                            <Logs
+                                logs={notification.data && notification.data.output}
+                            />
+                        )}
 
                         <Button
                             marginTop={16}

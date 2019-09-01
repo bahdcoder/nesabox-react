@@ -29,9 +29,12 @@ const SubNavbar = ({ items, theme }) => {
                                 is="li"
                                 className={css([
                                     styles.listItem,
+                                    {
+                                        textTransform: 'capitalize'
+                                    },
                                     item.active && {
                                         borderBottom: `1px solid ${theme.palette.green.base}`
-                                    }
+                                    },
                                 ])}
                                 color={
                                     item.active ? theme.palette.green.base : ''

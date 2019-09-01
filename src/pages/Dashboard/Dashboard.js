@@ -133,14 +133,14 @@ const Dashboard = ({ auth, echo }) => {
             ((user.providers[validProviders[0].value] || [])[0] || {}).id || ''
     })
 
-    const setDatabase = database =>
+    const setDatabase = database => {
         setValue(
             'databases',
             form.databases.includes(database)
                 ? form.databases.filter(d => d !== database)
-                : [...form.databases, database]
+                :  ['mysql', 'mariadb', 'mysql8'].includes(database) ? form.databases.filter(d => !['mysql', 'mariadb', 'mysql8'].includes(d)).concat([database]) : [...form.databases, database]
         )
-
+    }
     const handleSubmit = e => {
         e.preventDefault()
 
@@ -196,7 +196,7 @@ const Dashboard = ({ auth, echo }) => {
                     <Text>
                         Almost there! Login to your server as root and run the
                         following command. This would provision your server so
-                        that it can be configured by Nesabox. Once done, your
+                        that it can be managed by Nesabox. Once done, your
                         server will become active on this dashboard.{' '}
                     </Text>
 

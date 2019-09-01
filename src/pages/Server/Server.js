@@ -32,7 +32,7 @@ const Server = ({ match, history, location, echo, auth }) => {
                 history.push('/dashboard')
             })
         // eslint-disable-next-line
-    }, [location])
+    }, [match.params.server])
 
     useEffect(() => {
         const [socket] = echo

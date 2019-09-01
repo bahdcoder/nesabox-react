@@ -113,11 +113,11 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                             active: match.isExact,
                             to: match.url
                         },
-                        {
-                            label: 'Databases',
-                            active: location.pathname.search(/databases/) > -1,
-                            to: `${match.url}/databases`
-                        },
+                        ...((server || {}).databases || []).map(database => ({
+                            label: database,
+                            active: location.pathname.split(database).length > 1,
+                            to: `${match.url}/databases/${database}`
+                        })),
                         {
                             label: 'Processes',
                             active: location.pathname.search(/processes/) > -1,
@@ -193,7 +193,7 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                                     setServer={setServer}
                                 />
                             )}
-                            path={`${match.url}/databases`}
+                            path={`${match.url}/databases/:database`}
                         />
 
                         <Route

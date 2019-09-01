@@ -226,15 +226,30 @@ const CreateServerForm = ({
                     )}
 
                     <Label>Select databases to install</Label>
-                    {/* <Checkbox
-                        label="Mongo DB"
+                    <Checkbox
+                        label="Mongo DB v4.2"
                         checked={form.databases.includes('mongodb')}
                         onChange={() => setDatabase('mongodb')}
-                    /> */}
+                    />
                     <Checkbox
-                        label="Mysql"
+                        label="Mysql v5.7"
                         checked={form.databases.includes('mysql')}
                         onChange={() => setDatabase('mysql')}
+                    />
+                    <Checkbox
+                        label="Mysql v8"
+                        checked={form.databases.includes('mysql8')}
+                        onChange={() => setDatabase('mysql8')}
+                    />
+                    <Checkbox
+                        label="MariaDB v10.13"
+                        checked={form.databases.includes('mariadb')}
+                        onChange={() => setDatabase('mariadb')}
+                    />
+                    <Checkbox
+                        label="Postgresql v11"
+                        checked={form.databases.includes('postgresql')}
+                        onChange={() => setDatabase('postgresql')}
                     />
 
                     <Button
