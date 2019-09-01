@@ -16,11 +16,16 @@ import {
     TextInputField,
     Checkbox,
     toaster,
-    Text
+    Text,
+    Small,
+    Dialog
 } from 'evergreen-ui'
 
 const Mongodb = ({ databases, loading, server, refreshDatabases }) => {
     const [addingUser, setAddingUser] = useState(false)
+    const [deletingUser, setDeletingUser] = useState(false)
+    const [deleteLoading, setDeleteLoading] = useState(false)
+    const [deletingDatabase, setDeletingDatabase] = useState(null)
     const [addingDatabase, setAddingDatabase] = useState(false)
     const [
         [addUserForm, setAddUserValue],
@@ -69,6 +74,42 @@ const Mongodb = ({ databases, loading, server, refreshDatabases }) => {
                     setAddDatabaseErrors(response.data.errors)
 
                 setAddDatabaseSubmitting(false)
+            })
+    }
+
+    const deleteDatabase = () => {
+        setDeleteLoading(true)
+        
+        client.delete(`servers/${server.id}/databases/${deletingDatabase.id}/mongodb/delete-databases`)
+            .then(() => {
+                refreshDatabases(() => {
+                    setDeletingDatabase(null)
+                    setDeleteLoading(false)
+                    toaster.success('Database deletion has been queued.')
+                })
+            })
+            .catch(() => {
+                toaster.danger('Failed deleting database.')
+
+                setDeleteLoading(false)
+            })
+    }
+
+    const deleteUser = () => {
+        setDeleteLoading(true)
+        
+        client.delete(`servers/${server.id}/databases/${showingUsersForDatabase.id}/mongodb/delete-users/${deletingUser.id}`)
+            .then(() => {
+                refreshDatabases(() => {
+                    setDeletingUser(null)
+                    setDeleteLoading(false)
+                    toaster.success('Delete user has been queued.')
+                })
+            })
+            .catch(() => {
+                toaster.danger('Failed deleting user.')
+
+                setDeleteLoading(false)
             })
     }
 
@@ -131,6 +172,35 @@ const Mongodb = ({ databases, loading, server, refreshDatabases }) => {
                             Add database
                         </Button>
                     </div>
+
+                    {deletingDatabase && (
+                        <Dialog
+                            intent="danger"
+                            title="Delete database"
+                            onConfirm={deleteDatabase}
+                            isShown={!!deletingDatabase}
+                            confirmLabel="Delete database"
+                            isConfirmLoading={deleteLoading}
+                            onCloseComplete={() => setDeletingDatabase(false)}
+                        >   
+                            <Text
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                            >
+                                Are you sure you want to delete {deletingDatabase.name} ? 
+                            </Text>
+
+                            <Text                                 display="flex"
+                                alignItems="center"
+                                justifyContent="center">
+                                <Small >
+                                This will delete all data, alongside all users in this database.
+                                </Small>
+                            </Text>
+                        </Dialog>
+                    )}
+
                     <Table.Head>
                         <Table.TextHeaderCell>Name</Table.TextHeaderCell>
 
@@ -156,6 +226,7 @@ const Mongodb = ({ databases, loading, server, refreshDatabases }) => {
                                             <IconButton
                                                 icon="trash"
                                                 intent="danger"
+                                                onClick={() => setDeletingDatabase(database)}
                                             />
                                         </React.Fragment>
                                     ) : (
@@ -165,7 +236,7 @@ const Mongodb = ({ databases, loading, server, refreshDatabases }) => {
                             </Table.Row>
                         ))}
                         {databases.length === 0 && (
-                            <Text>No databases to show.</Text>
+                            <Text marginTop={16} display='flex' justifyContent='center'>No databases to show.</Text>
                         )}
                     </Table.Body>
                 </React.Fragment>
@@ -230,6 +301,26 @@ const Mongodb = ({ databases, loading, server, refreshDatabases }) => {
                         </Button>
                     </div>
 
+                    {deletingUser && (
+                        <Dialog
+                        intent="danger"
+                        title="Delete user"
+                        onConfirm={deleteUser}
+                        isShown={!!deletingUser}
+                        confirmLabel="Delete user"
+                        isConfirmLoading={deleteLoading}
+                        onCloseComplete={() => setDeletingUser(false)}
+                    >
+                        <Text
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                        >
+                            Are you sure you want to delete user {deletingUser.name} from database {showingUsersForDatabase.name} ? 
+                        </Text>
+                    </Dialog>
+                    )}
+
                     <Table.Head>
                         <Table.TextHeaderCell>User</Table.TextHeaderCell>
 
@@ -252,6 +343,7 @@ const Mongodb = ({ databases, loading, server, refreshDatabases }) => {
                                         <IconButton
                                             icon="trash"
                                             intent="danger"
+                                            onClick={() => setDeletingUser(user)}
                                         />
                                     ) : (
                                         <LoaderIcon />
