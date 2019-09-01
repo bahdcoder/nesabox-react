@@ -34,7 +34,7 @@ const SubNavbar = ({ items, theme }) => {
                                     },
                                     item.active && {
                                         borderBottom: `1px solid ${theme.palette.green.base}`
-                                    },
+                                    }
                                 ])}
                                 color={
                                     item.active ? theme.palette.green.base : ''

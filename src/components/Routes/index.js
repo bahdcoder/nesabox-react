@@ -43,7 +43,7 @@ const Routes = ({ location, auth: [user] }) => {
             <React.Fragment>
                 {!['/', '/login'].includes(location.pathname) && <AppNavbar />}
                 {location.pathname === '/' && <Navbar />}
-                <Notifications />
+                {user && <Notifications />}
                 <NoAuthRoute page={AsyncLogin} path="/login" />
                 <NoAuthRoute page={AsyncRegister} path="/register" />
                 <AuthRoute page={AsyncDashboard} path="/dashboard" />

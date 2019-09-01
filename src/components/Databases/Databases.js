@@ -17,33 +17,28 @@ import {
     Icon
 } from 'evergreen-ui'
 import Section from 'components/Section'
-import EmptySet from 'components/EmptySet'
+import Mongodb from 'components/Mongodb'
 
-import styles from './Databases.css'
+// import styles from './Databases.css'
 
-const Databases = ({
-    form,
-    theme,
-    server,
-    errors,
-    setValue,
-    submitting,
-    createNewUser,
-    deleteDatabase,
-    addingDatabase,
-    handleFormSubmit,
-    setCreateNewUser,
-    deletingDatabase,
-    setAddingDatabase,
-    setDeletingDatabase,
-    match,
-    ...rest
-}) => (
-    <React.Fragment>
-        <Section title={`${match.params.database} Databases`} description={`Manage your ${match.params.database} databases here.`}>
+const Databases = props => {
+    const { match } = props
 
-        </Section>
-    </React.Fragment>
-)
+    return match.params.database === 'mongodb' ? (
+        <Mongodb {...props} />
+    ) : (
+        <React.Fragment>
+            <Section
+                title={`${match.params.database} Databases`}
+                description={`Manage your ${match.params.database} databases here.`}
+            ></Section>
+
+            <Section
+                title={`${match.params.database} Database users`}
+                description={`Manage your ${match.params.database} database users here.`}
+            ></Section>
+        </React.Fragment>
+    )
+}
 
 export default withTheme(Databases)

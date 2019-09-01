@@ -115,7 +115,8 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                         },
                         ...((server || {}).databases || []).map(database => ({
                             label: database,
-                            active: location.pathname.split(database).length > 1,
+                            active:
+                                location.pathname.split(database).length > 1,
                             to: `${match.url}/databases/${database}`
                         })),
                         {

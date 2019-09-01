@@ -138,7 +138,11 @@ const Dashboard = ({ auth, echo }) => {
             'databases',
             form.databases.includes(database)
                 ? form.databases.filter(d => d !== database)
-                :  ['mysql', 'mariadb', 'mysql8'].includes(database) ? form.databases.filter(d => !['mysql', 'mariadb', 'mysql8'].includes(d)).concat([database]) : [...form.databases, database]
+                : ['mysql', 'mariadb', 'mysql8'].includes(database)
+                ? form.databases
+                      .filter(d => !['mysql', 'mariadb', 'mysql8'].includes(d))
+                      .concat([database])
+                : [...form.databases, database]
         )
     }
     const handleSubmit = e => {

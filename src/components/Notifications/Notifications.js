@@ -76,7 +76,7 @@ const Notifications = ({ theme, auth, echo }) => {
 
     const colorMatches = {
         error: 'red',
-        'info-delete': 'blue',
+        'info-delete': 'blue'
     }
 
     return notifications.map((notification, index) => (
@@ -86,7 +86,12 @@ const Notifications = ({ theme, auth, echo }) => {
                 {
                     width: '100%',
                     height: '50px',
-                    background: theme.palette[colorMatches[notification.data && notification.data.type] || 'info-delete'].light
+                    background:
+                        theme.palette[
+                            colorMatches[
+                                notification.data && notification.data.type
+                            ] || 'info-delete'
+                        ].light
                 },
                 index !== notifications.length - 1 && {
                     borderBottom: `1px solid ${theme.palette[colorMatches[notification.data && notification.data.type] || 'info-delete'].base}`
@@ -127,7 +132,10 @@ const Notifications = ({ theme, auth, echo }) => {
                     <Pane width={'100%'} padding={40}>
                         {notification.data && notification.data.output && (
                             <Logs
-                                logs={notification.data && notification.data.output}
+                                logs={
+                                    notification.data &&
+                                    notification.data.output
+                                }
                             />
                         )}
 
