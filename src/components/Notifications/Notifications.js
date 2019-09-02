@@ -26,7 +26,7 @@ const notificationsReducer = (notifications, action) => {
 
 const Notifications = ({ theme, auth, echo }) => {
     const [user] = auth
-    const [showOutput, setShowOutput] = useState(false)
+    const [showOutput, setShowOutput] = useState({})
     const [notifications, setNotifications] = useReducer(
         notificationsReducer,
         []
@@ -113,7 +113,9 @@ const Notifications = ({ theme, auth, echo }) => {
                     })}
                 >
                     {notification.data && notification.data.output && (
-                        <Button onClick={() => setShowOutput(true)}>
+                        <Button onClick={() => setShowOutput({
+                            [notification.id]: true
+                        })}>
                             View output
                         </Button>
                     )}
@@ -126,24 +128,26 @@ const Notifications = ({ theme, auth, echo }) => {
                 </div>
 
                 <SideSheet
-                    isShown={showOutput}
-                    onCloseComplete={() => setShowOutput(false)}
+                    isShown={showOutput[notification.id]}
+                    onCloseComplete={() => setShowOutput({
+                        ...showOutput,
+                        [notification.id]: false
+                    })}
                 >
                     <Pane width={'100%'} padding={40}>
                         {notification.data && notification.data.output && (
                             <Logs
-                                logs={
-                                    notification.data &&
-                                    notification.data.output
-                                }
+                                logs={notification.data.output}
                             />
                         )}
-
                         <Button
                             marginTop={16}
                             appearance="primary"
                             intent="success"
-                            onClick={() => setShowOutput(false)}
+                            onClick={() => setShowOutput({
+                                ...showOutput,
+                                [notification.id]: false
+                            })}
                         >
                             Close
                         </Button>
