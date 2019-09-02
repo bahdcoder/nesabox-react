@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 import {
     SideSheet,
     TextInputField,
-    SelectField,
     Label,
     Pane,
     Button,
@@ -15,7 +14,6 @@ import {
     IconButton,
     Dialog,
     Text,
-    Icon,
     toaster
 } from 'evergreen-ui'
 import { useForm } from 'utils/hooks'
@@ -34,7 +32,8 @@ const Databases = props => {
         username: '',
         password: ''
     })
-    const [, setDeletingDatabase] = useState(false)
+    const [deletingDatabase, setDeletingDatabase] = useState(false)
+    const [deleteLoading, setDeleteLoading] = useState(false)
     const [createNewUser, setCreateNewUser] = useState(false)
     const [addingDatabase, setAddingDatabase] = useState(false)
 
@@ -68,6 +67,29 @@ const Databases = props => {
             .finally(() => {
                 setAddDatabaseSubmitting(false)
             })
+    }
+
+    const deleteDatabase = () => {
+        setDeleteLoading(true)
+    
+            client
+                .delete(
+                    `/servers/${server.id}/databases/${deletingDatabase.id}`
+                )
+                .then(() => {
+                    toaster.success('Database successfully deleted.')
+                    
+                    refreshDatabases(() => {
+                        setDeletingDatabase(null)
+                        resetAddDatabaseForm()
+                    })
+                })
+                .catch(({ response }) => {
+                    response && response.data && response.data.message && toaster.danger('Failed deleting database.')
+                })
+                .finally(() => {
+                    setDeleteLoading(false)
+                })
     }
 
     return match.params.database === 'mongodb' ? (
@@ -203,6 +225,27 @@ const Databases = props => {
                         </Pane>
                     </SideSheet>
                 )}
+
+                    {deletingDatabase && (
+                        <Dialog
+                            intent="danger"
+                            title="Delete database"
+                            onConfirm={deleteDatabase}
+                            isShown={!!deletingDatabase}
+                            confirmLabel="Delete database"
+                            isConfirmLoading={deleteLoading}
+                            onCloseComplete={() => setDeletingDatabase(false)}
+                        >
+                            <Text
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                            >
+                                Are you sure you want to delete{' '}
+                                {deletingDatabase.name} ?
+                            </Text>
+                        </Dialog>
+                    )}
 
                 <Table.Head>
                     <Table.TextHeaderCell>Name</Table.TextHeaderCell>
