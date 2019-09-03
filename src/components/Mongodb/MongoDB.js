@@ -48,8 +48,8 @@ const Mongodb = ({ databases, loading, server, refreshDatabases }) => {
     )
 
     const database_users = showingUsersForDatabase
-        ? databases.find(d => d.id === showingUsersForDatabase.id)
-              .database_users
+        ? ((databases.find(d => d.id === showingUsersForDatabase.id)
+        || {}).database_users || [])
         : []
 
     const addDatabase = e => {
