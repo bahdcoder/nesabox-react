@@ -16,7 +16,7 @@ import {
 const notificationsReducer = (notifications, action) => {
     switch (action.type) {
         case 'ALERT_RECEIVED':
-            return [...notifications, action.payload]
+            return [action.payload, ...notifications]
         case 'ALERTS_FETCHED':
             return action.payload
         default:
@@ -59,6 +59,7 @@ const Notifications = ({ theme, auth, echo }) => {
                 if (
                     notification.type === 'App\\Notifications\\Servers\\Alert'
                 ) {
+                    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', notification.type)
                     pushNewNotification(notification)
                 }
             })
@@ -113,9 +114,13 @@ const Notifications = ({ theme, auth, echo }) => {
                     })}
                 >
                     {notification.data && notification.data.output && (
-                        <Button onClick={() => setShowOutput({
-                            [notification.id]: true
-                        })}>
+                        <Button
+                            onClick={() =>
+                                setShowOutput({
+                                    [notification.id]: true
+                                })
+                            }
+                        >
                             View output
                         </Button>
                     )}
@@ -129,25 +134,27 @@ const Notifications = ({ theme, auth, echo }) => {
 
                 <SideSheet
                     isShown={showOutput[notification.id]}
-                    onCloseComplete={() => setShowOutput({
-                        ...showOutput,
-                        [notification.id]: false
-                    })}
+                    onCloseComplete={() =>
+                        setShowOutput({
+                            ...showOutput,
+                            [notification.id]: false
+                        })
+                    }
                 >
                     <Pane width={'100%'} padding={40}>
                         {notification.data && notification.data.output && (
-                            <Logs
-                                logs={notification.data.output}
-                            />
+                            <Logs logs={notification.data.output} />
                         )}
                         <Button
                             marginTop={16}
                             appearance="primary"
                             intent="success"
-                            onClick={() => setShowOutput({
-                                ...showOutput,
-                                [notification.id]: false
-                            })}
+                            onClick={() =>
+                                setShowOutput({
+                                    ...showOutput,
+                                    [notification.id]: false
+                                })
+                            }
                         >
                             Close
                         </Button>

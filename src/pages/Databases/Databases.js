@@ -9,7 +9,7 @@ const Databases = props => {
     const { server, match } = props
     const [loading, setLoading] = useState(true)
     const [databases, setDatabases] = useState([])
-    const [, setDatabaseUsers] = useState([])
+    const [databaseUsers, setDatabaseUsers] = useState([])
     const [[form, setValue], [submitting], [errors]] = useForm({
         name: '',
         user: 'nesa',
@@ -62,6 +62,7 @@ const Databases = props => {
             setValue={setValue}
             databases={databases}
             submitting={submitting}
+            databaseUsers={databaseUsers}
             refreshDatabases={refreshDatabases}
         />
     )

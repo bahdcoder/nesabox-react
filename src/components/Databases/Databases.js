@@ -20,6 +20,7 @@ import { useForm } from 'utils/hooks'
 import Section from 'components/Section'
 import Mongodb from 'components/Mongodb'
 import LoaderIcon from 'components/LoaderIcon'
+import DatabaseUsers from 'components/DatabaseUsers'
 
 const Databases = props => {
     const { match, server, databases, refreshDatabases } = props
@@ -71,25 +72,26 @@ const Databases = props => {
 
     const deleteDatabase = () => {
         setDeleteLoading(true)
-    
-            client
-                .delete(
-                    `/servers/${server.id}/databases/${deletingDatabase.id}`
-                )
-                .then(() => {
-                    toaster.success('Database successfully deleted.')
-                    
-                    refreshDatabases(() => {
-                        setDeletingDatabase(null)
-                        resetAddDatabaseForm()
-                    })
+
+        client
+            .delete(`/servers/${server.id}/databases/${deletingDatabase.id}`)
+            .then(() => {
+                toaster.success('Database successfully deleted.')
+
+                refreshDatabases(() => {
+                    setDeletingDatabase(null)
+                    resetAddDatabaseForm()
                 })
-                .catch(({ response }) => {
-                    response && response.data && response.data.message && toaster.danger('Failed deleting database.')
-                })
-                .finally(() => {
-                    setDeleteLoading(false)
-                })
+            })
+            .catch(({ response }) => {
+                response &&
+                    response.data &&
+                    response.data.message &&
+                    toaster.danger('Failed deleting database.')
+            })
+            .finally(() => {
+                setDeleteLoading(false)
+            })
     }
 
     return match.params.database === 'mongodb' ? (
@@ -226,26 +228,26 @@ const Databases = props => {
                     </SideSheet>
                 )}
 
-                    {deletingDatabase && (
-                        <Dialog
-                            intent="danger"
-                            title="Delete database"
-                            onConfirm={deleteDatabase}
-                            isShown={!!deletingDatabase}
-                            confirmLabel="Delete database"
-                            isConfirmLoading={deleteLoading}
-                            onCloseComplete={() => setDeletingDatabase(false)}
+                {deletingDatabase && (
+                    <Dialog
+                        intent="danger"
+                        title="Delete database"
+                        onConfirm={deleteDatabase}
+                        isShown={!!deletingDatabase}
+                        confirmLabel="Delete database"
+                        isConfirmLoading={deleteLoading}
+                        onCloseComplete={() => setDeletingDatabase(false)}
+                    >
+                        <Text
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
                         >
-                            <Text
-                                display="flex"
-                                alignItems="center"
-                                justifyContent="center"
-                            >
-                                Are you sure you want to delete{' '}
-                                {deletingDatabase.name} ?
-                            </Text>
-                        </Dialog>
-                    )}
+                            Are you sure you want to delete{' '}
+                            {deletingDatabase.name} ?
+                        </Text>
+                    </Dialog>
+                )}
 
                 <Table.Head>
                     <Table.TextHeaderCell>Name</Table.TextHeaderCell>
@@ -289,7 +291,9 @@ const Databases = props => {
             <Section
                 title={`${match.params.database} Database users`}
                 description={`Manage your ${match.params.database} database users here.`}
-            ></Section>
+            >
+                <DatabaseUsers {...props} />
+            </Section>
         </React.Fragment>
     )
 }
