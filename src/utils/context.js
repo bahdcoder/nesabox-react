@@ -42,7 +42,17 @@ export const WebsocketProviderWrapper = ({ children, auth }) => {
             )
     }, [])
 
-    return <WebsocketProvider value={[socket]}>{children}</WebsocketProvider>
+    if (! auth) return (
+        <React.Fragment>
+            {children}
+        </React.Fragment>
+    )
+
+    return (
+        <WebsocketProvider value={[socket]}>
+            {socket ? children : <Loader />}
+        </WebsocketProvider>
+    )
 }
 
 export const AuthProviderWrapper = ({ children }) => {

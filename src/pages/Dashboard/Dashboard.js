@@ -86,8 +86,9 @@ const Dashboard = ({ auth, echo }) => {
     useEffect(() => {
         const [socket] = echo
 
-        socket &&
-            socket.private(`App.User.${user.id}`).notification(notification => {
+        const channel = socket
+            .private(`App.User.${user.id}`)
+            .notification(notification => {
                 if (
                     notification.type ===
                     'App\\Notifications\\Servers\\ServerIsReady'
@@ -99,8 +100,7 @@ const Dashboard = ({ auth, echo }) => {
                 }
             })
 
-        // return () =>
-        //     socket && socket.private(`App.User.${user.id}`).unsubscribe()
+        return () => channel.unsubscribe()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [echo, user])
 

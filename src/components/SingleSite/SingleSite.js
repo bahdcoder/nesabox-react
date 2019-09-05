@@ -1,8 +1,9 @@
 import React from 'react'
+import { Button } from 'evergreen-ui'
 import Loadable from 'react-loadable'
 import Loader from 'components/Loader'
 import Section from 'components/Section'
-import { SegmentedControl, Button } from 'evergreen-ui'
+import SegmentedControl from 'components/SegmentedControl'
 import SelectRepoForGitApp from 'components/SelectRepoForGitApp'
 
 const GhostAppAsync = Loadable({
@@ -21,6 +22,12 @@ const GitAppAsync = Loadable({
     loading: Loader
 })
 
+// {
+//     icon: 'lock',
+//     name: 'lets_encrypt',
+//     title: 'Lets Encrypt',
+//     description: 'Free SSL certificate'
+// }
 const SingleSite = ({
     site,
     setAppType,
@@ -30,6 +37,21 @@ const SingleSite = ({
     installGhost,
     ...rest
 }) => {
+    const options = [
+        rest.server.databases.includes('mysql') && {
+            description: 'One click ghost install',
+            icon: 'ghost',
+            name: 'ghost',
+            title: 'Ghost CMS'
+        },
+        {
+            title: 'Git Repository',
+            icon: 'github',
+            name: 'git',
+            description: 'Deploy from source control'
+        }
+    ].filter(Boolean)
+
     return (
         <React.Fragment>
             {!site && <Loader />}
@@ -39,25 +61,14 @@ const SingleSite = ({
                     title="Application type"
                     description="App could be a ghost blog, or a git repository"
                 >
-                    {!site.installing_ghost &&
-                        !site.installing_repository &&
-                        appType !== 'git' && (
-                            <SegmentedControl
-                                width={'100%'}
-                                options={[
-                                    {
-                                        label: 'Ghost blog',
-                                        value: 'ghost'
-                                    },
-                                    {
-                                        label: 'Git Repository',
-                                        value: 'git'
-                                    }
-                                ]}
-                                value={appType}
-                                onChange={value => setAppType(value)}
-                            />
-                        )}
+                    {!site.installing_ghost && !site.installing_repository && (
+                        <SegmentedControl
+                            width={'100%'}
+                            options={options}
+                            handleClick={option => setAppType(option.name)}
+                            selected={options.find(o => o.name === appType)}
+                        />
+                    )}
 
                     {appType === 'ghost' && (
                         <Button

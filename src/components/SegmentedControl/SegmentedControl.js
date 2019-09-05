@@ -20,12 +20,13 @@ const SegmentedControl = ({ options = [], selected, handleClick, theme }) => {
                             marginRight: 16,
                             cursor: 'pointer',
                             maxWidth: '200px',
-                            borderRadius: '5%',
+                            borderRadius: '4px',
                             padding: `8px 16px`,
-                            alignItems: 'center'
+                            alignItems: 'center',
+                            border: `1px solid ${theme.palette.neutral.light}`
                         },
                         (selected || options[0]).name === option.name && {
-                            border: `2px solid ${theme.palette.green.light}`
+                            border: `2px solid ${theme.palette.green.base}`
                         }
                     )}
                 >

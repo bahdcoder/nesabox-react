@@ -66,11 +66,16 @@ const SingleSite = props => {
             .then(({ data }) => {
                 setSite(data)
 
-                setAppType(data.installing_repository ? 'git' : 'ghost')
+                // if ghost is not supported, activate git
+                if (! server.databases.includes['mysql']) {
+                    setAppType('git')
+                } else {
+                    setAppType(data.installing_repository ? 'git' : 'ghost')
+                }
 
                 setLoading(false)
             })
-            .catch(() => {
+            .catch((e) => {
                 push(`/servers/${server.id}`)
 
                 toaster.danger('Site was not found.')
@@ -82,16 +87,20 @@ const SingleSite = props => {
         const [user] = auth
         const [socket] = echo
 
-        socket &&
-            socket.private(`App.User.${user.id}`).notification(notification => {
+        const channel = socket
+            .private(`App.User.${user.id}`)
+            .notification(notification => {
                 if (
                     notification.type ===
                     'App\\Notifications\\Sites\\SiteUpdated'
                 ) {
+                    console.log('>>>>>>>', notification)
                     setSite(notification.site)
                 }
             })
-    }, [echo, auth])
+
+        return channel.unsubscribe()
+    }, [])
 
     const installGhost = () => {
         setSubmitting(true)

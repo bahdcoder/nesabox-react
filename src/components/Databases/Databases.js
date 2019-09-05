@@ -94,6 +94,21 @@ const Databases = props => {
             })
     }
 
+    if (match.params.database === 'postgresql') {
+        return (
+            <Text
+                width="100%"
+                margin={32}
+                textAlign="center"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+            >
+                PostgresQL management is coming soon.
+            </Text>
+        )
+    }
+
     return match.params.database === 'mongodb' ? (
         <Mongodb {...props} />
     ) : (

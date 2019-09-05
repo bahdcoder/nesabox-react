@@ -16,10 +16,6 @@ const Register = ({ auth, history: { push } }) => {
         password: ''
     })
 
-    useEffect(() => {
-        user && push('/dashboard')
-    }, [user, push])
-
     const handleSubmit = e => {
         e.preventDefault()
 
@@ -30,6 +26,8 @@ const Register = ({ auth, history: { push } }) => {
             .then(({ data }) => {
                 setSubmitting(false)
                 setUser(data)
+
+                push('/dashboard')
             })
             .catch(({ response }) => {
                 setSubmitting(false)

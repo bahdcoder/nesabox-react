@@ -25,10 +25,10 @@ const GitApp = ({ site, theme, server, setSite }) => {
         site.deployments.data.length > 0 ? site.deployments.data[0] : ''
 
     const [[form, setValue]] = useForm({
-        before_deploy_script: site.before_deploy_script || '',
-        after_deploy_script: site.after_deploy_script || ''
+        before_deploy_script: site.before_deploy_script || ''
     })
 
+    const [togglingPushToDeploy, setTogglingPushToDeploy] = useState(false)
     const [showLatestLogs, setShowLatestLogs] = useState(site.deploying)
 
     const updateButtonStyles = css({
@@ -59,7 +59,29 @@ const GitApp = ({ site, theme, server, setSite }) => {
             })
     }
 
-    const togglePushToDeploy = () => {}
+    const togglePushToDeploy = () => {
+        setTogglingPushToDeploy(true)
+        client
+            .post(`servers/${server.id}/sites/${site.id}/push-to-deploy`)
+            .then(({ data }) => {
+                setSite(data)
+
+                toaster.success(
+                    `Push to deploy has been ${
+                        data.push_to_deploy ? 'enabled' : 'disabled'
+                    }`
+                )
+            })
+            .catch(({ response }) => {
+                response &&
+                    response.data &&
+                    response.data.message &&
+                    toaster.danger(response.data.message)
+            })
+            .finally(() => {
+                setTogglingPushToDeploy(false)
+            })
+    }
 
     const updateSite = () => {
         client
@@ -147,15 +169,15 @@ const GitApp = ({ site, theme, server, setSite }) => {
                             >
                                 <Button
                                     onClick={togglePushToDeploy}
-                                    isLoading={site.deploying}
+                                    isLoading={togglingPushToDeploy}
                                     intent="success"
                                     appearance={
-                                        site.quick_deploy
+                                        site.push_to_deploy
                                             ? undefined
                                             : 'primary'
                                     }
                                 >
-                                    {site.quick_deploy ? 'Disable' : 'Enable'}{' '}
+                                    {site.push_to_deploy ? 'Disable' : 'Enable'}{' '}
                                     Push to Deploy
                                 </Button>
                             </div>

@@ -68,17 +68,22 @@ const DatabaseUsers = ({
 
     const deleteUser = () => {
         setDeleteLoading(true)
-        
-        client.delete(`servers/${server.id}/database-users/${deletingUser.id}`)
-        .then(() => {
+
+        client
+            .delete(`servers/${server.id}/database-users/${deletingUser.id}`)
+            .then(() => {
                 refreshDatabases(() => {
                     setDeleteLoading(false)
                     setDeletingUser(null)
 
                     toaster.success('Database user deleted.')
                 })
-            }).catch(({ response }) => {
-                response && response.data && response.data.message && toaster.danger('Failed deleting database user.')
+            })
+            .catch(({ response }) => {
+                response &&
+                    response.data &&
+                    response.data.message &&
+                    toaster.danger('Failed deleting database user.')
 
                 setDeleteLoading(false)
                 setDeletingUser(null)

@@ -69,6 +69,7 @@ const UpdateFile = ({
                         </Button>
 
                         <Button
+                            intent="success"
                             isLoading={working}
                             appearance="primary"
                             onClick={updateFile}

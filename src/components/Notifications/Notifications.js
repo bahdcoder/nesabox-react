@@ -53,18 +53,21 @@ const Notifications = ({ theme, auth, echo }) => {
     useEffect(() => {
         const [socket] = echo
 
-        user &&
-            socket &&
-            socket.private(`App.User.${user.id}`).notification(notification => {
+        if (! auth) return undefined
+
+        const channel = socket
+            .private(`App.User.${user.id}`)
+            .notification(notification => {
                 if (
                     notification.type === 'App\\Notifications\\Servers\\Alert'
                 ) {
-                    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', notification.type)
                     pushNewNotification(notification)
                 }
             })
+
+        return () => channel.unsubscribe()
         // eslint-disable-next-line
-    }, [echo, user])
+    }, [])
 
     const hideAlert = notification => {
         setNotifications({
@@ -77,7 +80,8 @@ const Notifications = ({ theme, auth, echo }) => {
 
     const colorMatches = {
         error: 'red',
-        'info-delete': 'blue'
+        'info-delete': 'blue',
+        'deployment-failed': 'red'
     }
 
     return notifications.map((notification, index) => (
@@ -91,7 +95,7 @@ const Notifications = ({ theme, auth, echo }) => {
                         theme.palette[
                             colorMatches[
                                 notification.data && notification.data.type
-                            ] || 'info-delete'
+                            ] || 'error'
                         ].light
                 },
                 index !== notifications.length - 1 && {
@@ -143,7 +147,26 @@ const Notifications = ({ theme, auth, echo }) => {
                 >
                     <Pane width={'100%'} padding={40}>
                         {notification.data && notification.data.output && (
-                            <Logs logs={notification.data.output} />
+                            <React.Fragment>
+                                <Logs logs={notification.data.output} />
+
+                                <div
+                                    {...css({
+                                        marginTop: 16
+                                    })}
+                                >
+                                    <Text>
+                                        Your deployment failed for the reason
+                                        above. If the error is not coming from
+                                        your deploy script, Then this sometimes
+                                        has to do with an inconsistency with
+                                        your git tree, sometimes caused by a
+                                        forced-update. If that is the case, you
+                                        need to ssh into your server and update
+                                        the git tree manually.
+                                    </Text>
+                                </div>
+                            </React.Fragment>
                         )}
                         <Button
                             marginTop={16}

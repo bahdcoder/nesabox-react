@@ -41,8 +41,9 @@ const Databases = props => {
         const [user] = auth
         const [socket] = echo
 
-        socket &&
-            socket.private(`App.User.${user.id}`).notification(notification => {
+        const channel = socket
+            .private(`App.User.${user.id}`)
+            .notification(notification => {
                 if (
                     notification.type ===
                     'App\\Notifications\\Servers\\DatabasesUpdated'
@@ -50,6 +51,8 @@ const Databases = props => {
                     refreshDatabases()
                 }
             })
+
+        return () => channel.unsubscribe()
         // eslint-disable-next-line
     }, [match.params.database, server.id])
 

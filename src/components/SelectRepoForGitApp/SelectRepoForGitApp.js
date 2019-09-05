@@ -126,21 +126,12 @@ const SelectRepoForGitApp = ({ auth, site, server, setServer, setAppType }) => {
                             })}
                         >
                             <Button
-                                marginTop={8}
-                                type="button"
-                                marginRight={8}
-                                intent="danger"
-                                onClick={() => setAppType('ghost')}
-                            >
-                                Cancel
-                            </Button>
-
-                            <Button
                                 isLoading={
                                     submitting || site.installing_repository
                                 }
                                 marginTop={8}
                                 appearance="primary"
+                                intent="success"
                             >
                                 Install repository
                             </Button>
