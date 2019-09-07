@@ -84,22 +84,17 @@ const SingleSite = props => {
     }, [])
 
     useEffect(() => {
-        const [user] = auth
         const [socket] = echo
 
-        const channel = socket
-            .private(`App.User.${user.id}`)
-            .notification(notification => {
-                if (
-                    notification.type ===
-                    'App\\Notifications\\Sites\\SiteUpdated'
-                ) {
-                    console.log('>>>>>>>', notification)
-                    setSite(notification.site)
-                }
-            })
+        socket.notification(notification => {
+            if (
+                notification.type === 'App\\Notifications\\Sites\\SiteUpdated'
+            ) {
+                setSite(notification.site)
+            }
+        })
 
-        return channel.unsubscribe()
+        // eslint-disable-next-line
     }, [])
 
     const installGhost = () => {

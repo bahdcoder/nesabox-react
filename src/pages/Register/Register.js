@@ -1,11 +1,11 @@
+import React from 'react'
 import client from 'utils/axios'
 import { withAuth } from 'utils/hoc'
 import { useForm } from 'utils/hooks'
-import React, { useEffect } from 'react'
 import RegisterForm from 'components/RegisterForm'
 
 const Register = ({ auth, history: { push } }) => {
-    const [user, setUser] = auth
+    const [, setUser] = auth
     const [
         [form, setValue],
         [submitting, setSubmitting],

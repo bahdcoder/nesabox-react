@@ -39,8 +39,10 @@ export const WebsocketProviderWrapper = ({ children, auth }) => {
                             Authorization: `Bearer ${auth.access_token}`
                         }
                     }
-                })
+                }).private(`App.User.${auth.id}`)
             )
+
+        return () => socket && socket.unsubscribe()
     }, [auth])
 
     if (!auth) return <React.Fragment>{children}</React.Fragment>

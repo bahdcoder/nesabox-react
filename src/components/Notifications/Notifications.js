@@ -53,17 +53,12 @@ const Notifications = ({ theme, auth, echo }) => {
     useEffect(() => {
         const [socket] = echo
 
-        const channel = socket
-            .private(`App.User.${user.id}`)
-            .notification(notification => {
-                if (
-                    notification.type === 'App\\Notifications\\Servers\\Alert'
-                ) {
-                    pushNewNotification(notification)
-                }
-            })
+        socket.notification(notification => {
+            if (notification.type === 'App\\Notifications\\Servers\\Alert') {
+                pushNewNotification(notification)
+            }
+        })
 
-        return () => channel.unsubscribe()
         // eslint-disable-next-line
     }, [])
 

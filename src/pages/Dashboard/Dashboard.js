@@ -86,21 +86,18 @@ const Dashboard = ({ auth, echo }) => {
     useEffect(() => {
         const [socket] = echo
 
-        const channel = socket
-            .private(`App.User.${user.id}`)
-            .notification(notification => {
-                if (
-                    notification.type ===
-                    'App\\Notifications\\Servers\\ServerIsReady'
-                ) {
-                    setServers({
-                        type: 'SERVER_UPDATED',
-                        server: notification.server
-                    })
-                }
-            })
+        socket.notification(notification => {
+            if (
+                notification.type ===
+                'App\\Notifications\\Servers\\ServerIsReady'
+            ) {
+                setServers({
+                    type: 'SERVER_UPDATED',
+                    server: notification.server
+                })
+            }
+        })
 
-        return () => channel.unsubscribe()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [echo, user])
 
@@ -166,10 +163,13 @@ const Dashboard = ({ auth, echo }) => {
             .catch(({ response }) => {
                 response && response.data && setErrors(response.data.errors)
 
-                response &&
-                    response.data &&
-                    response.data.message &&
-                    toaster.danger(response.data.message)
+                !response.data &&
+                    !response.data.errors &&
+                    toaster.danger('Failed creating server.', {
+                        duration: 15,
+                        description:
+                            "We couldn't create your server. This is most likely because your server provider credentials have expired or do not have write access. Please update your credentials and try again."
+                    })
             })
             .finally(() => {
                 setSubmitting(false)

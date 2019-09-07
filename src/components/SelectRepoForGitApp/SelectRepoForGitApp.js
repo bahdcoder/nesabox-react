@@ -18,7 +18,7 @@ const providerNames = {
     gitlab: 'Gitlab'
 }
 
-const SelectRepoForGitApp = ({ auth, site, server, setServer, setAppType }) => {
+const SelectRepoForGitApp = ({ auth, site, server, setSite, setAppType }) => {
     const [user] = auth
 
     const availableProviders = Object.keys(user.source_control)
@@ -50,7 +50,7 @@ const SelectRepoForGitApp = ({ auth, site, server, setServer, setAppType }) => {
                 form
             )
             .then(({ data }) => {
-                setServer(data)
+                setSite(data)
 
                 setErrors({})
             })

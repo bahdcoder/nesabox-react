@@ -38,21 +38,17 @@ const Databases = props => {
     useEffect(() => {
         refreshDatabases()
 
-        const [user] = auth
         const [socket] = echo
 
-        const channel = socket
-            .private(`App.User.${user.id}`)
-            .notification(notification => {
-                if (
-                    notification.type ===
-                    'App\\Notifications\\Servers\\DatabasesUpdated'
-                ) {
-                    refreshDatabases()
-                }
-            })
+        socket.notification(notification => {
+            if (
+                notification.type ===
+                'App\\Notifications\\Servers\\DatabasesUpdated'
+            ) {
+                refreshDatabases()
+            }
+        })
 
-        return () => channel.unsubscribe()
         // eslint-disable-next-line
     }, [match.params.database, server.id])
 

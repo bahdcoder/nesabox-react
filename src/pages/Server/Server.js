@@ -37,21 +37,18 @@ const Server = ({ match, history, location, echo, auth }) => {
     useEffect(() => {
         const [socket] = echo
 
-        const channel = socket
-            .private(`App.User.${user.id}`)
-            .notification(notification => {
-                if (
-                    notification.type ===
-                    'App\\Notifications\\Servers\\ServerIsReady'
-                ) {
-                    setServer({
-                        type: 'SERVER_FETCHED',
-                        payload: notification.server
-                    })
-                }
-            })
+        socket.notification(notification => {
+            if (
+                notification.type ===
+                'App\\Notifications\\Servers\\ServerIsReady'
+            ) {
+                setServer({
+                    type: 'SERVER_FETCHED',
+                    payload: notification.server
+                })
+            }
+        })
 
-        return () => channel.unsubscribe()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [echo, user])
 
