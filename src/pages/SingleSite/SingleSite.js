@@ -67,7 +67,7 @@ const SingleSite = props => {
                 setSite(data)
 
                 // if ghost is not supported, activate git
-                if (! server.databases.includes['mysql']) {
+                if (!server.databases.includes['mysql']) {
                     setAppType('git')
                 } else {
                     setAppType(data.installing_repository ? 'git' : 'ghost')
@@ -75,7 +75,7 @@ const SingleSite = props => {
 
                 setLoading(false)
             })
-            .catch((e) => {
+            .catch(e => {
                 push(`/servers/${server.id}`)
 
                 toaster.danger('Site was not found.')

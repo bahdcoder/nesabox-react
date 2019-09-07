@@ -7,12 +7,7 @@ import { withTheme, Popover, Avatar, Menu, Pane, Link } from 'evergreen-ui'
 import styles from './AppNavbar.css'
 
 const AppNavbar = ({ theme, auth, history: { push } }) => {
-    const [user, setUser] = auth
-
-    const logout = () => {
-        push('/login')
-        setUser(null)
-    }
+    const [user, , setLogout] = auth
 
     return user ? (
         <nav
@@ -49,7 +44,7 @@ const AppNavbar = ({ theme, auth, history: { push } }) => {
                         </Menu.Group>
                         <Menu.Divider />
                         <Menu.Group>
-                            <Menu.Item icon="log-out" onSelect={logout}>
+                            <Menu.Item icon="log-out" onSelect={() => setLogout(() => push('/login'))}>
                                 Logout
                             </Menu.Item>
                         </Menu.Group>

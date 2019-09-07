@@ -1,4 +1,3 @@
-  
 /* eslint-disable react-hooks/exhaustive-deps */
 import client from './axios'
 import Echo from 'laravel-echo'
@@ -44,11 +43,7 @@ export const WebsocketProviderWrapper = ({ children, auth }) => {
             )
     }, [auth])
 
-    if (! auth) return (
-        <React.Fragment>
-            {children}
-        </React.Fragment>
-    )
+    if (!auth) return <React.Fragment>{children}</React.Fragment>
 
     return (
         <WebsocketProvider value={[socket]}>
@@ -61,6 +56,16 @@ export const AuthProviderWrapper = ({ children }) => {
     const defaultAuth = getDefaultAuth()
     const [auth, setAuth] = useState(defaultAuth)
     const [checkingAuth, setCheckingAuth] = useState(defaultAuth ? true : false)
+
+    const setLogout = callback => {
+        setCheckingAuth(true)
+
+        client.delete('logout').finally(() => {
+            setAuthAndCache(null)
+            setCheckingAuth(false)
+            callback()
+        })
+    }
 
     useEffect(() => {
         defaultAuth &&
@@ -77,7 +82,7 @@ export const AuthProviderWrapper = ({ children }) => {
                 })
                 .catch(() => {
                     toaster.danger('Session expired. Please login again.')
-                    
+
                     setAuthAndCache(null)
                 })
                 .finally(() => {
@@ -94,7 +99,7 @@ export const AuthProviderWrapper = ({ children }) => {
     }
 
     return (
-        <AuthProvider value={[auth, setAuthAndCache]}>
+        <AuthProvider value={[auth, setAuthAndCache, setLogout]}>
             {checkingAuth ? <Loader /> : children}
         </AuthProvider>
     )
