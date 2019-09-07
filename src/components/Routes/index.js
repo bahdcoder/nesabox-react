@@ -1,10 +1,9 @@
 import React from 'react'
+import { withAuth } from 'utils/hoc'
 import Loadable from 'react-loadable'
 import Loading from 'components/Loader'
-import Navbar from 'components/Navbar'
 import AppNavbar from 'components/AppNavbar'
 import { withRouter } from 'react-router-dom'
-import { withAuth, withSocket } from 'utils/hoc'
 import { AuthRoute, NoAuthRoute } from 'utils/hoc'
 import Notifications from 'components/Notifications'
 import { WebsocketProviderWrapper } from 'utils/context'
@@ -40,12 +39,11 @@ const AsyncAccountSettings = Loadable({
 const Routes = ({ location, auth: [user] }) => {
     return (
         <WebsocketProviderWrapper auth={user}>
-            {!['/', '/login'].includes(location.pathname) && <AppNavbar />}
-            {location.pathname === '/' && <Navbar />}
+            {user && <AppNavbar />}
             {user && <Notifications />}
+            <AuthRoute exact page={AsyncDashboard} path="/" />
             <NoAuthRoute page={AsyncLogin} path="/login" />
             <NoAuthRoute page={AsyncRegister} path="/register" />
-            <AuthRoute page={AsyncDashboard} path="/dashboard" />
             <AuthRoute page={AsyncAccountSettings} path="/account" />
             <AuthRoute page={AsyncServerDetails} path="/servers/:server" />
         </WebsocketProviderWrapper>

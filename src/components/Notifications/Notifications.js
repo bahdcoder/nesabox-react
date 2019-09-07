@@ -47,13 +47,11 @@ const Notifications = ({ theme, auth, echo }) => {
         })
 
     useEffect(() => {
-        auth && fetchNotifications()
-    }, [auth])
+        fetchNotifications()
+    }, [user])
 
     useEffect(() => {
         const [socket] = echo
-
-        if (! auth) return undefined
 
         const channel = socket
             .private(`App.User.${user.id}`)

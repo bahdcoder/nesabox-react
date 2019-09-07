@@ -27,7 +27,7 @@ const Register = ({ auth, history: { push } }) => {
                 setSubmitting(false)
                 setUser(data)
 
-                push('/dashboard')
+                push('/')
             })
             .catch(({ response }) => {
                 setSubmitting(false)

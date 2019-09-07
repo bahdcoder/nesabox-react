@@ -29,7 +29,7 @@ const Server = ({ match, history, location, echo, auth }) => {
             .catch(() => {
                 toaster.danger('Server was not found.')
 
-                history.push('/dashboard')
+                history.push('/')
             })
         // eslint-disable-next-line
     }, [match.params.server])

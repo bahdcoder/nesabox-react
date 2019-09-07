@@ -10,7 +10,7 @@ const AppNavbar = ({ theme, auth, history: { push } }) => {
     const [user, setUser] = auth
 
     const logout = () => {
-        push('/')
+        push('/login')
         setUser(null)
     }
 
@@ -25,7 +25,7 @@ const AppNavbar = ({ theme, auth, history: { push } }) => {
                 is={RouterLink}
                 color={'green'}
                 textDecoration={'none'}
-                to={'/dashboard'}
+                to={'/'}
             >
                 Nesabox
             </Link>

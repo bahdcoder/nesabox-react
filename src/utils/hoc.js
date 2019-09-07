@@ -38,7 +38,7 @@ const MustBeUnAuthenticatedRoute = ({ page: Page, auth, ...rest }) => {
                 ) : (
                     <Redirect
                         to={{
-                            pathname: '/dashboard',
+                            pathname: '/',
                             state: { from: props.location }
                         }}
                     />
@@ -59,7 +59,7 @@ const ProtectedRoute = ({ page: Page, auth, ...rest }) => {
                     <Page {...props} auth={auth} />
                 ) : (
                     <Redirect
-                        to={{ pathname: '/', state: { from: props.location } }}
+                        to={{ pathname: '/login', state: { from: props.location } }}
                     />
                 )
             }

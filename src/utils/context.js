@@ -1,7 +1,9 @@
+  
 /* eslint-disable react-hooks/exhaustive-deps */
 import client from './axios'
 import Echo from 'laravel-echo'
 import Io from 'socket.io-client'
+import { toaster } from 'evergreen-ui'
 import Loader from 'components/Loader'
 import React, { createContext, useState, useEffect } from 'react'
 
@@ -40,7 +42,7 @@ export const WebsocketProviderWrapper = ({ children, auth }) => {
                     }
                 })
             )
-    }, [])
+    }, [auth])
 
     if (! auth) return (
         <React.Fragment>
@@ -74,6 +76,8 @@ export const AuthProviderWrapper = ({ children }) => {
                     setAuthAndCache(data)
                 })
                 .catch(() => {
+                    toaster.danger('Session expired. Please login again.')
+                    
                     setAuthAndCache(null)
                 })
                 .finally(() => {
@@ -82,19 +86,11 @@ export const AuthProviderWrapper = ({ children }) => {
     }, [])
 
     const setAuthAndCache = (value = null) => {
-        const cache =
-            defaultAuth && defaultAuth.access_token
-                ? {
-                      ...value,
-                      access_token: defaultAuth.access_token
-                  }
-                : value
-
         value
-            ? localStorage.setItem('auth', JSON.stringify(cache))
+            ? localStorage.setItem('auth', JSON.stringify(value))
             : localStorage.removeItem('auth')
 
-        setAuth(cache)
+        setAuth(value)
     }
 
     return (
