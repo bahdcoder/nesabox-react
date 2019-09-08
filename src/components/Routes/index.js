@@ -1,20 +1,17 @@
 import React from 'react'
+import { css } from 'glamor'
 import { withAuth } from 'utils/hoc'
 import Loadable from 'react-loadable'
+import { toaster } from 'evergreen-ui'
 import Loading from 'components/Loader'
 import AppNavbar from 'components/AppNavbar'
-import { withRouter } from 'react-router-dom'
 import { AuthRoute, NoAuthRoute } from 'utils/hoc'
 import Notifications from 'components/Notifications'
 import { WebsocketProviderWrapper } from 'utils/context'
+import { withRouter, Redirect, Route, Switch } from 'react-router-dom'
 
 const AsyncLogin = Loadable({
     loader: () => import(/* webpackChunkName: "Login" */ 'pages/Login'),
-    loading: Loading
-})
-
-const AsyncRegister = Loadable({
-    loader: () => import(/* webpackChunkName: "Register" */ 'pages/Register'),
     loading: Loading
 })
 
@@ -41,11 +38,24 @@ const Routes = ({ location, auth: [user] }) => {
         <WebsocketProviderWrapper auth={user}>
             {user && <AppNavbar />}
             {user && <Notifications />}
-            <AuthRoute exact page={AsyncDashboard} path="/" />
-            <NoAuthRoute page={AsyncLogin} path="/login" />
-            <NoAuthRoute page={AsyncRegister} path="/register" />
-            <AuthRoute page={AsyncAccountSettings} path="/account" />
-            <AuthRoute page={AsyncServerDetails} path="/servers/:server" />
+            <Switch>
+                <AuthRoute exact page={AsyncDashboard} path="/" />
+                <NoAuthRoute page={AsyncLogin} path="/authenticate" />
+                <AuthRoute page={AsyncAccountSettings} path="/account" />
+                <AuthRoute page={AsyncServerDetails} path="/servers/:server" />
+                <Route render={() => {
+                    toaster.danger('Page not found.')
+
+                    return (
+                        <Redirect to='/' />
+                    )
+                }} />
+            </Switch>
+            <div className={css({
+                width: '100%',
+                height: '10px',
+                marginBottom: '200px'
+            })} />
         </WebsocketProviderWrapper>
     )
 }

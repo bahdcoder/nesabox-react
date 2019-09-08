@@ -74,21 +74,23 @@ const SourceControlForm = ({
                                         Refresh Token
                                     </Button>
 
-                                    <Button
-                                        marginLeft={10}
-                                        isLoading={unlinking === provider.name}
-                                        disabled={
-                                            unlinking &&
-                                            unlinking !== provider.name
-                                        }
-                                        onClick={() =>
-                                            unlinkProvider(provider.name)
-                                        }
-                                        appearance="primary"
-                                        intent="danger"
-                                    >
-                                        Unlink
-                                    </Button>
+                                    {provider.unlink && (
+                                        <Button
+                                            marginLeft={10}
+                                            isLoading={unlinking === provider.name}
+                                            disabled={
+                                                unlinking &&
+                                                unlinking !== provider.name
+                                            }
+                                            onClick={() =>
+                                                unlinkProvider(provider.name)
+                                            }
+                                            appearance="primary"
+                                            intent="danger"
+                                        >
+                                            Unlink
+                                        </Button>
+                                    )}
                                 </React.Fragment>
                             )}
                         </div>

@@ -1,46 +1,61 @@
-import React from 'react'
 import client from 'utils/axios'
 import { withAuth } from 'utils/hoc'
-import { useForm } from 'utils/hooks'
+import QueryString from 'query-string'
+import { toaster } from 'evergreen-ui'
 import LoginForm from 'components/LoginForm'
+import React, { useEffect, useState } from 'react'
 
-const Login = ({ auth, history: { push } }) => {
+const Login = ({ auth, history, location }) => {
     const [, setUser] = auth
-    const [
-        [form, setValue],
-        [submitting, setSubmitting],
-        [errors, setErrors]
-    ] = useForm({
-        email: '',
-        password: ''
-    })
+    const [submitting, setSubmitting] = useState(false)
 
-    const handleSubmit = e => {
-        e.preventDefault()
+    useEffect(() => {
+        if (! location.state) return undefined
+
+        const query = QueryString.parse(location.state.from.search)
+
+        if (!query.code) return
 
         setSubmitting(true)
 
         client
-            .post('/login', form)
+            .post(
+                `/auth/github/callback?code=${query.code}`,
+            )
             .then(({ data }) => {
-                setSubmitting(false)
                 setUser(data)
 
-                push('/')
+                history.push(`/`)
             })
-            .catch(({ response }) => {
+            .catch(() => {
+                toaster.danger(`Failed to authenticate with github.`)
+
                 setSubmitting(false)
-                response && response.data && setErrors(response.data.errors)
+
+                window.history.replaceState({}, '/authenticate')
+            })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    const redirectToProvider = () => {
+        setSubmitting(true)
+
+        client
+            .get(`/settings/source-control/github`)
+            .then(({ data }) => {
+                window.location.href = data.url
+            })
+            .catch(() => {
+                setSubmitting(false)
+
+                toaster.danger('Oops. Something went wrong. Please contact us and we\'ll fix this.')
             })
     }
 
     return (
         <LoginForm
-            form={form}
-            errors={errors}
-            setValue={setValue}
             submitting={submitting}
-            handleSubmit={handleSubmit}
+            redirectToProvider={redirectToProvider}
         />
     )
 }

@@ -46,7 +46,7 @@ const AppNavbar = ({ theme, auth, history: { push } }) => {
                         <Menu.Group>
                             <Menu.Item
                                 icon="log-out"
-                                onSelect={() => setLogout(() => push('/login'))}
+                                onSelect={() => setLogout(() => push('/authenticate'))}
                             >
                                 Logout
                             </Menu.Item>

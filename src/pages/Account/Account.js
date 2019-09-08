@@ -7,7 +7,6 @@ import { useForm } from 'utils/hooks'
 import { Helmet } from 'react-helmet'
 import { toaster } from 'evergreen-ui'
 import ProfileForm from 'components/ProfileForm'
-import ChangePassword from 'pages/ChangePassword'
 
 const Account = ({ auth }) => {
     const [user, setUser] = auth
@@ -58,8 +57,6 @@ const Account = ({ auth }) => {
                 submitting={submitting}
                 handleSubmit={handleSubmit}
             />
-
-            <ChangePassword />
 
             <Sshkeys
                 keyEndpoint="/me/sshkeys"

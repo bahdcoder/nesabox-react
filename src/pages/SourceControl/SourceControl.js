@@ -76,7 +76,8 @@ const SourceControl = ({ auth, location, match, history }) => {
 
     const providers = Object.keys(user.source_control).map(provider => ({
         name: provider,
-        connected: user.source_control[provider]
+        connected: user.source_control[provider],
+        unlink: provider !== user.auth_provider
     }))
 
     return (
