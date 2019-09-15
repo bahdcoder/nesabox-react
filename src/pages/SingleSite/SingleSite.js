@@ -47,7 +47,6 @@ const SingleSite = props => {
     const [site, dispatchSite] = useReducer(siteReducer, null)
     const {
         echo,
-        auth,
         server,
         location,
         history: { push },

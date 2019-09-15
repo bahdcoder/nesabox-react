@@ -17,7 +17,7 @@ const Databases = props => {
         database_user_id: ''
     })
 
-    const { echo, auth } = props
+    const { echo } = props
 
     const refreshDatabases = (callback = null) => {
         setLoading(true)

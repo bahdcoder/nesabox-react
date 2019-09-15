@@ -10,6 +10,7 @@ const Logs = ({ theme, logs, id = 'logs' }) => {
         overflow: 'scroll',
         maxHeight: '450px',
         boxSizing: 'border-box',
+        fontFamily: 'Inconsolata',
         border: `2px solid ${theme.palette.neutral.light}`
     })
 
