@@ -35,6 +35,23 @@ const LoginForm = ({
                     Login to Nesabox
                 </Heading>
 
+                <div className={css({
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                })}>
+                    <div className={css({
+                        width: '100%',
+                        background: 'rgb(86,202,216, 0.3)',
+                        padding: '1rem',
+                        marginBottom: '1rem'
+                    })}>    
+                        <p>We're still in BETA and currently we're invite-only.</p>
+                        <p>Please visit <a href='https://nesabox.com'>Nesabox</a> to sign up for BETA.</p>
+                    </div>
+                </div>
+
                 <button
                     disabled={submitting}
                     onClick={redirectToProvider}
