@@ -44,6 +44,12 @@ const NetworkAsync = Loadable({
     loading: Loader
 })
 
+const ServerSettings = Loadable({
+    loader: () =>
+        import(/* webpackChunkName: "ServerSettings" */ 'pages/ServerSettings'),
+    loading: Loader
+})
+
 const ServerDetails = ({ server, location, match, setServer }) => {
     const isSitePath = location.pathname.search(/sites/) > 0
 
@@ -133,6 +139,11 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                             label: 'Network',
                             active: location.pathname.search(/network/) > -1,
                             to: `${match.url}/network`
+                        },
+                        {
+                            label: 'Settings',
+                            active: location.pathname.search(/settings/) > -1,
+                            to: `${match.url}/settings`
                         }
                     ]}
                 />
@@ -210,6 +221,19 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                     </Container>
                 </React.Fragment>
             )}
+            <Container>
+                <Route
+                    exact
+                    render={routerProps => (
+                        <ServerSettings
+                            server={server}
+                            {...routerProps}
+                            setServer={setServer}
+                        />
+                    )}
+                    path={`${match.url}/settings`}
+                />
+            </Container>
         </React.Fragment>
     )
 }
