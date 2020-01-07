@@ -52,6 +52,8 @@ const SingleSite = ({
         }
     ].filter(Boolean)
 
+    if (rest.server.type === 'load_balancer') return null
+
     return (
         <React.Fragment>
             {!site && <Loader />}

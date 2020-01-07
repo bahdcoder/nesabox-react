@@ -49,16 +49,18 @@ const SiteSettings = ({
                 />
             )}
 
-            <UpdateFile
-                file={pm2File}
-                setFile={setPm2File}
-                aceMode={'javascript'}
-                working={workingOnPm2}
-                fetchFile={fetchPm2File}
-                updateFile={updatePm2File}
-                fileName={`pm2 ecosystem file`}
-                description="Here you can edit / update your pm2 ecosystem configuration file directly and securely over SSH."
-            />
+            {server.type !== 'load_balancer' && (
+                <UpdateFile
+                    file={pm2File}
+                    setFile={setPm2File}
+                    aceMode={'javascript'}
+                    working={workingOnPm2}
+                    fetchFile={fetchPm2File}
+                    updateFile={updatePm2File}
+                    fileName={`pm2 ecosystem file`}
+                    description="Here you can edit / update your pm2 ecosystem configuration file directly and securely over SSH."
+                />
+            )}
 
             <UpdateFile
                 aceMode={'sh'}

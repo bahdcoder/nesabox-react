@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { css } from 'glamor'
 import {
     Pane,
@@ -90,6 +90,34 @@ const CreateServerForm = ({
                         hint="This would also be used as the hostname of the server."
                     />
 
+                    <SelectField
+                        required
+                        name={'type'}
+                        value={form.type}
+                        label="Server Type"
+                        isInvalid={!!errors.type}
+                        validationMessage={errors.type}
+                        onChange={e =>
+                            setValue('type', e.target.value)
+                        }
+                        hint="If you need an Nginx only server, select the load balancer server type."
+                    >
+                        {[{
+                            name: 'Default',
+                            value: 'default'
+                        }, {
+                            name: 'Load balancer',
+                            value: 'load_balancer'
+                        }].map(type => (
+                            <option
+                                key={type.value}
+                                value={type.value}
+                            >
+                                {type.name}
+                            </option>
+                        ))}
+                    </SelectField>
+
                     {form.provider !== 'custom' && (
                         <React.Fragment>
                             <SelectField
@@ -129,7 +157,7 @@ const CreateServerForm = ({
                                     >
                                         <option value="">Select region</option>
                                         {(
-                                            regions[form.provider].regions || []
+                                            (regions[form.provider] || {}).regions || []
                                         ).map(region => (
                                             <option
                                                 key={region.value}
@@ -225,32 +253,36 @@ const CreateServerForm = ({
                         </React.Fragment>
                     )}
 
-                    <Label>Select databases to install</Label>
-                    <Checkbox
-                        label="Mongo DB v4.2"
-                        checked={form.databases.includes('mongodb')}
-                        onChange={() => setDatabase('mongodb')}
-                    />
-                    <Checkbox
-                        label="Mysql v5.7"
-                        checked={form.databases.includes('mysql')}
-                        onChange={() => setDatabase('mysql')}
-                    />
-                    <Checkbox
-                        label="Mysql v8"
-                        checked={form.databases.includes('mysql8')}
-                        onChange={() => setDatabase('mysql8')}
-                    />
-                    <Checkbox
-                        label="MariaDB v10.13"
-                        checked={form.databases.includes('mariadb')}
-                        onChange={() => setDatabase('mariadb')}
-                    />
-                    <Checkbox
-                        label="Postgresql v11"
-                        checked={form.databases.includes('postgresql')}
-                        onChange={() => setDatabase('postgresql')}
-                    />
+                    {form.type !== 'load_balancer' && (
+                        <Fragment>
+                            <Label>Select databases to install</Label>
+                            <Checkbox
+                                label="Mongo DB v4.2"
+                                checked={form.databases.includes('mongodb')}
+                                onChange={() => setDatabase('mongodb')}
+                            />
+                            <Checkbox
+                                label="Mysql v5.7"
+                                checked={form.databases.includes('mysql')}
+                                onChange={() => setDatabase('mysql')}
+                            />
+                            <Checkbox
+                                label="Mysql v8"
+                                checked={form.databases.includes('mysql8')}
+                                onChange={() => setDatabase('mysql8')}
+                            />
+                            <Checkbox
+                                label="MariaDB v10.13"
+                                checked={form.databases.includes('mariadb')}
+                                onChange={() => setDatabase('mariadb')}
+                            />
+                            <Checkbox
+                                label="Postgresql v11"
+                                checked={form.databases.includes('postgresql')}
+                                onChange={() => setDatabase('postgresql')}
+                            />
+                        </Fragment>
+                    )}
 
                     <Button
                         type="submit"

@@ -111,7 +111,7 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                 </PageTitle>
             )}
 
-            {!isSitePath && (
+            {!isSitePath && server && (
                 <SubNavbar
                     items={[
                         {
@@ -125,7 +125,7 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                                 location.pathname.split(database).length > 1,
                             to: `${match.url}/databases/${database}`
                         })),
-                        {
+                        server && server.type !== 'load_balancer' && {
                             label: 'Processes',
                             active: location.pathname.search(/processes/) > -1,
                             to: `${match.url}/processes`
@@ -145,7 +145,7 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                             active: location.pathname.search(/settings/) > -1,
                             to: `${match.url}/settings`
                         }
-                    ]}
+                    ].filter(Boolean)}
                 />
             )}
 

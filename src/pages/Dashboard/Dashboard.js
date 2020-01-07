@@ -55,7 +55,7 @@ const Dashboard = ({ auth, echo }) => {
             .then(({ data }) => {
                 setServers({
                     type: 'SERVERS_FETCHED',
-                    payload: data
+                    payload: ((data || {}).servers || [])
                 })
             })
             .catch(() => {
@@ -124,6 +124,7 @@ const Dashboard = ({ auth, echo }) => {
         region: '',
         databases: [],
         ip_address: '',
+        type: 'default',
         private_ip_address: '',
         provider: validProviders[0].value,
         credential_id:

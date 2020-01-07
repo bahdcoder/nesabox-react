@@ -182,7 +182,7 @@ const SingleSite = props => {
             <SubNavbar
                 items={[
                     {
-                        label: 'Apps',
+                        label: server.type === 'load_balancer' ? 'Balanced Servers' : 'Apps',
                         active:
                             location.pathname.search(/sites/) > -1 &&
                             location.pathname.search(/settings/) < 0 &&
@@ -199,7 +199,7 @@ const SingleSite = props => {
                         active: location.pathname.search(/ssl/) > -1,
                         to: `${match.url}/ssl`
                     }
-                ]}
+                ].filter(Boolean)}
             />
 
             {!site.is_ready && (
