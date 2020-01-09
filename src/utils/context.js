@@ -57,7 +57,7 @@ export const WebsocketProviderWrapper = ({ children, auth }) => {
 export const AuthProviderWrapper = ({ children }) => {
     const defaultAuth = getDefaultAuth()
     const [auth, setAuth] = useState(defaultAuth)
-    const [checkingAuth, setCheckingAuth] = useState(false)
+    const [checkingAuth, setCheckingAuth] = useState(defaultAuth ? true : false)
 
     const setLogout = callback => {
         setCheckingAuth(true)
@@ -68,6 +68,29 @@ export const AuthProviderWrapper = ({ children }) => {
             callback()
         })
     }
+
+    useEffect(() => {
+        defaultAuth &&
+            client
+                .get('/me')
+                .then(({ data }) => {
+                    /**
+                     * When caching user auth token, we'll maintain the access token
+                     * since it won't come in all requests.
+                     *
+                     */
+
+                    setAuthAndCache(data)
+                })
+                .catch(() => {
+                    toaster.danger('Session expired. Please login again.')
+
+                    setAuthAndCache(null)
+                })
+                .finally(() => {
+                    setCheckingAuth(false)
+                })
+    }, [])
 
     const setAuthAndCache = (value = null) => {
         value
