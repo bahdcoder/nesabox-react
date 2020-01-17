@@ -12,18 +12,21 @@ import {
     toaster
 } from 'evergreen-ui'
 
-const ForgotPassword = ({
+const ResetPassword = ({
     theme: {
         colors: { background },
         getFontFamily
-    }
+    },
+    history,
+    match
 }) => {
     const [
         [form, setValue],
         [submitting, setSubmitting],
         [errors, setErrors]
     ] = useForm({
-        email: ''
+        password: '',
+        token: match.params.token
     })
 
     const handleSubmit = e => {
@@ -31,12 +34,13 @@ const ForgotPassword = ({
         setSubmitting(true)
 
         client
-            .post('/auth/forgot-password', form)
+            .post('/auth/reset-password', form)
             .then(() => {
-                toaster.success('Password reset mail has been sent.', {
-                    description:
-                        'Please check your mail to reset your password.'
+                toaster.success('Password has been reset successfully.', {
+                    description: 'Please sign in with your new password.'
                 })
+
+                history.push('/auth/login')
             })
             .catch(({ response }) => {
                 if (response && response.data) {
@@ -44,12 +48,6 @@ const ForgotPassword = ({
 
                     return
                 }
-
-                setErrors({
-                    email: [
-                        "Oops ! Something went wrong. Please contact us and we'll resolve this."
-                    ]
-                })
             })
             .finally(() => {
                 setSubmitting(false)
@@ -84,20 +82,34 @@ const ForgotPassword = ({
                         marginBottom="1.5rem"
                         fontFamily={getFontFamily()}
                     >
-                        Send Password Reset Link
+                        Reset Password
                     </Heading>
 
                     <form onSubmit={handleSubmit}>
                         <TextInputField
                             required
-                            name="email"
-                            label="Email"
                             width="340px"
+                            name="email"
+                            type="email"
+                            label="Email"
                             inputHeight={40}
                             value={form.email}
                             isInvalid={!!errors.email}
                             validationMessage={errors.email}
                             onChange={e => setValue('email', e.target.value)}
+                        />
+
+                        <TextInputField
+                            required
+                            width="340px"
+                            name="password"
+                            type="password"
+                            inputHeight={40}
+                            label="New password"
+                            value={form.password}
+                            isInvalid={!!errors.password}
+                            validationMessage={errors.password}
+                            onChange={e => setValue('password', e.target.value)}
                         />
 
                         <Button
@@ -110,7 +122,7 @@ const ForgotPassword = ({
                             isLoading={submitting}
                             justifyContent="center"
                         >
-                            Send reset Link
+                            Reset Password
                         </Button>
                     </form>
                 </Pane>
@@ -119,4 +131,4 @@ const ForgotPassword = ({
     )
 }
 
-export default withTheme(ForgotPassword)
+export default withTheme(ResetPassword)

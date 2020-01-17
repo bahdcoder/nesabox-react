@@ -97,22 +97,20 @@ const CreateServerForm = ({
                         label="Server Type"
                         isInvalid={!!errors.type}
                         validationMessage={errors.type}
-                        onChange={e =>
-                            setValue('type', e.target.value)
-                        }
+                        onChange={e => setValue('type', e.target.value)}
                         hint="If you need an Nginx only server, select the load balancer server type."
                     >
-                        {[{
-                            name: 'Default',
-                            value: 'default'
-                        }, {
-                            name: 'Load balancer',
-                            value: 'load_balancer'
-                        }].map(type => (
-                            <option
-                                key={type.value}
-                                value={type.value}
-                            >
+                        {[
+                            {
+                                name: 'Default',
+                                value: 'default'
+                            },
+                            {
+                                name: 'Load balancer',
+                                value: 'load_balancer'
+                            }
+                        ].map(type => (
+                            <option key={type.value} value={type.value}>
                                 {type.name}
                             </option>
                         ))}
@@ -157,7 +155,8 @@ const CreateServerForm = ({
                                     >
                                         <option value="">Select region</option>
                                         {(
-                                            (regions[form.provider] || {}).regions || []
+                                            (regions[form.provider] || {})
+                                                .regions || []
                                         ).map(region => (
                                             <option
                                                 key={region.value}

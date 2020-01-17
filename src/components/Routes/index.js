@@ -16,7 +16,14 @@ const AsyncLogin = Loadable({
 })
 
 const AsyncForgotPassword = Loadable({
-    loader: () => import(/* webpackChunkName: "ForgotPassword" */ 'pages/ForgotPassword'),
+    loader: () =>
+        import(/* webpackChunkName: "ForgotPassword" */ 'pages/ForgotPassword'),
+    loading: Loading
+})
+
+const AsyncResetPassword = Loadable({
+    loader: () =>
+        import(/* webpackChunkName: "ResetPassword" */ 'pages/ResetPassword'),
     loading: Loading
 })
 
@@ -52,22 +59,31 @@ const Routes = ({ location, auth: [user] }) => {
                 <AuthRoute exact page={AsyncDashboard} path="/" />
                 <NoAuthRoute page={AsyncLogin} path="/auth/login" />
                 <NoAuthRoute page={AsyncRegister} path="/auth/register" />
-                <NoAuthRoute page={AsyncForgotPassword} path="/auth/forgot-password" />
+                <NoAuthRoute
+                    page={AsyncForgotPassword}
+                    path="/auth/forgot-password"
+                />
+                <NoAuthRoute
+                    page={AsyncResetPassword}
+                    path="/auth/reset-password/:token"
+                />
                 <AuthRoute page={AsyncAccountSettings} path="/account" />
                 <AuthRoute page={AsyncServerDetails} path="/servers/:server" />
-                <Route render={() => {
-                    toaster.danger('Page not found.')
+                <Route
+                    render={() => {
+                        toaster.danger('Page not found.')
 
-                    return (
-                        <Redirect to='/' />
-                    )
-                }} />
+                        return <Redirect to="/" />
+                    }}
+                />
             </Switch>
-            <div className={css({
-                width: '100%',
-                height: '10px',
-                marginBottom: '200px'
-            })} />
+            <div
+                className={css({
+                    width: '100%',
+                    height: '10px',
+                    marginBottom: '200px'
+                })}
+            />
         </WebsocketProviderWrapper>
     )
 }

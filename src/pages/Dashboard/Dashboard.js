@@ -55,7 +55,7 @@ const Dashboard = ({ auth, echo }) => {
             .then(({ data }) => {
                 setServers({
                     type: 'SERVERS_FETCHED',
-                    payload: ((data || {}).servers || [])
+                    payload: (data || {}).servers || []
                 })
             })
             .catch(() => {

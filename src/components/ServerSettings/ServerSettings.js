@@ -4,7 +4,9 @@ import Section from 'components/Section'
 import { Button, withTheme, Dialog, Text } from 'evergreen-ui'
 
 const ServerSettings = ({ deleteServer, deletingServer, server, theme }) => {
-    const [showDeleteServerConfirm, setShowDeleteServerConfirm] = useState(false)
+    const [showDeleteServerConfirm, setShowDeleteServerConfirm] = useState(
+        false
+    )
 
     return (
         <Section
@@ -20,35 +22,35 @@ const ServerSettings = ({ deleteServer, deletingServer, server, theme }) => {
                 Delete server
             </Button>
 
-        {showDeleteServerConfirm && (
-            <Dialog
-                isShown={true}
-                intent="danger"
-                title="Delete server"
-                onConfirm={deleteServer}
-                isConfirmLoading={deletingServer}
-                confirmLabel={'Permanently delete server'}
-                onCloseComplete={() => setShowDeleteServerConfirm(false)}
-            >
-                <Text
-                    width="100%"
-                    minHeight={40}
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
+            {showDeleteServerConfirm && (
+                <Dialog
+                    isShown={true}
+                    intent="danger"
+                    title="Delete server"
+                    onConfirm={deleteServer}
+                    isConfirmLoading={deletingServer}
+                    confirmLabel={'Permanently delete server'}
+                    onCloseComplete={() => setShowDeleteServerConfirm(false)}
+                >
+                    <Text
+                        width="100%"
+                        minHeight={40}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
                     >
-                    Are you sure you want to delete the server
-                    <span
-                        className={css({
-                            padding: '0 5px',
-                            color: theme.colors.intent.danger
-                        })}
-                    >
-                        {server.name}
-                    </span>
-                </Text>
-            </Dialog>
-        )}
+                        Are you sure you want to delete the server
+                        <span
+                            className={css({
+                                padding: '0 5px',
+                                color: theme.colors.intent.danger
+                            })}
+                        >
+                            {server.name}
+                        </span>
+                    </Text>
+                </Dialog>
+            )}
         </Section>
     )
 }

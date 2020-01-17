@@ -4,7 +4,15 @@ import styles from './LoginForm.css'
 import { useBodyBackground } from 'utils/hooks'
 import GithubButton from 'components/GithubButton'
 import { Link as RouterLink } from 'react-router-dom'
-import { Pane, withTheme, TextInputField, Button, Heading, Text, Checkbox } from 'evergreen-ui'
+import {
+    Pane,
+    withTheme,
+    TextInputField,
+    Button,
+    Heading,
+    Text,
+    Checkbox
+} from 'evergreen-ui'
 import { Link } from 'evergreen-ui/commonjs/typography'
 
 const LoginForm = ({
@@ -31,7 +39,7 @@ const LoginForm = ({
                 flexDirection="column"
                 justifyContent="center"
                 backgroundColor={background.white}
-                boxShadow='0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08)'
+                boxShadow="0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08)"
             >
                 <Heading
                     textAlign="center"
@@ -42,12 +50,14 @@ const LoginForm = ({
                 </Heading>
 
                 <GithubButton
-                    label='Login'
+                    label="Login"
                     submitting={submitting}
                     redirectToProvider={redirectToProvider}
                 />
 
-                <Text display='inline-block' margin='0.8rem' textAlign='center'>Or Login With Email</Text>
+                <Text display="inline-block" margin="0.8rem" textAlign="center">
+                    Or Login With Email
+                </Text>
 
                 <form onSubmit={handleSubmit}>
                     <TextInputField
@@ -75,17 +85,31 @@ const LoginForm = ({
                         onChange={e => setValue('password', e.target.value)}
                     />
 
-                    <div className={css({
-                        width: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginBottom: '15px',
-                        justifyContent: 'space-between'
-                    })}>
-                        <Checkbox checked={form.rememberMe} onChange={() => setValue('rememberMe', !form.rememberMe)} label='Remember me' />
+                    <div
+                        className={css({
+                            width: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            marginBottom: '15px',
+                            justifyContent: 'space-between'
+                        })}
+                    >
+                        <Checkbox
+                            checked={form.rememberMe}
+                            onChange={() =>
+                                setValue('rememberMe', !form.rememberMe)
+                            }
+                            label="Remember me"
+                        />
 
-                        <Link color={'green'}
-                    textDecoration={'none'} to='/auth/forgot-password' is={RouterLink}>Forgot Password ?</Link>
+                        <Link
+                            color={'green'}
+                            textDecoration={'none'}
+                            to="/auth/forgot-password"
+                            is={RouterLink}
+                        >
+                            Forgot Password ?
+                        </Link>
                     </div>
 
                     <Button

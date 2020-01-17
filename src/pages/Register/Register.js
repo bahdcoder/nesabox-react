@@ -38,7 +38,11 @@ const Register = ({ auth, history: { push } }) => {
 
     return (
         <>
-            <AuthNavbar link='/auth/login' linkText='Sign in here.' text='Already have an account ?' />
+            <AuthNavbar
+                link="/auth/login"
+                linkText="Sign in here."
+                text="Already have an account ?"
+            />
             <RegisterForm
                 form={form}
                 errors={errors}

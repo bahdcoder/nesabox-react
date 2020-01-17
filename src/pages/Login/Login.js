@@ -20,7 +20,7 @@ const Login = ({ auth, history, location }) => {
     })
 
     useEffect(() => {
-        if (! location.state) return undefined
+        if (!location.state) return undefined
 
         const query = QueryString.parse(location.state.from.search)
 
@@ -29,9 +29,7 @@ const Login = ({ auth, history, location }) => {
         setSubmitting(true)
 
         client
-            .post(
-                `/auth/github/callback?code=${query.code}`,
-            )
+            .post(`/auth/github/callback?code=${query.code}`)
             .then(({ data }) => {
                 setUser(data)
 
@@ -75,13 +73,19 @@ const Login = ({ auth, history, location }) => {
             .catch(() => {
                 setSubmitting(false)
 
-                toaster.danger('Oops. Something went wrong. Please contact us and we\'ll fix this.')
+                toaster.danger(
+                    "Oops. Something went wrong. Please contact us and we'll fix this."
+                )
             })
     }
 
     return (
         <>
-            <AuthNavbar link='/auth/register' linkText='Create a free account' text='New to Nesabox?' />
+            <AuthNavbar
+                link="/auth/register"
+                linkText="Create a free account"
+                text="New to Nesabox?"
+            />
             <LoginForm
                 form={form}
                 errors={errors}

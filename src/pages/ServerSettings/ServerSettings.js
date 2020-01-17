@@ -10,7 +10,8 @@ const ServerSettings = props => {
     const deleteServer = () => {
         setDeletingServer(true)
 
-        client.delete(`/servers/${props.server.id}`)
+        client
+            .delete(`/servers/${props.server.id}`)
             .then(() => {
                 toaster.success('Server deleted.')
 
@@ -25,7 +26,11 @@ const ServerSettings = props => {
     }
 
     return (
-        <ServerSettingsForms {...props} deleteServer={deleteServer} deletingServer={deletingServer} />
+        <ServerSettingsForms
+            {...props}
+            deleteServer={deleteServer}
+            deletingServer={deletingServer}
+        />
     )
 }
 
