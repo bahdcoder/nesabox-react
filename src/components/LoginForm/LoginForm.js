@@ -90,18 +90,10 @@ const LoginForm = ({
                             width: '100%',
                             display: 'flex',
                             alignItems: 'center',
-                            marginBottom: '15px',
-                            justifyContent: 'space-between'
+                            marginBottom: '20px',
+                            justifyContent: 'center'
                         })}
                     >
-                        <Checkbox
-                            checked={form.rememberMe}
-                            onChange={() =>
-                                setValue('rememberMe', !form.rememberMe)
-                            }
-                            label="Remember me"
-                        />
-
                         <Link
                             color={'green'}
                             textDecoration={'none'}
