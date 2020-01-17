@@ -3,7 +3,9 @@ import { css } from 'glamor'
 import styles from './LoginForm.css'
 import { useBodyBackground } from 'utils/hooks'
 import GithubButton from 'components/GithubButton'
-import { Pane, withTheme, TextInputField, Button, Heading, Text } from 'evergreen-ui'
+import { Link as RouterLink } from 'react-router-dom'
+import { Pane, withTheme, TextInputField, Button, Heading, Text, Checkbox } from 'evergreen-ui'
+import { Link } from 'evergreen-ui/commonjs/typography'
 
 const LoginForm = ({
     form,
@@ -72,6 +74,19 @@ const LoginForm = ({
                         validationMessage={errors.password}
                         onChange={e => setValue('password', e.target.value)}
                     />
+
+                    <div className={css({
+                        width: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginBottom: '15px',
+                        justifyContent: 'space-between'
+                    })}>
+                        <Checkbox checked={form.rememberMe} onChange={() => setValue('rememberMe', !form.rememberMe)} label='Remember me' />
+
+                        <Link color={'green'}
+                    textDecoration={'none'} to='/auth/forgot-password' is={RouterLink}>Forgot Password ?</Link>
+                    </div>
 
                     <Button
                         isLoading={submitting}

@@ -15,7 +15,8 @@ const Login = ({ auth, history, location }) => {
         [errors, setErrors]
     ] = useForm({
         email: '',
-        password: ''
+        password: '',
+        rememberMe: false
     })
 
     useEffect(() => {
