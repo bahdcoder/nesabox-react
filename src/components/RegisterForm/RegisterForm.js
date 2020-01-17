@@ -15,7 +15,7 @@ const RegisterForm = ({
         getFontFamily
     }
 }) => {
-    useBodyBackground(background.tint1)
+    useBodyBackground()
 
     return (
         <div className={css(styles.container)}>
@@ -30,10 +30,10 @@ const RegisterForm = ({
             >
                 <Heading
                     textAlign="center"
-                    marginBottom="1rem"
+                    marginBottom="2.5rem"
                     fontFamily={getFontFamily()}
                 >
-                    Create a Nesabox account
+                    Create a Free Nesabox account
                 </Heading>
 
                 <form onSubmit={handleSubmit}>

@@ -2,6 +2,7 @@ import React from 'react'
 import client from 'utils/axios'
 import { withAuth } from 'utils/hoc'
 import { useForm } from 'utils/hooks'
+import AuthNavbar from 'components/AuthNavbar'
 import RegisterForm from 'components/RegisterForm'
 
 const Register = ({ auth, history: { push } }) => {
@@ -22,7 +23,7 @@ const Register = ({ auth, history: { push } }) => {
         setSubmitting(true)
 
         client
-            .post('/register', form)
+            .post('/auth/register', form)
             .then(({ data }) => {
                 setSubmitting(false)
                 setUser(data)
@@ -36,13 +37,16 @@ const Register = ({ auth, history: { push } }) => {
     }
 
     return (
-        <RegisterForm
-            form={form}
-            errors={errors}
-            setValue={setValue}
-            submitting={submitting}
-            handleSubmit={handleSubmit}
-        />
+        <>
+            <AuthNavbar link='/auth/login' linkText='Sign in here.' text='Already have an account ?' />
+            <RegisterForm
+                form={form}
+                errors={errors}
+                setValue={setValue}
+                submitting={submitting}
+                handleSubmit={handleSubmit}
+            />
+        </>
     )
 }
 

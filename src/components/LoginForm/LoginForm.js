@@ -1,19 +1,23 @@
 import React from 'react'
 import { css } from 'glamor'
-import Svg from 'components/Svg'
 import styles from './LoginForm.css'
 import { useBodyBackground } from 'utils/hooks'
-import { Pane, withTheme, Heading, Spinner } from 'evergreen-ui'
+import GithubButton from 'components/GithubButton'
+import { Pane, withTheme, TextInputField, Button, Heading, Text } from 'evergreen-ui'
 
 const LoginForm = ({
+    form,
+    errors,
+    setValue,
     submitting,
+    handleSubmit,
     redirectToProvider,
     theme: {
         colors: { background },
         getFontFamily
     }
 }) => {
-    useBodyBackground(background.tint1)
+    useBodyBackground()
 
     return (
         <div className={css(styles.container)}>
@@ -35,48 +39,53 @@ const LoginForm = ({
                     Login to Nesabox
                 </Heading>
 
-                <button
-                    disabled={submitting}
-                    onClick={redirectToProvider}
-                    className={css({
-                        width: '100%',
-                        display: 'flex',
-                        paddingLeft: '1rem',
-                        paddingRight: '1rem',
-                        paddingTop: '0.7rem',
-                        paddingBottom: '0.7rem',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: '5px',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease-in-out',
-                    }, submitting && {
-                        background: '#fafafa',
-                        cursor: 'not-allowed',
-                        color: '#24292e'
-                    }, !submitting && {
-                        background: '#24292e',
-                        ':hover': {
-                            background: '#606f7b',
-                        },
-                        color: '#fff',
-                    })}
-                >
-                    {!submitting && (
-                        <Svg
-                            icon="github_light"
-                            className={css({
-                                marginRight: '1rem'
-                            })}
-                            width={'1rem'}
-                            height={'1rem'}
-                        />
-                    )}
-                    {submitting && (
-                        <Spinner marginRight={8} size={16} />
-                    )}
-                    Authenticate with Github
-                </button>
+                <GithubButton
+                    label='Login'
+                    submitting={submitting}
+                    redirectToProvider={redirectToProvider}
+                />
+
+                <Text display='inline-block' margin='0.8rem' textAlign='center'>Or Login With Email</Text>
+
+                <form onSubmit={handleSubmit}>
+                    <TextInputField
+                        required
+                        name="email"
+                        label="Email"
+                        width="340px"
+                        inputHeight={40}
+                        value={form.email}
+                        isInvalid={!!errors.email}
+                        validationMessage={errors.email}
+                        onChange={e => setValue('email', e.target.value)}
+                    />
+
+                    <TextInputField
+                        required
+                        width="340px"
+                        name="password"
+                        type="password"
+                        label="Password"
+                        inputHeight={40}
+                        value={form.password}
+                        isInvalid={!!errors.password}
+                        validationMessage={errors.password}
+                        onChange={e => setValue('password', e.target.value)}
+                    />
+
+                    <Button
+                        isLoading={submitting}
+                        type="submit"
+                        intent="success"
+                        height={40}
+                        appearance="primary"
+                        display="flex"
+                        justifyContent="center"
+                        width="100%"
+                    >
+                        Log in
+                    </Button>
+                </form>
             </Pane>
         </div>
     )

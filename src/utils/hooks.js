@@ -49,7 +49,7 @@ export const useForm = defaultForm => {
  *
  * @param {string} backgroundColor
  */
-export const useBodyBackground = backgroundColor => {
+export const useBodyBackground = (backgroundColor = '#f2f5f5') => {
     useEffect(() => {
         document.body.style.backgroundColor = backgroundColor
 

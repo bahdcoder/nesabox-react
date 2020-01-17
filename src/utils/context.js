@@ -62,11 +62,9 @@ export const AuthProviderWrapper = ({ children }) => {
     const setLogout = callback => {
         setCheckingAuth(true)
 
-        client.delete('logout').finally(() => {
-            setAuthAndCache(null)
-            setCheckingAuth(false)
-            callback()
-        })
+        setAuthAndCache(null)
+        setCheckingAuth(false)
+        callback()
     }
 
     useEffect(() => {

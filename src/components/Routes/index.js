@@ -15,6 +15,11 @@ const AsyncLogin = Loadable({
     loading: Loading
 })
 
+const AsyncRegister = Loadable({
+    loader: () => import(/* webpackChunkName: "Register" */ 'pages/Register'),
+    loading: Loading
+})
+
 const AsyncDashboard = Loadable({
     loader: () => import(/* webpackChunkName: "Dashboard" */ 'pages/Dashboard'),
     loading: Loading
@@ -40,7 +45,8 @@ const Routes = ({ location, auth: [user] }) => {
             {user && <Notifications />}
             <Switch>
                 <AuthRoute exact page={AsyncDashboard} path="/" />
-                <NoAuthRoute page={AsyncLogin} path="/authenticate" />
+                <NoAuthRoute page={AsyncLogin} path="/auth/login" />
+                <NoAuthRoute page={AsyncRegister} path="/auth/register" />
                 <AuthRoute page={AsyncAccountSettings} path="/account" />
                 <AuthRoute page={AsyncServerDetails} path="/servers/:server" />
                 <Route render={() => {

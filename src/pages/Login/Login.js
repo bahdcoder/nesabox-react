@@ -1,13 +1,22 @@
 import client from 'utils/axios'
 import { withAuth } from 'utils/hoc'
+import { useForm } from 'utils/hooks'
 import QueryString from 'query-string'
 import { toaster } from 'evergreen-ui'
+import React, { useEffect } from 'react'
 import LoginForm from 'components/LoginForm'
-import React, { useEffect, useState } from 'react'
+import AuthNavbar from 'components/AuthNavbar'
 
 const Login = ({ auth, history, location }) => {
     const [, setUser] = auth
-    const [submitting, setSubmitting] = useState(false)
+    const [
+        [form, setValue],
+        [submitting, setSubmitting],
+        [errors, setErrors]
+    ] = useForm({
+        email: '',
+        password: ''
+    })
 
     useEffect(() => {
         if (! location.state) return undefined
@@ -32,10 +41,27 @@ const Login = ({ auth, history, location }) => {
 
                 setSubmitting(false)
 
-                window.history.replaceState({}, '/authenticate')
+                window.history.replaceState({}, '/auth/login')
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const handleSubmit = e => {
+        e.preventDefault()
+
+        setSubmitting(true)
+
+        client
+            .post('/auth/login', form)
+            .then(({ data }) => {
+                setSubmitting(false)
+                setUser(data)
+            })
+            .catch(({ response }) => {
+                setSubmitting(false)
+                response && response.data && setErrors(response.data.errors)
+            })
+    }
 
     const redirectToProvider = () => {
         setSubmitting(true)
@@ -53,10 +79,17 @@ const Login = ({ auth, history, location }) => {
     }
 
     return (
-        <LoginForm
-            submitting={submitting}
-            redirectToProvider={redirectToProvider}
-        />
+        <>
+            <AuthNavbar link='/auth/register' linkText='Create a free account' text='New to Nesabox?' />
+            <LoginForm
+                form={form}
+                errors={errors}
+                setValue={setValue}
+                submitting={submitting}
+                handleSubmit={handleSubmit}
+                redirectToProvider={redirectToProvider}
+            />
+        </>
     )
 }
 

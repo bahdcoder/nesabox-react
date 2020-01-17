@@ -26,9 +26,9 @@ const ProfileForm = ({
                     />
 
                     <Text marginBottom={20} display="block">
-                        Manage your using avatar {' '}
-                        <Link href="https://github.com" target="_blank">
-                            Github
+                        Manage your avatar using {' '}
+                        <Link href="https://gravatar.com" target="_blank">
+                            Gravatar
                         </Link>{' '}
                     </Text>
 
