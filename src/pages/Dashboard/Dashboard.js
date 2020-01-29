@@ -53,12 +53,24 @@ const Dashboard = ({ auth, echo }) => {
         client
             .get(`/servers`)
             .then(({ data }) => {
+                let servers = data.servers
+
+                data.team_servers.forEach(team => {
+                    servers = servers.concat(
+                        (team.team).servers.map(server => ({
+                            ...server,
+                            team: team.team
+                        }))
+                    )
+                })
+
                 setServers({
                     type: 'SERVERS_FETCHED',
-                    payload: (data || {}).servers || []
+                    payload: servers
                 })
             })
-            .catch(() => {
+            .catch((e) => {
+                console.log(e)
                 setServers({
                     type: 'SERVERS_FETCHED',
                     payload: []
@@ -86,7 +98,7 @@ const Dashboard = ({ auth, echo }) => {
     useEffect(() => {
         const [socket] = echo
 
-        socket.notification(notification => {
+        socket.private(`App.User.${user.id}`).notification(notification => {
             if (
                 notification.type ===
                 'App\\Notifications\\Servers\\ServerIsReady'

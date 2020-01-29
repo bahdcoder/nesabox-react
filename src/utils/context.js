@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import client from './axios'
 import Echo from 'laravel-echo'
-import Io from 'socket.io-client'
+import Pusher from 'pusher-js'
 import { toaster } from 'evergreen-ui'
 import Loader from 'components/Loader'
 import React, { createContext, useState, useEffect } from 'react'
 
-window.io = Io
+window.Pusher = Pusher
 
 export const AuthContext = createContext()
 export const WebsocketContext = createContext()
@@ -30,19 +30,21 @@ export const WebsocketProviderWrapper = ({ children, auth }) => {
 
     useEffect(() => {
         auth &&
+            auth.access_token &&
             setSocket(
                 new Echo({
-                    broadcaster: 'socket.io',
-                    host: process.env.REACT_APP_API_URL + ':6001',
+                    broadcaster: 'pusher',
+                    key: '41de83394cce226bd0039cefc6285053',
+                    wsHost: process.env.REACT_APP_WS_HOST || window.location.hostname,
+                    wsPort: 6001,
+                    authEndpoint: `${process.env.REACT_APP_API_URL}/broadcasting/auth`,
                     auth: {
                         headers: {
                             Authorization: `Bearer ${auth.access_token}`
                         }
                     }
-                }).private(`App.User.${auth.id}`)
+                })
             )
-
-        return () => socket && socket.unsubscribe()
     }, [auth])
 
     if (!auth) return <React.Fragment>{children}</React.Fragment>

@@ -10,8 +10,7 @@ import {
     TextInputField,
     Button,
     Heading,
-    Text,
-    Checkbox
+    Text
 } from 'evergreen-ui'
 import { Link } from 'evergreen-ui/commonjs/typography'
 

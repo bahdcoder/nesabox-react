@@ -53,7 +53,7 @@ const Notifications = ({ theme, auth, echo }) => {
     useEffect(() => {
         const [socket] = echo
 
-        socket.notification(notification => {
+        socket.private(`App.User.${user.id}`).notification(notification => {
             if (notification.type === 'App\\Notifications\\Servers\\Alert') {
                 pushNewNotification(notification)
             }
@@ -92,7 +92,13 @@ const Notifications = ({ theme, auth, echo }) => {
                         ].light
                 },
                 index !== notifications.length - 1 && {
-                    borderBottom: `1px solid ${theme.palette[colorMatches[notification.data && notification.data.type] || 'info-delete'].base}`
+                    borderBottom: `1px solid ${
+                        theme.palette[
+                            colorMatches[
+                                notification.data && notification.data.type
+                            ] || 'info-delete'
+                        ].base
+                    }`
                 }
             )}
         >

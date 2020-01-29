@@ -53,6 +53,8 @@ const SingleSite = props => {
         match
     } = props
 
+    const [user] = props.auth
+
     const setSite = site =>
         dispatchSite({
             type: 'SET_SITE',
@@ -85,7 +87,7 @@ const SingleSite = props => {
     useEffect(() => {
         const [socket] = echo
 
-        socket.notification(notification => {
+        socket.private(`App.User.${user.id}`).notification(notification => {
             if (
                 notification.type === 'App\\Notifications\\Sites\\SiteUpdated'
             ) {

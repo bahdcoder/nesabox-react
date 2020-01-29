@@ -40,14 +40,15 @@ const Databases = props => {
 
         const [socket] = echo
 
-        socket.notification(notification => {
-            if (
-                notification.type ===
-                'App\\Notifications\\Servers\\DatabasesUpdated'
-            ) {
-                refreshDatabases()
-            }
-        })
+        // socket.notification(notification => {
+        //     console.log('>>>>>>>>>>>>', notification)
+        //     if (
+        //         notification.type ===
+        //         'App\\Notifications\\Servers\\DatabasesUpdated'
+        //     ) {
+        //         refreshDatabases()
+        //     }
+        // })
 
         // eslint-disable-next-line
     }, [match.params.database, server.id])

@@ -37,7 +37,7 @@ const Server = ({ match, history, location, echo, auth }) => {
     useEffect(() => {
         const [socket] = echo
 
-        socket.notification(notification => {
+        socket.private(`App.User.${user.id}`).notification(notification => {
             if (
                 notification.type ===
                 'App\\Notifications\\Servers\\ServerIsReady'
@@ -55,6 +55,7 @@ const Server = ({ match, history, location, echo, auth }) => {
     return (
         <ServerDetails
             match={match}
+            user={user}
             server={server}
             location={location}
             setServer={payload =>

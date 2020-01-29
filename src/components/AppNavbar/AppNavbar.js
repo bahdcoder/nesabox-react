@@ -31,16 +31,39 @@ const AppNavbar = ({ theme, auth, history: { push } }) => {
                 content={
                     <Menu>
                         <Menu.Group>
-                            <Menu.Item
-                                icon="settings"
-                                onSelect={() => push('/account')}
+                            <RouterLink
+                                to="/account"
+                                style={{
+                                    textDecoration: 'none',
+                                    color: theme.colors.text.default
+                                }}
                             >
-                                Account Settings
-                            </Menu.Item>
-                            <Menu.Item icon="people">Teams</Menu.Item>
-                            <Menu.Item icon="document-open">
-                                Tutorials
-                            </Menu.Item>
+                                <Menu.Item icon="settings">
+                                    Account Settings
+                                </Menu.Item>
+                            </RouterLink>
+                            <RouterLink
+                                to="/account/teams"
+                                style={{
+                                    textDecoration: 'none',
+                                    color: theme.colors.text.default
+                                }}
+                            >
+                                <Menu.Item icon="people">Teams</Menu.Item>
+                            </RouterLink>
+                            <a
+                                style={{
+                                    textDecoration: 'none',
+                                    color: theme.colors.text.default
+                                }}
+                                target="_blank"
+                                href="https://nesabox.com/knowledge-base"
+                                rel="noopener noreferrer"
+                            >
+                                <Menu.Item icon="document-open">
+                                    Knowledge Base
+                                </Menu.Item>
+                            </a>
                         </Menu.Group>
                         <Menu.Divider />
                         <Menu.Group>

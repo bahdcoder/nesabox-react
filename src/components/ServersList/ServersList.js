@@ -1,6 +1,7 @@
 import React from 'react'
 import { css } from 'glamor'
 import Svg from 'components/Svg'
+import { withAuth } from 'utils/hoc'
 import Loader from 'components/Loader'
 import EmptySet from 'components/EmptySet'
 import Container from 'components/Container'
@@ -10,7 +11,9 @@ import { withTheme, Text, Link } from 'evergreen-ui'
 
 import styles from './ServersList.css'
 
-const ServersList = ({ servers, setCreatingServer, theme }) => {
+const ServersList = ({ servers, setCreatingServer, theme, auth }) => {
+    const [user] = auth
+
     return (
         <React.Fragment>
             {!servers && <Loader />}
@@ -64,6 +67,12 @@ const ServersList = ({ servers, setCreatingServer, theme }) => {
                                     />
 
                                     <Text marginLeft={16}>{server.name}</Text>
+
+                                    {server.user_id !== user.id && (
+                                        <Text marginLeft='5px'>
+                                            ({(server.team || {}).name})
+                                        </Text>
+                                    )}
                                 </div>
 
                                 <div className={css(styles.serverStatus)}>
@@ -80,4 +89,4 @@ const ServersList = ({ servers, setCreatingServer, theme }) => {
     )
 }
 
-export default withTheme(ServersList)
+export default withAuth(withTheme(ServersList))

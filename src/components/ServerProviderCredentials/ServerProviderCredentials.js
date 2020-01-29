@@ -45,7 +45,7 @@ const ServerProviderCredentials = ({
 
                 <Button onClick={() => setIsAddingProvider(true)}>Add</Button>
             </header>
-            <Table className={css(styles.table)}>
+            <Table marginTop="2rem" width="70%">
                 <Table.Head backgroundColor={'transparent'}>
                     <Table.TextHeaderCell
                         flex={'1 0 51%'}

@@ -68,9 +68,7 @@ const Cron = props => {
 
         let data = {
             ...form,
-            cron: `${form['cron-expression-1']} ${form['cron-expression-2']} ${
-                form['cron-expression-3']
-            } ${form['cron-expression-4']} ${form['cron-expression-5']}`
+            cron: `${form['cron-expression-1']} ${form['cron-expression-2']} ${form['cron-expression-3']} ${form['cron-expression-4']} ${form['cron-expression-5']}`
         }
 
         delete data['cron-expression-1']

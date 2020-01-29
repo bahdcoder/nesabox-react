@@ -50,7 +50,7 @@ const ServerSettings = Loadable({
     loading: Loader
 })
 
-const ServerDetails = ({ server, location, match, setServer }) => {
+const ServerDetails = ({ server, location, match, setServer, user }) => {
     const isSitePath = location.pathname.search(/sites/) > 0
 
     return (
@@ -142,7 +142,7 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                             active: location.pathname.search(/network/) > -1,
                             to: `${match.url}/network`
                         },
-                        {
+                        server && server.user_id === user.id && {
                             label: 'Settings',
                             active: location.pathname.search(/settings/) > -1,
                             to: `${match.url}/settings`
@@ -224,17 +224,19 @@ const ServerDetails = ({ server, location, match, setServer }) => {
                 </React.Fragment>
             )}
             <Container>
-                <Route
-                    exact
-                    render={routerProps => (
-                        <ServerSettings
-                            server={server}
-                            {...routerProps}
-                            setServer={setServer}
-                        />
-                    )}
-                    path={`${match.url}/settings`}
-                />
+                {server && server.user_id === user.id && (
+                    <Route
+                        exact
+                        render={routerProps => (
+                            <ServerSettings
+                                server={server}
+                                {...routerProps}
+                                setServer={setServer}
+                            />
+                        )}
+                        path={`${match.url}/settings`}
+                    />
+                )}
             </Container>
         </React.Fragment>
     )
