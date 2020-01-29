@@ -28,24 +28,29 @@ export const getDefaultAuth = () => {
 export const WebsocketProviderWrapper = ({ children, auth }) => {
     const [socket, setSocket] = useState(null)
 
+    const echoConfig = {
+        broadcaster: 'pusher',
+        encrypted: process.env.REACT_APP_NODE_ENV === 'production',
+        key: process.env.REACT_APP_PUSHER_API_KEY,
+        wsHost: process.env.REACT_APP_WS_HOST || window.location.hostname,
+        wsPort: 6002,
+        wssPort: 6002,
+        authEndpoint: `${process.env.REACT_APP_API_URL}/broadcasting/auth`,
+        auth: {
+            headers: {
+                Authorization: `Bearer ${auth.access_token}`
+            }
+        },
+        disableStats:      true,
+    }
+
+    console.log(echoConfig)
+
     useEffect(() => {
         auth &&
             auth.access_token &&
             setSocket(
-                new Echo({
-                    broadcaster: 'pusher',
-                    encrypted: process.env.REACT_APP_NODE_ENV === 'production',
-                    key: process.env.REACT_APP_PUSHER_API_KEY,
-                    wsHost: process.env.REACT_APP_WS_HOST || window.location.hostname,
-                    wsPort: 6001,
-                    authEndpoint: `${process.env.REACT_APP_API_URL}/broadcasting/auth`,
-                    auth: {
-                        headers: {
-                            Authorization: `Bearer ${auth.access_token}`
-                        }
-                    },
-                    disableStats:      true,
-                })
+                new Echo(echoConfig)
             )
     }, [auth])
 
