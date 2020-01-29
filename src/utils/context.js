@@ -34,7 +34,7 @@ export const WebsocketProviderWrapper = ({ children, auth }) => {
             setSocket(
                 new Echo({
                     broadcaster: 'pusher',
-                    encrypted: process.env.NODE_ENV === 'production',
+                    encrypted: process.env.REACT_APP_NODE_ENV === 'production',
                     key: process.env.REACT_APP_PUSHER_API_KEY,
                     wsHost: process.env.REACT_APP_WS_HOST || window.location.hostname,
                     wsPort: 6001,
