@@ -34,7 +34,8 @@ export const WebsocketProviderWrapper = ({ children, auth }) => {
             setSocket(
                 new Echo({
                     broadcaster: 'pusher',
-                    key: '41de83394cce226bd0039cefc6285053',
+                    encrypted: process.env.NODE_ENV === 'production',
+                    key: process.env.REACT_APP_PUSHER_API_KEY,
                     wsHost: process.env.REACT_APP_WS_HOST || window.location.hostname,
                     wsPort: 6001,
                     authEndpoint: `${process.env.REACT_APP_API_URL}/broadcasting/auth`,
@@ -42,7 +43,8 @@ export const WebsocketProviderWrapper = ({ children, auth }) => {
                         headers: {
                             Authorization: `Bearer ${auth.access_token}`
                         }
-                    }
+                    },
+                    disableStats:      true,
                 })
             )
     }, [auth])
